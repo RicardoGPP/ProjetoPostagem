@@ -1,6 +1,5 @@
 package pt.up.fc.lc.postagem.persistencia.dao;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,15 +7,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
 import pt.up.fc.lc.postagem.persistencia.entidades.Comentario;
 import pt.up.fc.lc.postagem.persistencia.entidades.Topico;
 import pt.up.fc.lc.postagem.persistencia.entidades.Usuario;
 
 public class ComentarioDAO extends DAO<Comentario>
 {
-	private static final String CAMINHO = "comentarios.txt";
-	private static final String FORMATO_DATA = "dd/MM/yyyy HH:mm:ss";
+	private static final String CAMINHO = "comentarios.txt";	
 	
 	public ComentarioDAO()
 	{

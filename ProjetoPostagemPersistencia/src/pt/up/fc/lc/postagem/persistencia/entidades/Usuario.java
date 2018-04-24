@@ -64,9 +64,9 @@ public class Usuario implements Entidade<Usuario>
 		this.ativo = false;
 	}
 	
-	public boolean comparar(Usuario usuario)
+	public boolean comparar(Usuario objeto)
 	{
-		return this.utilizador.equals(usuario.getUtilizador());
+		return this.utilizador.equalsIgnoreCase(objeto.getUtilizador());
 	}
 	
 	public class Contacto

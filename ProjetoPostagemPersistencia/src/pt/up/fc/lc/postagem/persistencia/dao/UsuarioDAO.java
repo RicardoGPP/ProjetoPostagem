@@ -1,6 +1,5 @@
 package pt.up.fc.lc.postagem.persistencia.dao;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;

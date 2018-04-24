@@ -50,10 +50,10 @@ public class Comentario implements Entidade<Comentario>
 		this.mensagem = "";
 	}
 	
-	public boolean comparar(Comentario comentario)
+	public boolean comparar(Comentario objeto)
 	{
-		return ((comentario != null) && (comentario.getUsuario() != null) && (comentario.getTopico() != null) &&
-			   (comentario.getData() != null) && (this.usuario != null) && (this.topico != null) &&
-			   (this.data != null) && (this.data.compareTo(comentario.getData()) == 0));		
+		return ((objeto != null) && (objeto.getUsuario() != null) && (objeto.getTopico() != null) &&
+			   (objeto.getData() != null) && (this.usuario != null) && (this.topico != null) &&
+			   (this.data != null) && (this.data.compareTo(objeto.getData()) == 0));		
 	}
 }

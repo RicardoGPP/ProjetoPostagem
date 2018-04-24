@@ -39,8 +39,8 @@ public class Topico implements Entidade<Topico>
 		this.limiteMensagens = LIMITE_MENSAGENS;
 	}
 
-	public boolean comparar(Topico topico)
+	public boolean comparar(Topico objeto)
 	{
-		return this.identificador.equalsIgnoreCase(topico.getIdentificador());
+		return this.identificador.equalsIgnoreCase(objeto.getIdentificador());
 	}
 }

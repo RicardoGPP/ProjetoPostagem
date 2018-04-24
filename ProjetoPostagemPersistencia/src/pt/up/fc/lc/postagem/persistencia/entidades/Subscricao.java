@@ -28,11 +28,11 @@ public class Subscricao implements Entidade<Subscricao>
 		this.topico = null;
 	}
 	
-	public boolean comparar(Subscricao subscricao)
+	public boolean comparar(Subscricao objeto)
 	{
-		return ((subscricao != null) && (subscricao.getUsuario() != null) &&
-			   (subscricao.getTopico() != null) && (this.usuario != null) &&
-		       (this.topico != null) && (this.usuario.comparar(subscricao.getUsuario())) &&
-		       (this.topico.comparar(subscricao.getTopico())));
+		return ((objeto != null) && (objeto.getUsuario() != null) &&
+			   (objeto.getTopico() != null) && (this.usuario != null) &&
+		       (this.topico != null) && (this.usuario.comparar(objeto.getUsuario())) &&
+		       (this.topico.comparar(objeto.getTopico())));
 	}
 }

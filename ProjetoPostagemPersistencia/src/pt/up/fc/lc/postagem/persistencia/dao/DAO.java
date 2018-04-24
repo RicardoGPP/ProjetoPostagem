@@ -8,12 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import pt.up.fc.lc.postagem.persistencia.entidades.Entidade;
-import pt.up.fc.lc.postagem.persistencia.entidades.Usuario;
 
 public abstract class DAO<T extends Entidade<T>>
 {
+	protected static final String FORMATO_DATA = "dd/MM/yyyy HH:mm:ss";
 	protected File arquivo;
 	
 	protected DAO(String caminho)
