@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
 import pt.up.fc.lc.postagem.persistencia.entidades.Comentario;
 import pt.up.fc.lc.postagem.persistencia.entidades.Curtida;
 import pt.up.fc.lc.postagem.persistencia.entidades.Topico;
@@ -124,6 +123,64 @@ public class CurtidaDAO extends DAO<Curtida>
 			{
 				Curtida outroCurtida = iterator.next();
 				if (curtida.comparar(outroCurtida))
+				{
+					iterator.remove();
+					break;
+				}
+			}
+			for (Curtida curtidaRestante : curtidas)
+				linhas.add(deObjetoParaString(curtidaRestante));			
+			try
+			{
+				escrever(linhas, this.arquivo, true);
+				return true;
+			} catch (IOException e)
+			{
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public boolean deletar(Usuario usuario)
+	{
+		if (usuario != null)
+		{						
+			List<String> linhas = new ArrayList<>();
+			List<Curtida> curtidas = obterLista();						
+			for (Iterator<Curtida> iterator = curtidas.iterator(); iterator.hasNext();)
+			{
+				Curtida curtida = iterator.next();
+				if (curtida.getUsuario().comparar(usuario))
+				{
+					iterator.remove();
+					break;
+				}
+			}
+			for (Curtida curtidaRestante : curtidas)
+				linhas.add(deObjetoParaString(curtidaRestante));			
+			try
+			{
+				escrever(linhas, this.arquivo, true);
+				return true;
+			} catch (IOException e)
+			{
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public boolean deletar(Comentario comentario)
+	{
+		if (comentario != null)
+		{						
+			List<String> linhas = new ArrayList<>();
+			List<Curtida> curtidas = obterLista();						
+			for (Iterator<Curtida> iterator = curtidas.iterator(); iterator.hasNext();)
+			{
+				Curtida curtida = iterator.next();
+				if (curtida.getComentario().comparar(comentario))
 				{
 					iterator.remove();
 					break;

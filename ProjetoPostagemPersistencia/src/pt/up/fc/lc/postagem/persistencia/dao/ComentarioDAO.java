@@ -89,6 +89,8 @@ public class ComentarioDAO extends DAO<Comentario>
 	{
 		if (comentario != null)
 		{			
+			CurtidaDAO curtidaDAO = new CurtidaDAO();
+			curtidaDAO.deletar(comentario);			
 			List<String> linhas = new ArrayList<>();
 			List<Comentario> comentarios = obterLista();			
 			for (Iterator<Comentario> iterator = comentarios.iterator(); iterator.hasNext();)
