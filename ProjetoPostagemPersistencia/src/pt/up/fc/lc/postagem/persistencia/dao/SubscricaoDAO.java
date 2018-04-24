@@ -13,11 +13,10 @@ import pt.up.fc.lc.postagem.persistencia.entidades.Usuario;
 public class SubscricaoDAO extends DAO<Subscricao>
 {
 	private static final String CAMINHO = "subscricao.txt";
-	private File arquivo;
 	
 	public SubscricaoDAO()
 	{
-		this.arquivo = new File(CAMINHO);
+		super(CAMINHO);
 	}
 	
 	protected Subscricao deStringParaObjeto(String linha)
@@ -63,20 +62,6 @@ public class SubscricaoDAO extends DAO<Subscricao>
 			}
 		}
 		return false;
-	}
-	
-	public List<Subscricao> obterLista()
-	{
-		List<Subscricao> subscricaos = new ArrayList<>();
-		try
-		{
-			for (String linha : ler(this.arquivo))
-				subscricaos.add(deStringParaObjeto(linha));						
-		} catch (IOException e)
-		{
-			subscricaos.clear();
-		}
-		return subscricaos;
 	}
 	
 	public boolean inserir(Subscricao subscricao)

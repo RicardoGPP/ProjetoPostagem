@@ -17,11 +17,10 @@ public class ComentarioDAO extends DAO<Comentario>
 {
 	private static final String CAMINHO = "comentarios.txt";
 	private static final String FORMATO_DATA = "dd/MM/yyyy HH:mm:ss";
-	private File arquivo;
 	
 	public ComentarioDAO()
 	{
-		this.arquivo = new File(CAMINHO);
+		super(CAMINHO);
 	}
 	
 	protected Comentario deStringParaObjeto(String linha)
@@ -71,20 +70,6 @@ public class ComentarioDAO extends DAO<Comentario>
 				(comentario.getData().compareTo(data) == 0))
 				return comentario;
 		return null;
-	}
-	
-	public List<Comentario> obterLista()
-	{
-		List<Comentario> comentarios = new ArrayList<>();
-		try
-		{
-			for (String linha : ler(this.arquivo))
-				comentarios.add(deStringParaObjeto(linha));						
-		} catch (IOException e)
-		{
-			comentarios.clear();
-		}
-		return comentarios;
 	}
 	
 	public boolean inserir(Comentario comentario)

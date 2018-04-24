@@ -11,11 +11,10 @@ import pt.up.fc.lc.postagem.persistencia.entidades.Topico;
 public class TopicoDAO extends DAO<Topico>
 {
 	private static final String CAMINHO = "topicos.txt";
-	private File arquivo;
 	
 	public TopicoDAO()
 	{
-		this.arquivo = new File(CAMINHO);
+		super(CAMINHO);
 	}
 	
 	protected Topico deStringParaObjeto(String linha)
@@ -51,20 +50,6 @@ public class TopicoDAO extends DAO<Topico>
 			if (topico.getIdentificador().equalsIgnoreCase(identificador))
 				return topico;
 		return null;
-	}
-	
-	public List<Topico> obterLista()
-	{
-		List<Topico> topicos = new ArrayList<>();
-		try
-		{
-			for (String linha : ler(this.arquivo))
-				topicos.add(deStringParaObjeto(linha));		
-		} catch (IOException e)
-		{
-			topicos.clear();
-		}
-		return topicos;
 	}
 	
 	public boolean inserir(Topico topico)

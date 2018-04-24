@@ -12,11 +12,10 @@ import pt.up.fc.lc.postagem.persistencia.entidades.Usuario;
 public class UsuarioDAO extends DAO<Usuario>
 {
 	private static final String CAMINHO = "usuarios.txt";
-	private File arquivo;
 	
 	public UsuarioDAO()
 	{
-		this.arquivo = new File(CAMINHO);
+		super(CAMINHO);
 	}
 	
 	protected Usuario deStringParaObjeto(String linha)
@@ -62,20 +61,6 @@ public class UsuarioDAO extends DAO<Usuario>
 			if (usuario.getUtilizador().equalsIgnoreCase(utilizador))
 				return usuario;
 		return null;
-	}
-	
-	public List<Usuario> obterLista()
-	{
-		List<Usuario> usuarios = new ArrayList<>();
-		try
-		{
-			for (String linha : ler(this.arquivo))
-				usuarios.add(deStringParaObjeto(linha));						
-		} catch (IOException e)
-		{
-			usuarios.clear();
-		}
-		return usuarios;
 	}
 	
 	public boolean inserir(Usuario usuario)
