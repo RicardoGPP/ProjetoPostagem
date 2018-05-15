@@ -1,12 +1,12 @@
-package pt.up.fc.lc.postagem.persistencia.dao;
+package pt.up.fc.lc.postagempersistencia.dao;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import pt.up.fc.lc.postagem.persistencia.entidades.Grupo;
-import pt.up.fc.lc.postagem.persistencia.entidades.Usuario;
+import pt.up.fc.lc.postagempersistencia.entidades.Grupo;
+import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class UsuarioDAO extends DAO<Usuario>
 {

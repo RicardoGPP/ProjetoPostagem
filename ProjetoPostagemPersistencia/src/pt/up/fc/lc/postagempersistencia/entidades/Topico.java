@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagem.persistencia.entidades;
+package pt.up.fc.lc.postagempersistencia.entidades;
 
 public class Topico implements Entidade<Topico>
 {

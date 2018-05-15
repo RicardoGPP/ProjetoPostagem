@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagem.persistencia.entidades;
+package pt.up.fc.lc.postagempersistencia.entidades;
 
 public interface Entidade<T>
 {

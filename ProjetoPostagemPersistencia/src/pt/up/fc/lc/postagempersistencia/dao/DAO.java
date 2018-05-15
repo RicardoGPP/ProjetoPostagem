@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagem.persistencia.dao;
+package pt.up.fc.lc.postagempersistencia.dao;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,7 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import pt.up.fc.lc.postagem.persistencia.entidades.Entidade;
+
+import pt.up.fc.lc.postagempersistencia.entidades.Entidade;
 
 public abstract class DAO<T extends Entidade<T>>
 {
