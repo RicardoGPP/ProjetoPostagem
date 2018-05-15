@@ -2,7 +2,6 @@ package pt.up.fc.lc.postagem.persistencia.entidades;
 
 public class Topico implements Entidade<Topico>
 {
-	private static final int LIMITE_MENSAGENS = 50;
 	private String identificador;
 	private String descricao;
 	private int limiteMensagens;
@@ -36,7 +35,7 @@ public class Topico implements Entidade<Topico>
 	{
 		this.identificador = "";
 		this.descricao = "";
-		this.limiteMensagens = LIMITE_MENSAGENS;
+		this.limiteMensagens = 50;
 	}
 
 	public boolean comparar(Topico objeto)
