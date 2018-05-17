@@ -6,6 +6,7 @@ public class Usuario implements Entidade<Usuario>
 	private String senha;
 	private Grupo grupo;
 	private Contacto contacto;
+	private int limiteSubscricoes;
 	private boolean validado;
 	private boolean ativo;
 	
@@ -37,6 +38,14 @@ public class Usuario implements Entidade<Usuario>
 	{
 		return contacto;
 	}
+	public int getLimiteSubscricoes()
+	{
+		return limiteSubscricoes;
+	}
+	public void setLimiteSubscricoes(int limiteSubscricoes)
+	{
+		this.limiteSubscricoes = limiteSubscricoes;
+	}
 	public boolean isValidado()
 	{
 		return validado;
@@ -60,6 +69,7 @@ public class Usuario implements Entidade<Usuario>
 		this.senha = "";
 		this.grupo = Grupo.OTHER;
 		this.contacto = new Contacto();
+		this.limiteSubscricoes = 50;
 		this.validado = false;
 		this.ativo = false;
 	}
@@ -67,6 +77,16 @@ public class Usuario implements Entidade<Usuario>
 	public boolean comparar(Usuario objeto)
 	{
 		return this.utilizador.equalsIgnoreCase(objeto.getUtilizador());
+	}
+	
+	public boolean autenticar(String senha)
+	{
+		return ((this.senha.equals(senha)) && (this.validado) && (this.ativo));
+	}
+
+	public String toString()
+	{
+		return this.utilizador.trim();
 	}
 	
 	public class Contacto

@@ -42,4 +42,9 @@ public class Topico implements Entidade<Topico>
 	{
 		return this.identificador.equalsIgnoreCase(objeto.getIdentificador());
 	}
+
+	public String toString()
+	{
+		return this.identificador.trim();
+	}
 }
