@@ -70,6 +70,24 @@ public class ComentarioDAO extends DAO<Comentario>
 		return null;
 	}
 	
+	public List<Comentario> obterLista(Topico topico)
+	{
+		List<Comentario> comentarios = new ArrayList<>();
+		for (Comentario comentario : obterLista())
+			if (comentario.getTopico().comparar(topico))
+				comentarios.add(comentario);
+		return comentarios;
+	}
+	
+	public List<Comentario> obterLista(Usuario usuario)
+	{
+		List<Comentario> comentarios = new ArrayList<>();
+		for (Comentario comentario : obterLista())
+			if (comentario.getUsuario().comparar(usuario))
+				comentarios.add(comentario);
+		return comentarios;
+	}
+	
 	public boolean inserir(Comentario comentario)
 	{
 		if ((comentario != null) && (obterRegistro(comentario.getUsuario(), comentario.getTopico(), comentario.getData()) == null))

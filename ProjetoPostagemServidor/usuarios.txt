@@ -1,0 +1,2 @@
+Ricardo;sasuke;ADMIN;Ricardo Giovani Piantavinha Perandré;ricardo.piantavinha@gmail.com;(19)98334-4053;true;true
+RicardoGPP;sasuke;ADMIN;Ricardo Giovani;ricardo@gmail.com;123456789;true;true

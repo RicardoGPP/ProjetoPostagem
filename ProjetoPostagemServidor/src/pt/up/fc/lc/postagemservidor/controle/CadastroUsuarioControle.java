@@ -39,18 +39,24 @@ public class CadastroUsuarioControle
 	
 	public void incluir()
 	{	
-		Usuario usuario = new Usuario();
-		new CadastroUsuarioInternoVisao(usuario);		
-		if ((!usuario.getUtilizador().equals("")) && (this.usuarioDAO.inserir(usuario)))
-			this.cadastroUsuarioVisao.incluirNaLista(usuario);
+		CadastroUsuarioInternoVisao cadastroUsuarioInterno = new CadastroUsuarioInternoVisao();
+		if (cadastroUsuarioInterno.foiProcessado())
+		{
+			Usuario usuario = cadastroUsuarioInterno.obterRegistro();
+			if (this.usuarioDAO.inserir(usuario))
+				this.cadastroUsuarioVisao.incluirNaLista(usuario);
+		}
 	}
 	
 	public void editar()
 	{
 		Usuario usuario = this.cadastroUsuarioVisao.obterSelecionado();
-		new CadastroUsuarioInternoVisao(usuario);
 		if (usuario != null)
-			this.usuarioDAO.editar(usuario);
+		{
+			CadastroUsuarioInternoVisao cadastroUsuarioInterno = new CadastroUsuarioInternoVisao(usuario);
+			if (cadastroUsuarioInterno.foiProcessado())
+				this.usuarioDAO.editar(usuario);
+		}
 	}
 	
 	public void excluir()

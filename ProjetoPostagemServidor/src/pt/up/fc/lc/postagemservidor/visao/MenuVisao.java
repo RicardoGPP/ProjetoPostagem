@@ -1,5 +1,6 @@
 package pt.up.fc.lc.postagemservidor.visao;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JDesktopPane;
@@ -56,6 +57,7 @@ public class MenuVisao extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		this.desktopPaneTelas = new JDesktopPane();
+		this.desktopPaneTelas.setBackground(Color.BLACK);
 		this.add(this.desktopPaneTelas);
 		
 		this.menuBarGeral = new JMenuBar();
@@ -180,7 +182,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				menuControle.abrirCadastroTopicos();
 			}
 		};
 	}

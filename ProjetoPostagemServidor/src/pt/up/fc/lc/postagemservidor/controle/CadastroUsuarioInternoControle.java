@@ -13,6 +13,19 @@ public class CadastroUsuarioInternoControle
 	private CadastroUsuarioInternoVisao cadastroUsuarioInternoVisao;
 	private Usuario usuario;
 	
+	public Usuario getUsuario()
+	{
+		return this.usuario;
+	}
+	
+	public CadastroUsuarioInternoControle(CadastroUsuarioInternoVisao cadastroUsuarioInternoVisao)
+	{
+		this.usuarioDAO = new UsuarioDAO();
+		this.subscricaoDAO = new SubscricaoDAO();
+		this.cadastroUsuarioInternoVisao = cadastroUsuarioInternoVisao;
+		this.usuario = new Usuario();
+	}
+	
 	public CadastroUsuarioInternoControle(CadastroUsuarioInternoVisao cadastroUsuarioInternoVisao, Usuario usuario)
 	{
 		this.usuarioDAO = new UsuarioDAO();

@@ -16,7 +16,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Grupo;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 import pt.up.fc.lc.postagemservidor.controle.CadastroUsuarioInternoControle;
 
-public class CadastroUsuarioInternoVisao extends JDialog
+public class CadastroUsuarioInternoVisao extends CadastroInterno<Usuario>
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -43,13 +43,24 @@ public class CadastroUsuarioInternoVisao extends JDialog
 	private JCheckBox checkBoxAtivo;
 	private JButton buttonOK;
 	private JButton buttonCancelar;
-		
-	public CadastroUsuarioInternoVisao(Usuario usuario)
+	
+	public CadastroUsuarioInternoVisao()
 	{
-		this.cadastroUsuarioInternoControle = new CadastroUsuarioInternoControle(this, usuario);		
+		super(Modo.INCLUSAO);
+		this.cadastroUsuarioInternoControle = new CadastroUsuarioInternoControle(this);
 		this.construirTela();
 		this.vincularEventos();
-		this.definirModo(usuario);
+		this.definirModo();
+		this.setVisible(true);
+	}
+	
+	public CadastroUsuarioInternoVisao(Usuario usuario)
+	{
+		super(Modo.EDICAO);
+		this.cadastroUsuarioInternoControle = new CadastroUsuarioInternoControle(this, usuario);
+		this.construirTela();
+		this.vincularEventos();
+		this.definirModo();
 		this.setVisible(true);
 	}
 	
@@ -149,9 +160,9 @@ public class CadastroUsuarioInternoVisao extends JDialog
 		this.buttonCancelar.addActionListener(this.aoClicarBotaoCancelar());
 	}
 	
-	private void definirModo(Usuario usuario)
+	private void definirModo()
 	{
-		if (usuario.getUtilizador().equals(""))
+		if (modo == Modo.INCLUSAO)
 		{
 			this.setTitle("Incluir usuário");
 			this.textFieldLimiteSubscricoes.setText("50");
@@ -159,6 +170,7 @@ public class CadastroUsuarioInternoVisao extends JDialog
 			this.checkBoxAtivo.setSelected(true);
 		} else
 		{
+			Usuario usuario = this.cadastroUsuarioInternoControle.getUsuario();			
 			this.setTitle("Editar usuário");
 			this.textFieldNomeUsuario.setEnabled(false);			
 			this.textFieldNomeUsuario.setText(usuario.getUtilizador());
@@ -252,6 +264,16 @@ public class CadastroUsuarioInternoVisao extends JDialog
 		this.checkBoxAtivo.setSelected(ativo);
 	}
 	
+	public Usuario obterRegistro()
+	{
+		return this.cadastroUsuarioInternoControle.getUsuario();
+	}
+	
+	public boolean foiProcessado()
+	{
+		return this.processado;
+	}
+	
 	private ActionListener aoClicarBotaoOK()
 	{
 		return new ActionListener()
@@ -268,11 +290,12 @@ public class CadastroUsuarioInternoVisao extends JDialog
 					textFieldNomeUsuario.requestFocus();
 				} else if (!cadastroUsuarioInternoControle.limiteSubscricoesEValido())
 				{
-					JOptionPane.showConfirmDialog(null, "O limite de subscrições definido é menor do que o número de subscrições já vinculada ao usuário.");
+					JOptionPane.showConfirmDialog(null, "O limite de subscrições definido é menor do que o número de subscrições já vinculadas ao usuário.");
 					textFieldLimiteSubscricoes.requestFocus();
 				} else
 				{
 					cadastroUsuarioInternoControle.definirUsuario();
+					processado = true;
 					dispose();
 				}
 			}
@@ -285,6 +308,7 @@ public class CadastroUsuarioInternoVisao extends JDialog
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				processado = false;
 				dispose();
 			}
 		};
