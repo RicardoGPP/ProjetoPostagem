@@ -13,7 +13,8 @@ import pt.up.fc.lc.postagempersistencia.entidades.Entidade;
 
 public abstract class DAO<T extends Entidade<T>>
 {
-	protected static final String FORMATO_DATA = "dd/MM/yyyy HH:mm:ss";
+	public static final String FORMATO_DATA = "dd/MM/yyyy";
+	public static final String FORMATO_DATA_HORA = "dd/MM/yyyy HH:mm:ss.SSS";
 	protected File arquivo;
 	
 	protected DAO(String caminho)

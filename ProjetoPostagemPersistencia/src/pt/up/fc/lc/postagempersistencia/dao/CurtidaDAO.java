@@ -33,7 +33,7 @@ public class CurtidaDAO extends DAO<Curtida>
 				UsuarioDAO usuarioDAO = new UsuarioDAO();
 				TopicoDAO topicoDAO = new TopicoDAO();
 				ComentarioDAO comentarioDAO = new ComentarioDAO();			
-				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA);				
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);				
 				Usuario usuarioCurtiu = usuarioDAO.obterRegistro(dados[0]);			
 				Usuario usuarioComentou = usuarioDAO.obterRegistro(dados[1]);			
 				Topico topico = topicoDAO.obterRegistro(dados[2]);			
@@ -53,7 +53,7 @@ public class CurtidaDAO extends DAO<Curtida>
 		if (objeto != null)
 		{
 			String linha = "";			
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA);			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);			
 			linha += objeto.getUsuario().getUtilizador() + ";";
 			linha += objeto.getComentario().getUsuario().getUtilizador() + ";";
 			linha += objeto.getComentario().getTopico().getIdentificador() + ";";

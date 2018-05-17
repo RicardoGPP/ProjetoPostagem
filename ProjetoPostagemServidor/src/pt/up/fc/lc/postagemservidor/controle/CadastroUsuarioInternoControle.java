@@ -1,5 +1,7 @@
 package pt.up.fc.lc.postagemservidor.controle;
 
+import java.util.Date;
+
 import pt.up.fc.lc.postagempersistencia.dao.SubscricaoDAO;
 import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Grupo;
@@ -42,9 +44,10 @@ public class CadastroUsuarioInternoControle
 		String nomeCompleto = this.cadastroUsuarioInternoVisao.obterNomeCompleto().trim();
 		String email = this.cadastroUsuarioInternoVisao.obterEmail().trim();
 		String telefone = this.cadastroUsuarioInternoVisao.obterTelefone().trim();
+		Date dataNascimento = this.cadastroUsuarioInternoVisao.obterDataNascimento();
 		
 		return ((!nomeUsuario.equals("")) && (!senha.equals("")) && (grupo != null) &&
-			   (!nomeCompleto.equals("")) && (!email.equals("")) && (!telefone.equals("")));		
+			   (!nomeCompleto.equals("")) && (!email.equals("")) && (!telefone.equals("")) && (dataNascimento != null));		
 	}
 	
 	public boolean usuarioJaExiste()
@@ -67,8 +70,8 @@ public class CadastroUsuarioInternoControle
 		this.usuario.getContacto().setNome(this.cadastroUsuarioInternoVisao.obterNomeCompleto().trim());
 		this.usuario.getContacto().setEmail(this.cadastroUsuarioInternoVisao.obterEmail().trim());
 		this.usuario.getContacto().setTelefone(this.cadastroUsuarioInternoVisao.obterTelefone().trim());
-		this.usuario.setLimiteSubscricoes(this.cadastroUsuarioInternoVisao.obterLimiteSubscricoes());
-		this.usuario.setValidado(true);
+		this.usuario.getContacto().setDataNascimento(this.cadastroUsuarioInternoVisao.obterDataNascimento());		
+		this.usuario.setLimiteSubscricoes(this.cadastroUsuarioInternoVisao.obterLimiteSubscricoes());		
 		this.usuario.setAtivo(this.cadastroUsuarioInternoVisao.obterAtivo());		
 	}
 }

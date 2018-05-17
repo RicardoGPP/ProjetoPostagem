@@ -27,7 +27,7 @@ public class CadastroUsuarioControle
 		for (Iterator<Usuario> iterator = usuarios.iterator(); iterator.hasNext();)
 		{
 			Usuario usuario = iterator.next();
-			if ((usuario.comparar(this.logado)) || (!usuario.isValidado()))
+			if (usuario.comparar(this.logado))
 			{
 				iterator.remove();
 				break;

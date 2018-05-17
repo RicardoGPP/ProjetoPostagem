@@ -1,5 +1,7 @@
 package pt.up.fc.lc.postagempersistencia.entidades;
 
+import java.util.Date;
+
 public class Usuario implements Entidade<Usuario>
 {	
 	private String utilizador;
@@ -7,7 +9,6 @@ public class Usuario implements Entidade<Usuario>
 	private Grupo grupo;
 	private Contacto contacto;
 	private int limiteSubscricoes;
-	private boolean validado;
 	private boolean ativo;
 	
 	public String getUtilizador()
@@ -46,14 +47,6 @@ public class Usuario implements Entidade<Usuario>
 	{
 		this.limiteSubscricoes = limiteSubscricoes;
 	}
-	public boolean isValidado()
-	{
-		return validado;
-	}
-	public void setValidado(boolean validado)
-	{
-		this.validado = validado;
-	}
 	public boolean isAtivo()
 	{
 		return ativo;
@@ -70,7 +63,18 @@ public class Usuario implements Entidade<Usuario>
 		this.grupo = Grupo.OTHER;
 		this.contacto = new Contacto();
 		this.limiteSubscricoes = 50;
-		this.validado = false;
+		this.ativo = false;
+	}
+	
+	public Usuario(PedidoUtilizador pedidoUtilizador)
+	{
+		this.utilizador = pedidoUtilizador.getNome();
+		this.senha = pedidoUtilizador.getSenha();
+		this.grupo = Grupo.OTHER;
+		this.contacto = new Contacto();
+		this.contacto.setDataNascimento(pedidoUtilizador.getDataNascimento());
+		this.contacto.setEmail(pedidoUtilizador.getEmail());
+		this.limiteSubscricoes = 50;
 		this.ativo = false;
 	}
 	
@@ -81,7 +85,7 @@ public class Usuario implements Entidade<Usuario>
 	
 	public boolean autenticar(String senha)
 	{
-		return ((this.senha.equals(senha)) && (this.validado) && (this.ativo));
+		return ((this.senha.equals(senha)) && (this.ativo));
 	}
 
 	public String toString()
@@ -94,7 +98,8 @@ public class Usuario implements Entidade<Usuario>
 		private String nome;
 		private String email;
 		private String telefone;
-				
+		private Date dataNascimento;
+		
 		public String getNome()
 		{
 			return nome;
@@ -119,12 +124,21 @@ public class Usuario implements Entidade<Usuario>
 		{
 			this.telefone = telefone;
 		}
+		public Date getDataNascimento()
+		{
+			return dataNascimento;
+		}
+		public void setDataNascimento(Date dataNascimento)
+		{
+			this.dataNascimento = dataNascimento;
+		}
 
 		public Contacto()
 		{
 			this.nome = "";
 			this.email = "";
 			this.telefone = "";
+			this.dataNascimento = null;
 		}
-	}	
+	}
 }

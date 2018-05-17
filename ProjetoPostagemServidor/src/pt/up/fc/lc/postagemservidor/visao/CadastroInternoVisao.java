@@ -3,14 +3,14 @@ package pt.up.fc.lc.postagemservidor.visao;
 import javax.swing.JDialog;
 import pt.up.fc.lc.postagempersistencia.entidades.Entidade;
 
-public abstract class CadastroInterno<T extends Entidade<T>> extends JDialog
+public abstract class CadastroInternoVisao<T extends Entidade<T>> extends JDialog
 {
 	private static final long serialVersionUID = 1L;
 	
 	protected Modo modo;
 	protected boolean processado;
 	
-	protected CadastroInterno(Modo modo)
+	protected CadastroInternoVisao(Modo modo)
 	{
 		this.modo = modo;
 		this.processado = false;

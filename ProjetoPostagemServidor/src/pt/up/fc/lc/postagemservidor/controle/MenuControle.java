@@ -3,8 +3,10 @@ package pt.up.fc.lc.postagemservidor.controle;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 import pt.up.fc.lc.postagemservidor.visao.CadastroTopicoVisao;
 import pt.up.fc.lc.postagemservidor.visao.CadastroUsuarioVisao;
+import pt.up.fc.lc.postagemservidor.visao.GerenciarPedidosUtilizadorVisao;
 import pt.up.fc.lc.postagemservidor.visao.LoginVisao;
 import pt.up.fc.lc.postagemservidor.visao.MenuVisao;
+import pt.up.fc.lc.postagemservidor.visao.RelatorioTopicosAtivosVisao;
 
 public class MenuControle implements Autenticavel
 {
@@ -49,5 +51,15 @@ public class MenuControle implements Autenticavel
 	public void abrirCadastroTopicos()
 	{
 		this.menuVisao.obterPainel().add(new CadastroTopicoVisao());
+	}
+	
+	public void abrirGerenciamentoPedidosUtilizador()
+	{
+		this.menuVisao.obterPainel().add(new GerenciarPedidosUtilizadorVisao());
+	}
+	
+	public void abrirRelatorioTopicosAtivos()
+	{
+		this.menuVisao.obterPainel().add(new RelatorioTopicosAtivosVisao());
 	}
 }

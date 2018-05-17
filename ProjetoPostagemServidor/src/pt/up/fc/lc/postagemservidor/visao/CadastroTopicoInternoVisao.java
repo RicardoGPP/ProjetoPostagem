@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagemservidor.controle.CadastroTopicoInternoControle;
 
-public class CadastroTopicoInternoVisao extends CadastroInterno<Topico>
+public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 {
 	private static final long serialVersionUID = 1L;
 	

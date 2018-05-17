@@ -2,6 +2,9 @@ package pt.up.fc.lc.postagemservidor.visao;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -12,16 +15,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import pt.up.fc.lc.postagempersistencia.dao.DAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Grupo;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 import pt.up.fc.lc.postagemservidor.controle.CadastroUsuarioInternoControle;
 
-public class CadastroUsuarioInternoVisao extends CadastroInterno<Usuario>
+public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 {
 	private static final long serialVersionUID = 1L;
 	
 	private static final int LARGURA = 300;
-	private static final int ALTURA = 400;
+	private static final int ALTURA = 430;
 	private static final int BORDA = 15;
 	
 	private CadastroUsuarioInternoControle cadastroUsuarioInternoControle;
@@ -38,6 +42,8 @@ public class CadastroUsuarioInternoVisao extends CadastroInterno<Usuario>
 	private JTextField textFieldEmail;
 	private JLabel labelTelefone;
 	private JTextField textFieldTelefone;
+	private JLabel labelDataNascimento;
+	private JTextField textFieldDataNascimento;
 	private JLabel labelLimiteSubscricoes;
 	private JTextField textFieldLimiteSubscricoes;
 	private JCheckBox checkBoxAtivo;
@@ -129,28 +135,37 @@ public class CadastroUsuarioInternoVisao extends CadastroInterno<Usuario>
 		this.textFieldTelefone.setBounds(BORDA, (BORDA + 215), (LARGURA - (BORDA * 2) - 5), 20);
 		this.add(this.textFieldTelefone);
 		
+		this.labelDataNascimento = new JLabel();
+		this.labelDataNascimento.setText("Data de nascimento:");
+		this.labelDataNascimento.setBounds(BORDA, (BORDA + 240), (LARGURA - (BORDA * 2) - 5), 17);
+		this.add(this.labelDataNascimento);
+		
+		this.textFieldDataNascimento = new JTextField();
+		this.textFieldDataNascimento.setBounds(BORDA, (BORDA + 255), (LARGURA - (BORDA * 2) - 5), 20);
+		this.add(this.textFieldDataNascimento);
+		
 		this.labelLimiteSubscricoes = new JLabel();
 		this.labelLimiteSubscricoes.setText("Limite de subscrições:");
-		this.labelLimiteSubscricoes.setBounds(BORDA, (BORDA + 240), (LARGURA - (BORDA * 2) - 5), 17);
+		this.labelLimiteSubscricoes.setBounds(BORDA, (BORDA + 280), (LARGURA - (BORDA * 2) - 5), 17);
 		this.add(this.labelLimiteSubscricoes);
 		
 		this.textFieldLimiteSubscricoes = new JTextField();
-		this.textFieldLimiteSubscricoes.setBounds(BORDA, (BORDA + 255), (LARGURA - (BORDA * 2) - 5), 20);
+		this.textFieldLimiteSubscricoes.setBounds(BORDA, (BORDA + 295), (LARGURA - (BORDA * 2) - 5), 20);
 		this.add(this.textFieldLimiteSubscricoes);
 		
 		this.checkBoxAtivo = new JCheckBox();
 		this.checkBoxAtivo.setText("Ativo");
-		this.checkBoxAtivo.setBounds((BORDA - 4), (BORDA + 280), (LARGURA - (BORDA * 2) - 5), 17);
+		this.checkBoxAtivo.setBounds((BORDA - 4), (BORDA + 320), (LARGURA - (BORDA * 2) - 5), 17);
 		this.add(this.checkBoxAtivo);
 		
 		this.buttonCancelar = new JButton();
 		this.buttonCancelar.setText("Cancelar");
-		this.buttonCancelar.setBounds((LARGURA - BORDA - 95), 325, 90, 25);
+		this.buttonCancelar.setBounds((LARGURA - BORDA - 95), 360, 90, 25);
 		this.add(this.buttonCancelar);
 		
 		this.buttonOK = new JButton();
 		this.buttonOK.setText("OK");
-		this.buttonOK.setBounds((this.buttonCancelar.getX() - 85), 325, 80, 25);
+		this.buttonOK.setBounds((this.buttonCancelar.getX() - 85), 360, 80, 25);
 		this.add(this.buttonOK);		
 	}
 	
@@ -179,6 +194,7 @@ public class CadastroUsuarioInternoVisao extends CadastroInterno<Usuario>
 			this.textFieldNomeCompleto.setText(usuario.getContacto().getNome());
 			this.textFieldEmail.setText(usuario.getContacto().getEmail());
 			this.textFieldTelefone.setText(usuario.getContacto().getTelefone());
+			this.textFieldDataNascimento.setText(new SimpleDateFormat(DAO.FORMATO_DATA).format(usuario.getContacto().getDataNascimento()));
 			this.textFieldLimiteSubscricoes.setText(Integer.toString(usuario.getLimiteSubscricoes()));
 			this.checkBoxAtivo.setSelected(usuario.isAtivo());
 		}
@@ -242,6 +258,24 @@ public class CadastroUsuarioInternoVisao extends CadastroInterno<Usuario>
 	public void definirTelefone(String telefone)
 	{
 		this.textFieldTelefone.setText(telefone);
+	}
+	
+	public Date obterDataNascimento()
+	{
+		try
+		{
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DAO.FORMATO_DATA);
+			return simpleDateFormat.parse(this.textFieldDataNascimento.getText().trim());
+		} catch (ParseException e)
+		{
+			return null;
+		}
+	}
+	
+	public void definirDataDeNascimento(Date dataNascimento)
+	{
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DAO.FORMATO_DATA);
+		this.textFieldDataNascimento.setText(simpleDateFormat.format(dataNascimento));
 	}
 	
 	public int obterLimiteSubscricoes()

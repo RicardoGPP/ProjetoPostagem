@@ -1,6 +1,8 @@
 package pt.up.fc.lc.postagempersistencia.dao;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,18 +22,26 @@ public class UsuarioDAO extends DAO<Usuario>
 	protected Usuario deStringParaObjeto(String linha)
 	{
 		String[] dados = linha.split(";");		
-		if (dados.length == 8)
+		if (dados.length == 9)
 		{
-			Usuario usuario = new Usuario();			
-			usuario.setUtilizador(dados[0]);
-			usuario.setSenha(dados[1]);
-			usuario.setGrupo((dados[2].equals("ADMIN") ? Grupo.ADMIN : Grupo.OTHER));
-			usuario.getContacto().setNome(dados[3]);
-			usuario.getContacto().setEmail(dados[4]);
-			usuario.getContacto().setTelefone(dados[5]);
-			usuario.setValidado(dados[6].equals("true"));
-			usuario.setAtivo(dados[7].equals("true"));
-			return usuario;
+			try
+			{
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA);
+				Usuario usuario = new Usuario();			
+				usuario.setUtilizador(dados[0]);
+				usuario.setSenha(dados[1]);
+				usuario.setGrupo((dados[2].equals("ADMIN") ? Grupo.ADMIN : Grupo.OTHER));
+				usuario.getContacto().setNome(dados[3]);
+				usuario.getContacto().setEmail(dados[4]);
+				usuario.getContacto().setTelefone(dados[5]);
+				usuario.getContacto().setDataNascimento(simpleDateFormat.parse(dados[6]));
+				usuario.setLimiteSubscricoes(Integer.parseInt(dados[7]));
+				usuario.setAtivo(dados[8].equals("true"));
+				return usuario;
+			} catch (ParseException e)
+			{
+				return null;
+			}
 		}		
 		return null;
 	}
@@ -40,15 +50,17 @@ public class UsuarioDAO extends DAO<Usuario>
 	{
 		if (objeto != null)
 		{
-			String linha = "";			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA);			
+			String linha = "";
 			linha += objeto.getUtilizador() + ";";
 			linha += objeto.getSenha() + ";";
 			linha += objeto.getGrupo() + ";";
 			linha += objeto.getContacto().getNome() + ";";
 			linha += objeto.getContacto().getEmail() + ";";
 			linha += objeto.getContacto().getTelefone() + ";";
-			linha += objeto.isValidado() + ";";
-			linha += objeto.isAtivo();			
+			linha += simpleDateFormat.format(objeto.getContacto().getDataNascimento()) + ";";
+			linha += objeto.getLimiteSubscricoes() + ";";
+			linha += objeto.isAtivo();
 			return linha;			
 		}
 		return "";

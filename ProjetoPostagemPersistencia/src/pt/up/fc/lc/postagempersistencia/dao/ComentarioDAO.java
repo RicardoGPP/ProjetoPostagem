@@ -24,14 +24,14 @@ public class ComentarioDAO extends DAO<Comentario>
 	protected Comentario deStringParaObjeto(String linha)
 	{
 		String dados[] = linha.split(";");
-		if (dados.length == 5)
+		if (dados.length == 4)
 		{			
 			try
 			{
 				Comentario comentario = new Comentario();				
 				UsuarioDAO usuarioDAO = new UsuarioDAO();
 				TopicoDAO topicoDAO = new TopicoDAO();
-				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA);				
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);				
 				comentario.setUsuario(usuarioDAO.obterRegistro(dados[0]));
 				comentario.setTopico(topicoDAO.obterRegistro(dados[1]));
 				comentario.setData(simpleDateFormat.parse(dados[2]));
@@ -50,7 +50,7 @@ public class ComentarioDAO extends DAO<Comentario>
 		if ((objeto != null) && (objeto.getUsuario() != null) && (objeto.getTopico() != null))
 		{
 			String linha = "";			
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA);			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);			
 			linha += objeto.getUsuario().getUtilizador() + ";";
 			linha += objeto.getTopico().getIdentificador() + ";";
 			linha += simpleDateFormat.format(objeto.getData()) + ";";
