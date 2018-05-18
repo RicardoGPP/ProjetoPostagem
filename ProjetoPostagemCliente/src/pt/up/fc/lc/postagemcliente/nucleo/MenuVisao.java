@@ -259,7 +259,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-
+				menuControle.abrirRelatorioMensagensRecebidas();
 			}
 		};
 	}
@@ -270,7 +270,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-
+				menuControle.abriRelatorioMensagensPorTopico();
 			}
 		};
 	}
@@ -281,7 +281,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-
+				menuControle.abrirRelatorioCurtidas();
 			}
 		};
 	}

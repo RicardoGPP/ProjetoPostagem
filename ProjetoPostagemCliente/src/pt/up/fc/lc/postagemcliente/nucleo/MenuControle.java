@@ -1,6 +1,9 @@
 package pt.up.fc.lc.postagemcliente.nucleo;
 
 import pt.up.fc.lc.postagemcliente.arquivo.GerenciarContaVisao;
+import pt.up.fc.lc.postagemcliente.relatorio.RelatorioCurtidasVisao;
+import pt.up.fc.lc.postagemcliente.relatorio.RelatorioMensagensPorTopicoVisao;
+import pt.up.fc.lc.postagemcliente.relatorio.RelatorioMensagensRecebidasVisao;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class MenuControle implements Autenticavel
@@ -41,5 +44,20 @@ public class MenuControle implements Autenticavel
 	public void abrirGerenciamentoDeConta()
 	{
 		this.menuVisao.obterPainel().add(new GerenciarContaVisao(this.logado));
+	}
+
+	public void abrirRelatorioMensagensRecebidas()
+	{
+		this.menuVisao.obterPainel().add(new RelatorioMensagensRecebidasVisao(this.logado));
+	}
+	
+	public void abriRelatorioMensagensPorTopico()
+	{
+		this.menuVisao.obterPainel().add(new RelatorioMensagensPorTopicoVisao(this.logado));
+	}
+	
+	public void abrirRelatorioCurtidas()
+	{
+		this.menuVisao.obterPainel().add(new RelatorioCurtidasVisao(this.logado));
 	}
 }
