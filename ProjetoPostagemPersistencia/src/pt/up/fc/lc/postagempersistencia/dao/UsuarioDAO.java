@@ -102,10 +102,12 @@ public class UsuarioDAO extends DAO<Usuario>
 		{			
 			SubscricaoDAO subscricaoDAO = new SubscricaoDAO();
 			ComentarioDAO comentarioDAO = new ComentarioDAO();
-			CurtidaDAO curtidaDAO = new CurtidaDAO();			
+			CurtidaDAO curtidaDAO = new CurtidaDAO();
+			FavoritoDAO favoritoDAO = new FavoritoDAO();
 			subscricaoDAO.deletar(usuario);
 			comentarioDAO.deletar(usuario);
-			curtidaDAO.deletar(usuario);			
+			curtidaDAO.deletar(usuario);
+			favoritoDAO.deletar(usuario);
 			List<String> linhas = new ArrayList<>();
 			List<Usuario> usuarios = obterLista();			
 			for (Iterator<Usuario> iterator = usuarios.iterator(); iterator.hasNext();)

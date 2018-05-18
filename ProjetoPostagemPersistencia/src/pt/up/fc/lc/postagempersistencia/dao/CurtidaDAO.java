@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
 import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
 import pt.up.fc.lc.postagempersistencia.entidades.Curtida;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
@@ -40,6 +39,7 @@ public class CurtidaDAO extends DAO<Curtida>
 				Date data = simpleDateFormat.parse(dados[3]);							
 				curtida.setUsuario(usuarioCurtiu);
 				curtida.setComentario(comentarioDAO.obterRegistro(usuarioComentou, topico, data));
+				return curtida;
 			} catch (ParseException e)
 			{
 				return null;
