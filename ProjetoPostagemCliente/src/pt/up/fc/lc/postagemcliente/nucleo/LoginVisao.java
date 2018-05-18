@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.nucleo;
+package pt.up.fc.lc.postagemcliente.nucleo;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -25,7 +25,8 @@ public class LoginVisao extends JDialog
 	private JLabel labelSenha;
 	private JTextField textFieldNomeUsuario;
 	private JPasswordField passwordFieldSenha;
-	private JButton buttonOK;	
+	private JButton buttonOK;
+	private JButton buttonPedirUtilizador;
 	
 	public LoginVisao(Autenticavel autenticavel)
 	{		
@@ -42,7 +43,8 @@ public class LoginVisao extends JDialog
 		this.loginControle = new LoginControle(this);
 		this.autenticavel = autenticavel;		
 		this.construirTela(usuario);
-		this.vincularEventos();		
+		this.vincularEventos();
+		this.buttonPedirUtilizador.setVisible(false);
 		this.setVisible(true);
 		this.passwordFieldSenha.requestFocus();
 	}
@@ -84,11 +86,17 @@ public class LoginVisao extends JDialog
 		this.buttonOK.setText("OK");
 		this.buttonOK.setBounds((LARGURA - (BORDA * 2) - 71), (BORDA + 85), 80, 25);
 		this.add(this.buttonOK);
+		
+		this.buttonPedirUtilizador = new JButton();
+		this.buttonPedirUtilizador.setText("Pedir utilizador");
+		this.buttonPedirUtilizador.setBounds((LARGURA - (BORDA * 2) - 196), (BORDA + 85), 120, 25);
+		this.add(this.buttonPedirUtilizador);
 	}
 	
 	private void vincularEventos()
 	{
 		this.buttonOK.addActionListener(this.aoClicarButtonOK());
+		this.buttonPedirUtilizador.addActionListener(this.aoClicarButtonPedirUtilizador());
 	}
 
 	public void definirNomeUsuario(String nomeUsuario)
@@ -131,6 +139,17 @@ public class LoginVisao extends JDialog
 					loginControle.definirUsuario(autenticavel);
 					dispose();
 				}
+			}
+		};
+	}
+	
+	private ActionListener aoClicarButtonPedirUtilizador()
+	{
+		return new ActionListener()
+		{	
+			public void actionPerformed(ActionEvent e)
+			{
+				loginControle.abrirPedidoDeUtilizador();
 			}
 		};
 	}
