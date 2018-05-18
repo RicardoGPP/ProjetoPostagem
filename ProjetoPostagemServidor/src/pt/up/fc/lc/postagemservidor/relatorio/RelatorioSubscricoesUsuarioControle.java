@@ -4,7 +4,7 @@ import pt.up.fc.lc.postagempersistencia.dao.ComentarioDAO;
 import pt.up.fc.lc.postagempersistencia.dao.SubscricaoDAO;
 import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
-import pt.up.fc.lc.postagempersistencia.entidades.Topico;
+import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
@@ -25,13 +25,13 @@ public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
 		this.relatorioVisao.limparTabela();
 		if (usuario != null)
 		{
-			for (Topico topico : this.subscricaoDAO.obterTopicosSubscritos(usuario))
+			for (Subscricao subscricao : this.subscricaoDAO.obterLista(usuario))
 			{
 				int mensagens = 0;
-				for (Comentario comentario : this.comentarioDAO.obterLista(topico))
+				for (Comentario comentario : this.comentarioDAO.obterLista(subscricao.getTopico()))
 					if (comentario.getUsuario().comparar(usuario))
 						mensagens++;				
-				String titulo = topico.getIdentificador();				
+				String titulo = subscricao.getTopico().getTitulo();				
 				this.relatorioVisao.adicionarLinha(titulo, mensagens);
 			}
 		}

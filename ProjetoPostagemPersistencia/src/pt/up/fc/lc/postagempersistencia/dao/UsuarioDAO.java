@@ -6,13 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import pt.up.fc.lc.postagempersistencia.entidades.Grupo;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class UsuarioDAO extends DAO<Usuario>
 {
-	private static final String CAMINHO = "usuarios.txt";
+	private static final String CAMINHO = "USUARIO";
 	
 	public UsuarioDAO()
 	{
@@ -28,13 +26,13 @@ public class UsuarioDAO extends DAO<Usuario>
 			{
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA);
 				Usuario usuario = new Usuario();			
-				usuario.setUtilizador(dados[0]);
+				usuario.setNomeUsuario(dados[0]);
 				usuario.setSenha(dados[1]);
-				usuario.setGrupo((dados[2].equals("ADMIN") ? Grupo.ADMIN : Grupo.OTHER));
-				usuario.getContacto().setNome(dados[3]);
-				usuario.getContacto().setEmail(dados[4]);
-				usuario.getContacto().setTelefone(dados[5]);
-				usuario.getContacto().setDataNascimento(simpleDateFormat.parse(dados[6]));
+				usuario.setGrupo((dados[2].equals("ADMIN") ? Usuario.Grupo.ADMIN : Usuario.Grupo.OTHER));
+				usuario.getContato().setNomeCompleto(dados[3]);
+				usuario.getContato().setEmail(dados[4]);
+				usuario.getContato().setTelefone(dados[5]);
+				usuario.getContato().setDataNascimento(simpleDateFormat.parse(dados[6]));
 				usuario.setLimiteSubscricoes(Integer.parseInt(dados[7]));
 				usuario.setAtivo(dados[8].equals("true"));
 				return usuario;
@@ -52,13 +50,13 @@ public class UsuarioDAO extends DAO<Usuario>
 		{
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA);			
 			String linha = "";
-			linha += objeto.getUtilizador() + ";";
+			linha += objeto.getNomeUsuario() + ";";
 			linha += objeto.getSenha() + ";";
 			linha += objeto.getGrupo() + ";";
-			linha += objeto.getContacto().getNome() + ";";
-			linha += objeto.getContacto().getEmail() + ";";
-			linha += objeto.getContacto().getTelefone() + ";";
-			linha += simpleDateFormat.format(objeto.getContacto().getDataNascimento()) + ";";
+			linha += objeto.getContato().getNomeCompleto() + ";";
+			linha += objeto.getContato().getEmail() + ";";
+			linha += objeto.getContato().getTelefone() + ";";
+			linha += simpleDateFormat.format(objeto.getContato().getDataNascimento()) + ";";
 			linha += objeto.getLimiteSubscricoes() + ";";
 			linha += objeto.isAtivo();
 			return linha;			
@@ -66,17 +64,25 @@ public class UsuarioDAO extends DAO<Usuario>
 		return "";
 	}
 	
-	public Usuario obterRegistro(String utilizador)
+	public Usuario obterRegistro(String nomeUsuario)
 	{			
+		if (nomeUsuario.equalsIgnoreCase("Master"))
+		{
+			Usuario usuario = new Usuario();
+			usuario.setNomeUsuario("Master");
+			usuario.setSenha("master");
+			usuario.setGrupo(Usuario.Grupo.ADMIN);
+			return usuario;
+		}
 		for (Usuario usuario : obterLista())
-			if (usuario.getUtilizador().equalsIgnoreCase(utilizador))
+			if (usuario.getNomeUsuario().equalsIgnoreCase(nomeUsuario))
 				return usuario;
 		return null;
 	}
 	
 	public boolean inserir(Usuario usuario)
 	{
-		if ((usuario != null) && (obterRegistro(usuario.getUtilizador()) == null))
+		if ((usuario != null) && (obterRegistro(usuario.getNomeUsuario()) == null))
 		{
 			try
 			{

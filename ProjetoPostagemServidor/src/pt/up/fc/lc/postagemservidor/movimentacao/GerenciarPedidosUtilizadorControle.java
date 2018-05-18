@@ -23,13 +23,13 @@ public class GerenciarPedidosUtilizadorControle
 	public boolean usuarioJaExiste()
 	{
 		PedidoUtilizador pedidoUtilizador = this.gerenciarPedidosUtilizadorVisao.obterSelecionado();
-		return ((pedidoUtilizador != null) && (this.usuarioDAO.obterRegistro(pedidoUtilizador.getNome()) != null));
+		return ((pedidoUtilizador != null) && (this.usuarioDAO.obterRegistro(pedidoUtilizador.getNomeUsuario()) != null));
 	}
 	
 	public void carregarLista()
 	{
 		List<PedidoUtilizador> pedidosUtilizador = this.pedidoUtilizadorDAO.obterLista();		
-		Collections.sort(pedidosUtilizador, (p1, p2) -> p1.getNome().compareTo(p2.getNome()));
+		Collections.sort(pedidosUtilizador, (p1, p2) -> p1.getNomeUsuario().compareTo(p2.getNomeUsuario()));
 		this.gerenciarPedidosUtilizadorVisao.definirPedidosUtilizador(pedidosUtilizador);
 	}
 	

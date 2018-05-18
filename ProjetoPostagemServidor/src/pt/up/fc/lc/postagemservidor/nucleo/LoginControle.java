@@ -1,7 +1,6 @@
 package pt.up.fc.lc.postagemservidor.nucleo;
 
 import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
-import pt.up.fc.lc.postagempersistencia.entidades.Grupo;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class LoginControle
@@ -25,7 +24,7 @@ public class LoginControle
 		else
 		{
 			Usuario usuario = this.usuarioDAO.obterRegistro(nomeUsuario);			
-			if ((usuario == null) || (usuario.getGrupo() == Grupo.OTHER))
+			if ((usuario == null) || (usuario.getGrupo() == Usuario.Grupo.OTHER))
 				return false;
 			else
 				return usuario.autenticar(senha);

@@ -2,22 +2,30 @@ package pt.up.fc.lc.postagempersistencia.entidades;
 
 import java.util.Date;
 
+import pt.up.fc.lc.postagempersistencia.util.Formatador;
+
 public class Usuario implements Entidade<Usuario>
 {	
-	private String utilizador;
+	private String nomeUsuario;
 	private String senha;
 	private Grupo grupo;
-	private Contacto contacto;
+	private Contato contato;
 	private int limiteSubscricoes;
 	private boolean ativo;
 	
-	public String getUtilizador()
+	public enum Grupo
 	{
-		return utilizador;
+		ADMIN,
+		OTHER
 	}
-	public void setUtilizador(String utilizador)
+	
+	public String getNomeUsuario()
 	{
-		this.utilizador = utilizador;
+		return nomeUsuario;
+	}
+	public void setNomeUsuario(String nomeUsuario)
+	{
+		this.nomeUsuario = Formatador.formatar(nomeUsuario);
 	}
 	public String getSenha()
 	{
@@ -25,7 +33,7 @@ public class Usuario implements Entidade<Usuario>
 	}
 	public void setSenha(String senha)
 	{
-		this.senha = senha;
+		this.senha = Formatador.formatar(senha);
 	}
 	public Grupo getGrupo()
 	{
@@ -35,9 +43,9 @@ public class Usuario implements Entidade<Usuario>
 	{
 		this.grupo = grupo;
 	}
-	public Contacto getContacto()
+	public Contato getContato()
 	{
-		return contacto;
+		return contato;
 	}
 	public int getLimiteSubscricoes()
 	{
@@ -58,29 +66,29 @@ public class Usuario implements Entidade<Usuario>
 
 	public Usuario()
 	{
-		this.utilizador = "";
+		this.nomeUsuario = "";
 		this.senha = "";
 		this.grupo = Grupo.OTHER;
-		this.contacto = new Contacto();
+		this.contato = new Contato();
 		this.limiteSubscricoes = 50;
 		this.ativo = false;
 	}
 	
 	public Usuario(PedidoUtilizador pedidoUtilizador)
 	{
-		this.utilizador = pedidoUtilizador.getNome();
+		this.nomeUsuario = pedidoUtilizador.getNomeUsuario();
 		this.senha = pedidoUtilizador.getSenha();
 		this.grupo = Grupo.OTHER;
-		this.contacto = new Contacto();
-		this.contacto.setDataNascimento(pedidoUtilizador.getDataNascimento());
-		this.contacto.setEmail(pedidoUtilizador.getEmail());
+		this.contato = new Contato();
+		this.contato.setDataNascimento(pedidoUtilizador.getDataNascimento());
+		this.contato.setEmail(pedidoUtilizador.getEmail());
 		this.limiteSubscricoes = 50;
 		this.ativo = false;
 	}
 	
 	public boolean comparar(Usuario objeto)
 	{
-		return this.utilizador.equalsIgnoreCase(objeto.getUtilizador());
+		return this.nomeUsuario.equalsIgnoreCase(objeto.getNomeUsuario());
 	}
 	
 	public boolean autenticar(String senha)
@@ -90,23 +98,23 @@ public class Usuario implements Entidade<Usuario>
 
 	public String toString()
 	{
-		return this.utilizador.trim();
+		return this.nomeUsuario.trim();
 	}
 	
-	public class Contacto
+	public class Contato
 	{
-		private String nome;
+		private String nomeCompleto;
 		private String email;
 		private String telefone;
 		private Date dataNascimento;
 		
-		public String getNome()
+		public String getNomeCompleto()
 		{
-			return nome;
+			return nomeCompleto;
 		}
-		public void setNome(String nome)
+		public void setNomeCompleto(String nomeCompleto)
 		{
-			this.nome = nome;
+			this.nomeCompleto = Formatador.formatar(nomeCompleto);
 		}
 		public String getEmail()
 		{
@@ -114,7 +122,7 @@ public class Usuario implements Entidade<Usuario>
 		}
 		public void setEmail(String email)
 		{
-			this.email = email;
+			this.email = Formatador.formatar(email);
 		}
 		public String getTelefone()
 		{
@@ -122,7 +130,7 @@ public class Usuario implements Entidade<Usuario>
 		}
 		public void setTelefone(String telefone)
 		{
-			this.telefone = telefone;
+			this.telefone = Formatador.formatar(telefone);
 		}
 		public Date getDataNascimento()
 		{
@@ -133,9 +141,9 @@ public class Usuario implements Entidade<Usuario>
 			this.dataNascimento = dataNascimento;
 		}
 
-		public Contacto()
+		public Contato()
 		{
-			this.nome = "";
+			this.nomeCompleto = "";
 			this.email = "";
 			this.telefone = "";
 			this.dataNascimento = null;

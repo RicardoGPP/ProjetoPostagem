@@ -9,7 +9,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 
 public class TopicoDAO extends DAO<Topico>
 {
-	private static final String CAMINHO = "topicos.txt";
+	private static final String CAMINHO = "TOPICO";
 	
 	public TopicoDAO()
 	{
@@ -22,7 +22,7 @@ public class TopicoDAO extends DAO<Topico>
 		if (dados.length == 3)
 		{
 			Topico topico = new Topico();			
-			topico.setIdentificador(dados[0]);
+			topico.setTitulo(dados[0]);
 			topico.setDescricao(dados[1]);
 			topico.setLimiteMensagens(Integer.parseInt(dados[2]));
 			return topico;
@@ -35,7 +35,7 @@ public class TopicoDAO extends DAO<Topico>
 		if (objeto != null)
 		{
 			String linha = "";
-			linha += objeto.getIdentificador() + ";";
+			linha += objeto.getTitulo() + ";";
 			linha += objeto.getDescricao() + ";";
 			linha += objeto.getLimiteMensagens();					
 			return linha;					
@@ -46,14 +46,14 @@ public class TopicoDAO extends DAO<Topico>
 	public Topico obterRegistro(String identificador)
 	{			
 		for (Topico topico : obterLista())
-			if (topico.getIdentificador().equalsIgnoreCase(identificador))
+			if (topico.getTitulo().equalsIgnoreCase(identificador))
 				return topico;
 		return null;
 	}
 	
 	public boolean inserir(Topico topico)
 	{
-		if ((topico != null) && (obterRegistro(topico.getIdentificador()) == null))
+		if ((topico != null) && (obterRegistro(topico.getTitulo()) == null))
 		{
 			try
 			{

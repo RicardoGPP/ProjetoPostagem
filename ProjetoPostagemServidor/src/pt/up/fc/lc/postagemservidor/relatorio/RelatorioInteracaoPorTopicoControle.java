@@ -6,8 +6,8 @@ import pt.up.fc.lc.postagempersistencia.dao.ComentarioDAO;
 import pt.up.fc.lc.postagempersistencia.dao.SubscricaoDAO;
 import pt.up.fc.lc.postagempersistencia.dao.TopicoDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
+import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
-import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class RelatorioInteracaoPorTopicoControle extends RelatorioControle
 {
@@ -28,27 +28,20 @@ public class RelatorioInteracaoPorTopicoControle extends RelatorioControle
 		this.relatorioVisao.limparTabela();
 		for (Topico topico : this.topicoDAO.obterLista())
 		{
-			List<Usuario> usuarios = this.subscricaoDAO.obterSubscritores(topico);
-			List<Comentario> comentarios = this.comentarioDAO.obterLista(topico);
-			
+			List<Subscricao> subscricoes = this.subscricaoDAO.obterLista(topico);
+			List<Comentario> comentarios = this.comentarioDAO.obterLista(topico);			
 			int interacao = 0;			
-			for (Usuario usuario : usuarios)
-			{
+			for (Subscricao subscricao : subscricoes)
 				for (Comentario comentario : comentarios)
-				{
-					if (comentario.getUsuario().comparar(usuario))
+					if (comentario.getUsuario().comparar(subscricao.getUsuario()))
 					{
 						interacao++;
 						break;
 					}
-				}
-			}
-					
-			String titulo = topico.getIdentificador();
+			String titulo = topico.getTitulo();
 			int mensagens = comentarios.size();
-			int subscritos = usuarios.size();
-			String percentual = ((subscritos == 0) ? "0,00" : (new DecimalFormat("0.00")).format((interacao / subscritos) * 100)) + "%";
-			
+			int subscritos = subscricoes.size();
+			String percentual = ((subscritos == 0) ? "0,00" : (new DecimalFormat("0.00")).format((interacao / subscritos) * 100)) + "%";			
 			this.relatorioVisao.adicionarLinha(titulo, mensagens, subscritos, (interacao + " (" + percentual + ")"));
 		}	
 	}

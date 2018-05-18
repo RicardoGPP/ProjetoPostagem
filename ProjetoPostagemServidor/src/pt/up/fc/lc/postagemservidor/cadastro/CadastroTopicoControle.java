@@ -19,7 +19,7 @@ public class CadastroTopicoControle
 	public void carregarLista()
 	{
 		List<Topico> topicos = this.topicoDAO.obterLista();
-		Collections.sort(topicos, (t1, t2) -> t1.getIdentificador().compareTo(t2.getIdentificador()));
+		Collections.sort(topicos, (t1, t2) -> t1.getTitulo().compareTo(t2.getTitulo()));
 		this.cadastroTopicoVisao.definirTopicos(topicos);
 	}
 	

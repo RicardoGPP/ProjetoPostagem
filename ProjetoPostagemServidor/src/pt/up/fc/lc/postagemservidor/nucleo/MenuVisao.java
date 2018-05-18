@@ -81,6 +81,7 @@ public class MenuVisao extends JFrame
 		
 		this.menuItemArquivoGerenciarConta = new JMenuItem();
 		this.menuItemArquivoGerenciarConta.setText("Gerenciar conta");
+		this.menuItemArquivoGerenciarConta.setVisible(!this.menuControle.usuarioLogadoEMaster());
 		this.menuArquivo.add(this.menuItemArquivoGerenciarConta);
 		
 		this.menuItemArquivoTrocarUsuario = new JMenuItem();
@@ -142,6 +143,11 @@ public class MenuVisao extends JFrame
 	public JDesktopPane obterPainel()
 	{
 		return this.desktopPaneTelas;
+	}
+	
+	public void definirItemMenuArquivoGerenciarContaVisivel(boolean visivel)
+	{
+		this.menuItemArquivoGerenciarConta.setVisible(visivel);
 	}
 	
 	private ActionListener aoClicarMenuItemArquivoGerenciarConta()

@@ -21,11 +21,10 @@ public class RelatorioTopicosAtivosControle extends RelatorioControle
 		this.relatorioVisao.limparTabela();
 		for (Topico topico : this.topicoDAO.obterLista())
 		{
-			String titulo = topico.getIdentificador();
+			String titulo = topico.getTitulo();
 			int mensagens = this.comentarioDAO.obterLista(topico).size();
 			int limite = topico.getLimiteMensagens();
-			int restantes = limite - mensagens;					
-			
+			int restantes = limite - mensagens;								
 			if (restantes > 0)
 				this.relatorioVisao.adicionarLinha(titulo, mensagens, limite, restantes);
 		}	

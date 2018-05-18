@@ -1,7 +1,6 @@
 package pt.up.fc.lc.postagemservidor.arquivo;
 
 import java.util.Date;
-
 import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 import pt.up.fc.lc.postagemservidor.nucleo.Autenticavel;
@@ -30,10 +29,10 @@ public class GerenciarContaControle implements Autenticavel
 	public void carregarCampos()
 	{
 		this.gerenciarContaVisao.definirSenha(this.logado.getSenha());
-		this.gerenciarContaVisao.definirNomeCompleto(this.logado.getContacto().getNome());
-		this.gerenciarContaVisao.definirEmail(this.logado.getContacto().getEmail());
-		this.gerenciarContaVisao.definirTelefone(this.logado.getContacto().getTelefone());
-		this.gerenciarContaVisao.definirDataDeNascimento(this.logado.getContacto().getDataNascimento());
+		this.gerenciarContaVisao.definirNomeCompleto(this.logado.getContato().getNomeCompleto());
+		this.gerenciarContaVisao.definirEmail(this.logado.getContato().getEmail());
+		this.gerenciarContaVisao.definirTelefone(this.logado.getContato().getTelefone());
+		this.gerenciarContaVisao.definirDataDeNascimento(this.logado.getContato().getDataNascimento());
 	}
 	
 	public boolean tudoPreenchido()
@@ -42,8 +41,7 @@ public class GerenciarContaControle implements Autenticavel
 		String nomeCompleto = this.gerenciarContaVisao.obterNomeCompleto().trim();
 		String email = this.gerenciarContaVisao.obterEmail().trim();
 		String telefone = this.gerenciarContaVisao.obterTelefone().trim();
-		Date dataNascimento = this.gerenciarContaVisao.obterDataNascimento();
-		
+		Date dataNascimento = this.gerenciarContaVisao.obterDataNascimento();		
 		return ((!senha.equals("")) && (!nomeCompleto.equals("")) && (!email.equals("")) &&
 			   (!telefone.equals("")) && (dataNascimento != null));
 	}
@@ -61,21 +59,19 @@ public class GerenciarContaControle implements Autenticavel
 	
 	public boolean salvar()
 	{
-		Usuario usuario = this.usuarioDAO.obterRegistro(this.logado.getUtilizador());
-		
+		Usuario usuario = this.usuarioDAO.obterRegistro(this.logado.getNomeUsuario());		
 		usuario.setSenha(this.gerenciarContaVisao.obterSenha());
-		usuario.getContacto().setNome(this.gerenciarContaVisao.obterNomeCompleto().trim());
-		usuario.getContacto().setEmail(this.gerenciarContaVisao.obterEmail().trim());
-		usuario.getContacto().setTelefone(this.gerenciarContaVisao.obterTelefone().trim());
-		usuario.getContacto().setDataNascimento(this.gerenciarContaVisao.obterDataNascimento());
-		
+		usuario.getContato().setNomeCompleto(this.gerenciarContaVisao.obterNomeCompleto().trim());
+		usuario.getContato().setEmail(this.gerenciarContaVisao.obterEmail().trim());
+		usuario.getContato().setTelefone(this.gerenciarContaVisao.obterTelefone().trim());
+		usuario.getContato().setDataNascimento(this.gerenciarContaVisao.obterDataNascimento());		
 		if (this.usuarioDAO.editar(usuario))
 		{
 			this.logado.setSenha(usuario.getSenha());
-			this.logado.getContacto().setNome(usuario.getContacto().getNome());
-			this.logado.getContacto().setEmail(usuario.getContacto().getEmail());
-			this.logado.getContacto().setTelefone(usuario.getContacto().getTelefone());
-			this.logado.getContacto().setDataNascimento(usuario.getContacto().getDataNascimento());
+			this.logado.getContato().setNomeCompleto(usuario.getContato().getNomeCompleto());
+			this.logado.getContato().setEmail(usuario.getContato().getEmail());
+			this.logado.getContato().setTelefone(usuario.getContato().getTelefone());
+			this.logado.getContato().setDataNascimento(usuario.getContato().getDataNascimento());
 			return true;
 		}
 		return false;

@@ -14,7 +14,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class ComentarioDAO extends DAO<Comentario>
 {
-	private static final String CAMINHO = "comentarios.txt";	
+	private static final String CAMINHO = "COMENTARIO";	
 	
 	public ComentarioDAO()
 	{
@@ -51,8 +51,8 @@ public class ComentarioDAO extends DAO<Comentario>
 		{
 			String linha = "";			
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);			
-			linha += objeto.getUsuario().getUtilizador() + ";";
-			linha += objeto.getTopico().getIdentificador() + ";";
+			linha += objeto.getUsuario().getNomeUsuario() + ";";
+			linha += objeto.getTopico().getTitulo() + ";";
 			linha += simpleDateFormat.format(objeto.getData()) + ";";
 			linha += objeto.getMensagem();			
 			return linha;			

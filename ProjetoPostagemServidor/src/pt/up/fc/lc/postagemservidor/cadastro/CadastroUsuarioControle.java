@@ -31,7 +31,7 @@ public class CadastroUsuarioControle
 				break;
 			}
 		}
-		Collections.sort(usuarios, (u1, u2) -> u1.getUtilizador().compareTo(u2.getUtilizador()));
+		Collections.sort(usuarios, (u1, u2) -> u1.getNomeUsuario().compareTo(u2.getNomeUsuario()));
 		this.cadastroUsuarioVisao.definirUsuarios(usuarios);
 	}
 	

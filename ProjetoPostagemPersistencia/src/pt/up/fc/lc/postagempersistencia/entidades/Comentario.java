@@ -2,6 +2,8 @@ package pt.up.fc.lc.postagempersistencia.entidades;
 
 import java.util.Date;
 
+import pt.up.fc.lc.postagempersistencia.util.Formatador;
+
 public class Comentario implements Entidade<Comentario>
 {	
 	private Usuario usuario;
@@ -39,7 +41,7 @@ public class Comentario implements Entidade<Comentario>
 	}
 	public void setMensagem(String mensagem)
 	{
-		this.mensagem = mensagem;
+		this.mensagem = Formatador.formatar(mensagem);
 	}
 	
 	public Comentario()

@@ -6,9 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,13 +25,12 @@ public class LoginVisao extends JDialog
 	private JLabel labelSenha;
 	private JTextField textFieldNomeUsuario;
 	private JPasswordField passwordFieldSenha;
-	private JButton buttonEntrar;	
+	private JButton buttonOK;	
 	
 	public LoginVisao(Autenticavel autenticavel)
 	{		
 		this.loginControle = new LoginControle(this);
-		this.autenticavel = autenticavel;
-		
+		this.autenticavel = autenticavel;		
 		this.construirTela(null);
 		this.vincularEventos();		
 		this.setVisible(true);
@@ -43,8 +40,7 @@ public class LoginVisao extends JDialog
 	public LoginVisao(Autenticavel autenticavel, Usuario usuario)
 	{
 		this.loginControle = new LoginControle(this);
-		this.autenticavel = autenticavel;
-		
+		this.autenticavel = autenticavel;		
 		this.construirTela(usuario);
 		this.vincularEventos();		
 		this.setVisible(true);
@@ -53,7 +49,7 @@ public class LoginVisao extends JDialog
 
 	private void construirTela(Usuario usuario)
 	{
-		this.setTitle("Login");
+		this.setTitle("Autenticação");
 		this.setSize(LARGURA, ALTURA);
 		this.setResizable(false);
 		this.setModal(true);
@@ -70,7 +66,7 @@ public class LoginVisao extends JDialog
 		this.textFieldNomeUsuario.setBounds(BORDA, (BORDA + 15), (LARGURA - (BORDA * 2) - 5), 20);
 		if (usuario != null)
 		{
-			this.textFieldNomeUsuario.setText(usuario.getUtilizador());
+			this.textFieldNomeUsuario.setText(usuario.getNomeUsuario());
 			this.textFieldNomeUsuario.setEditable(false);
 		}
 		this.add(this.textFieldNomeUsuario);
@@ -84,15 +80,15 @@ public class LoginVisao extends JDialog
 		this.passwordFieldSenha.setBounds(BORDA, (BORDA + 55), (LARGURA - (BORDA * 2) - 5), 20);
 		this.add(this.passwordFieldSenha);
 		
-		this.buttonEntrar = new JButton();
-		this.buttonEntrar.setText("Entrar");
-		this.buttonEntrar.setBounds((LARGURA - (BORDA * 2) - 71), (BORDA + 85), 80, 25);
-		this.add(this.buttonEntrar);
+		this.buttonOK = new JButton();
+		this.buttonOK.setText("OK");
+		this.buttonOK.setBounds((LARGURA - (BORDA * 2) - 71), (BORDA + 85), 80, 25);
+		this.add(this.buttonOK);
 	}
 	
 	private void vincularEventos()
 	{
-		this.buttonEntrar.addActionListener(this.aoClicarButtonEntrar());
+		this.buttonOK.addActionListener(this.aoClicarButtonEntrar());
 	}
 
 	public void definirNomeUsuario(String nomeUsuario)

@@ -11,7 +11,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.PedidoUtilizador;
 
 public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 {
-	private static final String CAMINHO = "Pedido.txt";
+	private static final String CAMINHO = "PEDIDO_UTILIZADOR";
 	
 	public PedidoUtilizadorDAO()
 	{
@@ -27,7 +27,7 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 			{
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA);
 				PedidoUtilizador pedidoUtilizador = new PedidoUtilizador();
-				pedidoUtilizador.setNome(dados[0]);
+				pedidoUtilizador.setNomeUsuario(dados[0]);
 				pedidoUtilizador.setSenha(dados[1]);
 				pedidoUtilizador.setEmail(dados[2]);
 				pedidoUtilizador.setDataNascimento(simpleDateFormat.parse(dados[3]));
@@ -46,7 +46,7 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 		{
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);
 			String linha = "";
-			linha += objeto.getNome() + ";";
+			linha += objeto.getNomeUsuario() + ";";
 			linha += objeto.getSenha() + ";";
 			linha += objeto.getEmail() + ";";
 			linha += simpleDateFormat.format(objeto.getDataNascimento());	
@@ -55,10 +55,10 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 		return "";
 	}
 	
-	public PedidoUtilizador obterRegistro(String nome)
+	public PedidoUtilizador obterRegistro(String nomeUsuario)
 	{
 		for (PedidoUtilizador pedidoUtilizador : obterLista())
-			if (pedidoUtilizador.getNome().equalsIgnoreCase(nome))
+			if (pedidoUtilizador.getNomeUsuario().equalsIgnoreCase(nomeUsuario))
 				return pedidoUtilizador;
 		return null;
 	}
@@ -66,8 +66,8 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 	public boolean inserir(PedidoUtilizador pedidoUtilizador)
 	{
 		if ((pedidoUtilizador != null) &&
-		   ((new UsuarioDAO()).obterRegistro(pedidoUtilizador.getNome()) == null) &&
-		   (obterRegistro(pedidoUtilizador.getNome()) == null))
+		   ((new UsuarioDAO()).obterRegistro(pedidoUtilizador.getNomeUsuario()) == null) &&
+		   (obterRegistro(pedidoUtilizador.getNomeUsuario()) == null))
 		{
 			try
 			{

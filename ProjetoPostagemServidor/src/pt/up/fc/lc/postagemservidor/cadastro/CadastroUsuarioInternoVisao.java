@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -14,9 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
 import pt.up.fc.lc.postagempersistencia.dao.DAO;
-import pt.up.fc.lc.postagempersistencia.entidades.Grupo;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
@@ -34,7 +31,7 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 	private JLabel labelSenha;
 	private JPasswordField passwordFieldSenha;
 	private JLabel labelGrupo;
-	private JComboBox<Grupo> comboBoxGrupo;
+	private JComboBox<Usuario.Grupo> comboBoxGrupo;
 	private JLabel labelNomeCompleto;
 	private JTextField textFieldNomeCompleto;
 	private JLabel labelEmail;
@@ -101,7 +98,7 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 		
 		this.comboBoxGrupo = new JComboBox<>();
 		this.comboBoxGrupo.setBounds(BORDA, (BORDA + 95), (LARGURA - (BORDA * 2) - 5), 20);
-		for (Grupo grupo : Grupo.values())
+		for (Usuario.Grupo grupo : Usuario.Grupo.values())
 			this.comboBoxGrupo.addItem(grupo);
 		this.add(this.comboBoxGrupo);
 		
@@ -197,12 +194,12 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 		this.passwordFieldSenha.setText(senha);
 	}
 	
-	public Grupo obterGrupo()
+	public Usuario.Grupo obterGrupo()
 	{
-		return (Grupo) this.comboBoxGrupo.getSelectedItem();
+		return (Usuario.Grupo) this.comboBoxGrupo.getSelectedItem();
 	}
 	
-	public void definirGrupo(Grupo grupo)
+	public void definirGrupo(Usuario.Grupo grupo)
 	{
 		this.comboBoxGrupo.setSelectedItem(grupo);
 	}

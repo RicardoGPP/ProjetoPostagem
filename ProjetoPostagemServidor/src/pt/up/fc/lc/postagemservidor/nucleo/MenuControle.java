@@ -37,12 +37,18 @@ public class MenuControle implements Autenticavel
 		return (this.logado != null);
 	}
 	
+	public boolean usuarioLogadoEMaster()
+	{
+		return this.logado.getNomeUsuario().equalsIgnoreCase("Master");
+	}
+	
 	public boolean trocarUsuario()
 	{
 		Usuario usuarioAnterior = this.logado;
 		new LoginVisao(this);
 		if (this.logado == null)
-			this.logado = usuarioAnterior;		
+			this.logado = usuarioAnterior;
+		this.menuVisao.definirItemMenuArquivoGerenciarContaVisivel(!this.usuarioLogadoEMaster());
 		return (!this.logado.comparar(usuarioAnterior));
 	}
 

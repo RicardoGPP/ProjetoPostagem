@@ -11,7 +11,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class SubscricaoDAO extends DAO<Subscricao>
 {
-	private static final String CAMINHO = "subscricao.txt";
+	private static final String CAMINHO = "SUBSCRICAO";
 	
 	public SubscricaoDAO()
 	{
@@ -38,11 +38,44 @@ public class SubscricaoDAO extends DAO<Subscricao>
 		if ((objeto != null) && (objeto.getUsuario() != null) && (objeto.getTopico() != null))
 		{
 			String linha = "";			
-			linha += objeto.getUsuario().getUtilizador() + ";";
-			linha += objeto.getTopico().getIdentificador();			
+			linha += objeto.getUsuario().getNomeUsuario() + ";";
+			linha += objeto.getTopico().getTitulo();			
 			return linha;
 		}
 		return "";
+	}
+
+	public Subscricao obterRegistro(Usuario usuario, Topico topico)
+	{
+		if ((usuario != null) && (topico != null))
+			for (Subscricao subscricao : obterLista())
+				if ((subscricao.getUsuario().comparar(usuario)) && (subscricao.getTopico().comparar(topico)))
+					return subscricao;
+		return null;
+	}
+	
+	public List<Subscricao> obterLista(Topico topico)
+	{
+		List<Subscricao> subscricoes = new ArrayList<>();
+		if (topico != null)
+		{
+			for (Subscricao subscricao : obterLista())
+				if (subscricao.getTopico().comparar(topico))
+					subscricoes.add(subscricao);
+		}
+		return subscricoes;
+	}
+	
+	public List<Subscricao> obterLista(Usuario usuario)
+	{
+		List<Subscricao> subscricoes = new ArrayList<>();
+		if (usuario != null)
+		{
+			for (Subscricao subscricao : obterLista())
+				if (subscricao.getUsuario().comparar(usuario))
+					subscricoes.add(subscricao);
+		}
+		return subscricoes;
 	}
 	
 	private boolean jaExiste(Subscricao subscricao)
@@ -158,29 +191,5 @@ public class SubscricaoDAO extends DAO<Subscricao>
 			}			
 		}
 		return false;
-	}
-
-	public List<Usuario> obterSubscritores(Topico topico)
-	{
-		List<Usuario> usuarios = new ArrayList<>();
-		if (topico != null)
-		{
-			for (Subscricao subscricao : obterLista())
-				if (subscricao.getTopico().comparar(topico))
-					usuarios.add(subscricao.getUsuario());
-		}
-		return usuarios;
-	}
-	
-	public List<Topico> obterTopicosSubscritos(Usuario usuario)
-	{
-		List<Topico> topicos = new ArrayList<>();
-		if (usuario != null)
-		{
-			for (Subscricao subscricao : obterLista())
-				if (subscricao.getUsuario().comparar(usuario))
-					topicos.add(subscricao.getTopico());
-		}
-		return topicos;
 	}
 }

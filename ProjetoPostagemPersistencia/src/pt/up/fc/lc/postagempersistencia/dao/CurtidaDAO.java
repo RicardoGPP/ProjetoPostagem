@@ -15,7 +15,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class CurtidaDAO extends DAO<Curtida>
 {
-	private static final String CAMINHO = "curtidas.txt";
+	private static final String CAMINHO = "CURTIDA";
 	
 	public CurtidaDAO()
 	{
@@ -54,9 +54,9 @@ public class CurtidaDAO extends DAO<Curtida>
 		{
 			String linha = "";			
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);			
-			linha += objeto.getUsuario().getUtilizador() + ";";
-			linha += objeto.getComentario().getUsuario().getUtilizador() + ";";
-			linha += objeto.getComentario().getTopico().getIdentificador() + ";";
+			linha += objeto.getUsuario().getNomeUsuario() + ";";
+			linha += objeto.getComentario().getUsuario().getNomeUsuario() + ";";
+			linha += objeto.getComentario().getTopico().getTitulo() + ";";
 			linha += simpleDateFormat.format(objeto.getComentario().getData());			
 			return linha;
 		}

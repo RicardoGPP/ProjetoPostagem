@@ -1,18 +1,20 @@
 package pt.up.fc.lc.postagempersistencia.entidades;
 
+import pt.up.fc.lc.postagempersistencia.util.Formatador;
+
 public class Topico implements Entidade<Topico>
 {
-	private String identificador;
+	private String titulo;
 	private String descricao;
 	private int limiteMensagens;
 	
-	public String getIdentificador()
+	public String getTitulo()
 	{
-		return identificador;
+		return titulo;
 	}
-	public void setIdentificador(String identificador)
+	public void setTitulo(String titulo)
 	{
-		this.identificador = identificador;
+		this.titulo = Formatador.formatar(titulo);
 	}
 	public String getDescricao()
 	{
@@ -20,7 +22,7 @@ public class Topico implements Entidade<Topico>
 	}
 	public void setDescricao(String descricao)
 	{
-		this.descricao = descricao;
+		this.descricao = Formatador.formatar(descricao);
 	}
 	public int getLimiteMensagens()
 	{
@@ -33,18 +35,18 @@ public class Topico implements Entidade<Topico>
 	
 	public Topico()
 	{
-		this.identificador = "";
+		this.titulo = "";
 		this.descricao = "";
 		this.limiteMensagens = 50;
 	}
 
 	public boolean comparar(Topico objeto)
 	{
-		return this.identificador.equalsIgnoreCase(objeto.getIdentificador());
+		return this.titulo.equalsIgnoreCase(objeto.getTitulo());
 	}
 
 	public String toString()
 	{
-		return this.identificador.trim();
+		return this.titulo.trim();
 	}
 }

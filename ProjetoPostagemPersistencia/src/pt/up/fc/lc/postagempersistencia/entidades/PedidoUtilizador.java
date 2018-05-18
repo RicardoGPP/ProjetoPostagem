@@ -2,20 +2,22 @@ package pt.up.fc.lc.postagempersistencia.entidades;
 
 import java.util.Date;
 
+import pt.up.fc.lc.postagempersistencia.util.Formatador;
+
 public class PedidoUtilizador implements Entidade<PedidoUtilizador>
 {
-	private String nome;
+	private String nomeUsuario;
 	private String senha;
 	private String email;
 	private Date dataNascimento;
 		
-	public String getNome()
+	public String getNomeUsuario()
 	{
-		return nome;
+		return nomeUsuario;
 	}
-	public void setNome(String nome)
+	public void setNomeUsuario(String nomeUsuario)
 	{
-		this.nome = nome;
+		this.nomeUsuario = Formatador.formatar(nomeUsuario);
 	}
 	public String getSenha()
 	{
@@ -23,7 +25,7 @@ public class PedidoUtilizador implements Entidade<PedidoUtilizador>
 	}
 	public void setSenha(String senha)
 	{
-		this.senha = senha;
+		this.senha = Formatador.formatar(senha);
 	}
 	public String getEmail()
 	{
@@ -31,7 +33,7 @@ public class PedidoUtilizador implements Entidade<PedidoUtilizador>
 	}
 	public void setEmail(String email)
 	{
-		this.email = email;
+		this.email = Formatador.formatar(email);
 	}
 	public Date getDataNascimento()
 	{
@@ -44,7 +46,7 @@ public class PedidoUtilizador implements Entidade<PedidoUtilizador>
 
 	public PedidoUtilizador()
 	{
-		this.nome = "";
+		this.nomeUsuario = "";
 		this.senha = "";
 		this.email = "";
 		this.dataNascimento = null;
@@ -52,11 +54,11 @@ public class PedidoUtilizador implements Entidade<PedidoUtilizador>
 	
 	public boolean comparar(PedidoUtilizador objeto)
 	{
-		return this.nome.equals(objeto.getNome());
+		return this.nomeUsuario.equals(objeto.getNomeUsuario());
 	}
 	
 	public String toString()
 	{
-		return this.nome;
+		return this.nomeUsuario;
 	}
 }

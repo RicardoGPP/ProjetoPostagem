@@ -44,7 +44,7 @@ public class CadastroTopicoInternoControle extends CadastroInternoControle
 		{			
 			this.cadastroTopicoInternoVisao.setTitle("Editar usuário");
 			this.cadastroTopicoInternoVisao.definirTituloEditavel(false);			
-			this.cadastroTopicoInternoVisao.definirTitulo(topico.getIdentificador());
+			this.cadastroTopicoInternoVisao.definirTitulo(topico.getTitulo());
 			this.cadastroTopicoInternoVisao.definirDescricao(topico.getDescricao());
 			this.cadastroTopicoInternoVisao.definirLimiteMensagens(topico.getLimiteMensagens());			
 		}
@@ -71,7 +71,7 @@ public class CadastroTopicoInternoControle extends CadastroInternoControle
 	
 	public void definirTopico()
 	{		
-		this.topico.setIdentificador(this.cadastroTopicoInternoVisao.obterTitulo().trim());
+		this.topico.setTitulo(this.cadastroTopicoInternoVisao.obterTitulo().trim());
 		this.topico.setDescricao(this.cadastroTopicoInternoVisao.obterDescricao().trim());
 		this.topico.setLimiteMensagens(this.cadastroTopicoInternoVisao.obterLimiteMensagens());		
 	}
