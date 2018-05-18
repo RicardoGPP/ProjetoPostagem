@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.visao;
+package pt.up.fc.lc.postagemservidor.nucleo;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -9,7 +9,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import pt.up.fc.lc.postagemservidor.controle.MenuControle;
 
 public class MenuVisao extends JFrame
 {
@@ -23,6 +22,7 @@ public class MenuVisao extends JFrame
 	private JMenu menuCadastro;
 	private JMenu menuMovimentacao;
 	private JMenu menuRelatorios;
+	private JMenuItem menuItemArquivoGerenciarConta;
 	private JMenuItem menuItemArquivoTrocarUsuario;
 	private JMenuItem menuItemArquivoSair;
 	private JMenuItem menuItemCadastroUsuarios;
@@ -79,6 +79,10 @@ public class MenuVisao extends JFrame
 		this.menuRelatorios.setText("Relatórios");
 		this.menuBarGeral.add(this.menuRelatorios);
 		
+		this.menuItemArquivoGerenciarConta = new JMenuItem();
+		this.menuItemArquivoGerenciarConta.setText("Gerenciar conta");
+		this.menuArquivo.add(this.menuItemArquivoGerenciarConta);
+		
 		this.menuItemArquivoTrocarUsuario = new JMenuItem();
 		this.menuItemArquivoTrocarUsuario.setText("Trocar usuário");
 		this.menuArquivo.add(this.menuItemArquivoTrocarUsuario);
@@ -112,7 +116,7 @@ public class MenuVisao extends JFrame
 		this.menuRelatorios.add(this.menuItemRelatorioMensagensPorTopico);
 		
 		this.menuItemRelatorioInteracaoPorTopico = new JMenuItem();
-		this.menuItemRelatorioInteracaoPorTopico.setText("Relatório de interação nos tópicos");
+		this.menuItemRelatorioInteracaoPorTopico.setText("Relatório de interação por tópico");
 		this.menuRelatorios.add(this.menuItemRelatorioInteracaoPorTopico);
 		
 		this.menuItemRelatorioSubscricoesUsuario = new JMenuItem();
@@ -122,6 +126,7 @@ public class MenuVisao extends JFrame
 
 	private void vincularEventos()
 	{
+		this.menuItemArquivoGerenciarConta.addActionListener(this.aoClicarMenuItemArquivoGerenciarConta());
 		this.menuItemArquivoTrocarUsuario.addActionListener(this.aoClicarMenuItemArquivoTrocarUsuario());
 		this.menuItemArquivoSair.addActionListener(this.aoClicarMenuItemArquivoSair());
 		this.menuItemCadastroUsuarios.addActionListener(this.aoClicarMenuItemCadastroUsuarios());
@@ -137,6 +142,17 @@ public class MenuVisao extends JFrame
 	public JDesktopPane obterPainel()
 	{
 		return this.desktopPaneTelas;
+	}
+	
+	private ActionListener aoClicarMenuItemArquivoGerenciarConta()
+	{
+		return new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				menuControle.abrirGerenciamentoDeConta();
+			}
+		};
 	}
 	
 	private ActionListener aoClicarMenuItemArquivoTrocarUsuario()
@@ -215,7 +231,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				menuControle.abrirRelatorioTopicosMaisUtilizados();
 			}
 		};
 	}
@@ -226,7 +242,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				menuControle.abrirRelatorioMensagensPorTopico();
 			}
 		};
 	}
@@ -237,7 +253,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				menuControle.abrirRelatorioInteracaoPorTopico();
 			}
 		};
 	}
@@ -248,7 +264,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				menuControle.abrirRelatorioSubscricoesUsuario();
 			}
 		};
 	}

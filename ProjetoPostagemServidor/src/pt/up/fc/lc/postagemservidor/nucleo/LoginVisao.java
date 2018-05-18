@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.visao;
+package pt.up.fc.lc.postagemservidor.nucleo;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -7,8 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import pt.up.fc.lc.postagemservidor.controle.Autenticavel;
-import pt.up.fc.lc.postagemservidor.controle.LoginControle;
+import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -34,12 +34,24 @@ public class LoginVisao extends JDialog
 		this.loginControle = new LoginControle(this);
 		this.autenticavel = autenticavel;
 		
-		this.construirTela();
+		this.construirTela(null);
 		this.vincularEventos();		
 		this.setVisible(true);
+		this.textFieldNomeUsuario.requestFocus();
+	}
+	
+	public LoginVisao(Autenticavel autenticavel, Usuario usuario)
+	{
+		this.loginControle = new LoginControle(this);
+		this.autenticavel = autenticavel;
+		
+		this.construirTela(usuario);
+		this.vincularEventos();		
+		this.setVisible(true);
+		this.passwordFieldSenha.requestFocus();
 	}
 
-	private void construirTela()
+	private void construirTela(Usuario usuario)
 	{
 		this.setTitle("Login");
 		this.setSize(LARGURA, ALTURA);
@@ -56,6 +68,11 @@ public class LoginVisao extends JDialog
 		
 		this.textFieldNomeUsuario = new JTextField();
 		this.textFieldNomeUsuario.setBounds(BORDA, (BORDA + 15), (LARGURA - (BORDA * 2) - 5), 20);
+		if (usuario != null)
+		{
+			this.textFieldNomeUsuario.setText(usuario.getUtilizador());
+			this.textFieldNomeUsuario.setEditable(false);
+		}
 		this.add(this.textFieldNomeUsuario);
 		
 		this.labelSenha = new JLabel();

@@ -1,12 +1,10 @@
-package pt.up.fc.lc.postagemservidor.controle;
+package pt.up.fc.lc.postagemservidor.cadastro;
 
 import pt.up.fc.lc.postagempersistencia.dao.ComentarioDAO;
 import pt.up.fc.lc.postagempersistencia.dao.TopicoDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
-import pt.up.fc.lc.postagemservidor.visao.CadastroTopicoInternoVisao;
-import pt.up.fc.lc.postagemservidor.visao.Modo;
 
-public class CadastroTopicoInternoControle
+public class CadastroTopicoInternoControle extends CadastroInternoControle
 {
 	private TopicoDAO topicoDAO;
 	private ComentarioDAO comentarioDAO;
@@ -20,6 +18,7 @@ public class CadastroTopicoInternoControle
 	
 	public CadastroTopicoInternoControle(CadastroTopicoInternoVisao cadastroTopicoInternoVisao)
 	{
+		super(Modo.INCLUSAO);
 		this.topicoDAO = new TopicoDAO();
 		this.comentarioDAO = new ComentarioDAO();
 		this.cadastroTopicoInternoVisao = cadastroTopicoInternoVisao;
@@ -28,10 +27,27 @@ public class CadastroTopicoInternoControle
 	
 	public CadastroTopicoInternoControle(CadastroTopicoInternoVisao cadastroTopicoInternoVisao, Topico topico)
 	{
+		super(Modo.EDICAO);
 		this.topicoDAO = new TopicoDAO();
 		this.comentarioDAO = new ComentarioDAO();
 		this.cadastroTopicoInternoVisao = cadastroTopicoInternoVisao;
 		this.topico = topico;
+	}
+	
+	public void carregarCampos()
+	{
+		if (this.modo == Modo.INCLUSAO)
+		{
+			this.cadastroTopicoInternoVisao.setTitle("Incluir tópico");
+			this.cadastroTopicoInternoVisao.definirLimiteMensagens(50);
+		} else
+		{			
+			this.cadastroTopicoInternoVisao.setTitle("Editar usuário");
+			this.cadastroTopicoInternoVisao.definirTituloEditavel(false);			
+			this.cadastroTopicoInternoVisao.definirTitulo(topico.getIdentificador());
+			this.cadastroTopicoInternoVisao.definirDescricao(topico.getDescricao());
+			this.cadastroTopicoInternoVisao.definirLimiteMensagens(topico.getLimiteMensagens());			
+		}
 	}
 	
 	public boolean tudoPreenchido()
@@ -43,13 +59,13 @@ public class CadastroTopicoInternoControle
 	
 	public boolean topicoJaExiste()
 	{
-		return ((this.cadastroTopicoInternoVisao.obterModo() == Modo.INCLUSAO) &&
+		return ((this.modo == Modo.INCLUSAO) &&
 			   (this.topicoDAO.obterRegistro(this.cadastroTopicoInternoVisao.obterTitulo().trim()) != null));
 	}
 	
 	public boolean limiteMensagensEValido()
 	{
-		return ((this.cadastroTopicoInternoVisao.obterModo() == Modo.INCLUSAO) ||
+		return ((this.modo == Modo.INCLUSAO) ||
 			   (this.comentarioDAO.obterLista(this.topico).size() <= this.cadastroTopicoInternoVisao.obterLimiteMensagens()));
 	}
 	

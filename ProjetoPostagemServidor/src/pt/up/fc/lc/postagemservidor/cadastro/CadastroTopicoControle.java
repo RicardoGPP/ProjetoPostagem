@@ -1,11 +1,9 @@
-package pt.up.fc.lc.postagemservidor.controle;
+package pt.up.fc.lc.postagemservidor.cadastro;
 
 import java.util.Collections;
 import java.util.List;
 import pt.up.fc.lc.postagempersistencia.dao.TopicoDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
-import pt.up.fc.lc.postagemservidor.visao.CadastroTopicoInternoVisao;
-import pt.up.fc.lc.postagemservidor.visao.CadastroTopicoVisao;
 
 public class CadastroTopicoControle
 {

@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.visao;
+package pt.up.fc.lc.postagemservidor.cadastro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +12,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
-import pt.up.fc.lc.postagemservidor.controle.CadastroTopicoControle;
 
 public class CadastroTopicoVisao extends JInternalFrame
 {
@@ -43,7 +42,7 @@ public class CadastroTopicoVisao extends JInternalFrame
 	
 	private void construirTela()
 	{
-		this.setTitle("Cadastro de usuários");
+		this.setTitle("Cadastro de tópicos");
 		this.setResizable(false);
 		this.setClosable(true);
 		this.setSize(LARGURA, ALTURA);

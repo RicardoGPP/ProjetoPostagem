@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.visao;
+package pt.up.fc.lc.postagemservidor.movimentacao;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +11,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import pt.up.fc.lc.postagempersistencia.entidades.PedidoUtilizador;
-import pt.up.fc.lc.postagemservidor.controle.GerenciarPedidosUtilizadorControle;
 
 public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 {

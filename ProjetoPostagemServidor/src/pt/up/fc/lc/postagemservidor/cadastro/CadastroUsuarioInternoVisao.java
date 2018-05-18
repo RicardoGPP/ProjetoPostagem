@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.visao;
+package pt.up.fc.lc.postagemservidor.cadastro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 import pt.up.fc.lc.postagempersistencia.dao.DAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Grupo;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
-import pt.up.fc.lc.postagemservidor.controle.CadastroUsuarioInternoControle;
 
 public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 {
@@ -52,21 +51,19 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 	
 	public CadastroUsuarioInternoVisao()
 	{
-		super(Modo.INCLUSAO);
 		this.cadastroUsuarioInternoControle = new CadastroUsuarioInternoControle(this);
 		this.construirTela();
 		this.vincularEventos();
-		this.definirModo();
+		this.cadastroUsuarioInternoControle.carregarCampos();
 		this.setVisible(true);
 	}
 	
 	public CadastroUsuarioInternoVisao(Usuario usuario)
 	{
-		super(Modo.EDICAO);
 		this.cadastroUsuarioInternoControle = new CadastroUsuarioInternoControle(this, usuario);
 		this.construirTela();
 		this.vincularEventos();
-		this.definirModo();
+		this.cadastroUsuarioInternoControle.carregarCampos();
 		this.setVisible(true);
 	}
 	
@@ -175,31 +172,6 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 		this.buttonCancelar.addActionListener(this.aoClicarBotaoCancelar());
 	}
 	
-	private void definirModo()
-	{
-		if (modo == Modo.INCLUSAO)
-		{
-			this.setTitle("Incluir usuário");
-			this.textFieldLimiteSubscricoes.setText("50");
-			this.comboBoxGrupo.setSelectedIndex(0);
-			this.checkBoxAtivo.setSelected(true);
-		} else
-		{
-			Usuario usuario = this.cadastroUsuarioInternoControle.getUsuario();			
-			this.setTitle("Editar usuário");
-			this.textFieldNomeUsuario.setEnabled(false);			
-			this.textFieldNomeUsuario.setText(usuario.getUtilizador());
-			this.passwordFieldSenha.setText(usuario.getSenha());
-			this.comboBoxGrupo.setSelectedItem(usuario.getGrupo());
-			this.textFieldNomeCompleto.setText(usuario.getContacto().getNome());
-			this.textFieldEmail.setText(usuario.getContacto().getEmail());
-			this.textFieldTelefone.setText(usuario.getContacto().getTelefone());
-			this.textFieldDataNascimento.setText(new SimpleDateFormat(DAO.FORMATO_DATA).format(usuario.getContacto().getDataNascimento()));
-			this.textFieldLimiteSubscricoes.setText(Integer.toString(usuario.getLimiteSubscricoes()));
-			this.checkBoxAtivo.setSelected(usuario.isAtivo());
-		}
-	}
-	
 	public String obterNomeUsuario()
 	{
 		return this.textFieldNomeUsuario.getText();
@@ -208,6 +180,11 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 	public void definirNomeUsuario(String nomeUsuario)
 	{
 		this.textFieldNomeUsuario.setText(nomeUsuario);
+	}
+	
+	public void definirNomeUsuarioEditavel(boolean editavel)
+	{
+		this.textFieldNomeUsuario.setEditable(editavel);
 	}
 	
 	public String obterSenha()
@@ -272,7 +249,7 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 		}
 	}
 	
-	public void definirDataDeNascimento(Date dataNascimento)
+	public void definirDataNascimento(Date dataNascimento)
 	{
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DAO.FORMATO_DATA);
 		this.textFieldDataNascimento.setText(simpleDateFormat.format(dataNascimento));

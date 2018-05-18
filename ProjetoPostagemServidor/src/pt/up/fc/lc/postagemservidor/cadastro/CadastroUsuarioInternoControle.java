@@ -1,14 +1,12 @@
-package pt.up.fc.lc.postagemservidor.controle;
+package pt.up.fc.lc.postagemservidor.cadastro;
 
 import java.util.Date;
-
 import pt.up.fc.lc.postagempersistencia.dao.SubscricaoDAO;
 import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Grupo;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
-import pt.up.fc.lc.postagemservidor.visao.CadastroUsuarioInternoVisao;
 
-public class CadastroUsuarioInternoControle
+public class CadastroUsuarioInternoControle extends CadastroInternoControle
 {
 	private UsuarioDAO usuarioDAO;
 	private SubscricaoDAO subscricaoDAO;
@@ -22,6 +20,7 @@ public class CadastroUsuarioInternoControle
 	
 	public CadastroUsuarioInternoControle(CadastroUsuarioInternoVisao cadastroUsuarioInternoVisao)
 	{
+		super(Modo.INCLUSAO);
 		this.usuarioDAO = new UsuarioDAO();
 		this.subscricaoDAO = new SubscricaoDAO();
 		this.cadastroUsuarioInternoVisao = cadastroUsuarioInternoVisao;
@@ -30,10 +29,35 @@ public class CadastroUsuarioInternoControle
 	
 	public CadastroUsuarioInternoControle(CadastroUsuarioInternoVisao cadastroUsuarioInternoVisao, Usuario usuario)
 	{
+		super(Modo.EDICAO);
 		this.usuarioDAO = new UsuarioDAO();
 		this.subscricaoDAO = new SubscricaoDAO();
 		this.cadastroUsuarioInternoVisao = cadastroUsuarioInternoVisao;
 		this.usuario = usuario;
+	}
+	
+	public void carregarCampos()
+	{
+		if (modo == Modo.INCLUSAO)
+		{
+			this.cadastroUsuarioInternoVisao.setTitle("Incluir usuário");
+			this.cadastroUsuarioInternoVisao.definirLimiteSubscricoes(50);
+			this.cadastroUsuarioInternoVisao.definirGrupo(Grupo.ADMIN);
+			this.cadastroUsuarioInternoVisao.definirAtivo(true);
+		} else
+		{			
+			this.cadastroUsuarioInternoVisao.setTitle("Editar usuário");
+			this.cadastroUsuarioInternoVisao.definirNomeUsuarioEditavel(false);			
+			this.cadastroUsuarioInternoVisao.definirNomeUsuario(this.usuario.getUtilizador());
+			this.cadastroUsuarioInternoVisao.definirSenha(this.usuario.getSenha());
+			this.cadastroUsuarioInternoVisao.definirGrupo(this.usuario.getGrupo());
+			this.cadastroUsuarioInternoVisao.definirNomeCompleto(this.usuario.getContacto().getNome());
+			this.cadastroUsuarioInternoVisao.definirEmail(this.usuario.getContacto().getEmail());
+			this.cadastroUsuarioInternoVisao.definirTelefone(this.usuario.getContacto().getTelefone());
+			this.cadastroUsuarioInternoVisao.definirDataNascimento(this.usuario.getContacto().getDataNascimento());
+			this.cadastroUsuarioInternoVisao.definirLimiteSubscricoes(this.usuario.getLimiteSubscricoes());
+			this.cadastroUsuarioInternoVisao.definirAtivo(this.usuario.isAtivo());
+		}
 	}
 	
 	public boolean tudoPreenchido()

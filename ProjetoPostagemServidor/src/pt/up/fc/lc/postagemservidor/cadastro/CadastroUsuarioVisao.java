@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.visao;
+package pt.up.fc.lc.postagemservidor.cadastro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +12,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
-import pt.up.fc.lc.postagemservidor.controle.CadastroUsuarioControle;
 
 public class CadastroUsuarioVisao extends JInternalFrame
 {

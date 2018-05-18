@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.controle;
+package pt.up.fc.lc.postagemservidor.movimentacao;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,7 +6,6 @@ import pt.up.fc.lc.postagempersistencia.dao.PedidoUtilizadorDAO;
 import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.PedidoUtilizador;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
-import pt.up.fc.lc.postagemservidor.visao.GerenciarPedidosUtilizadorVisao;
 
 public class GerenciarPedidosUtilizadorControle
 {

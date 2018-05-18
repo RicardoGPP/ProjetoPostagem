@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.visao;
+package pt.up.fc.lc.postagemservidor.cadastro;
 
 import javax.swing.JDialog;
 import pt.up.fc.lc.postagempersistencia.entidades.Entidade;
@@ -7,23 +7,16 @@ public abstract class CadastroInternoVisao<T extends Entidade<T>> extends JDialo
 {
 	private static final long serialVersionUID = 1L;
 	
-	protected Modo modo;
 	protected boolean processado;
 	
-	protected CadastroInternoVisao(Modo modo)
+	protected CadastroInternoVisao()
 	{
-		this.modo = modo;
 		this.processado = false;
 	}
 	
 	public boolean foiProcessado()
 	{
-		return processado;
-	}
-	
-	public Modo obterModo()
-	{
-		return this.modo;
+		return this.processado;
 	}
 	
 	public abstract T obterRegistro();

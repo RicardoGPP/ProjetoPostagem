@@ -1,9 +1,8 @@
-package pt.up.fc.lc.postagemservidor.controle;
+package pt.up.fc.lc.postagemservidor.nucleo;
 
 import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Grupo;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
-import pt.up.fc.lc.postagemservidor.visao.LoginVisao;
 
 public class LoginControle
 {

@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.visao;
+package pt.up.fc.lc.postagemservidor.cadastro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +10,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
-import pt.up.fc.lc.postagemservidor.controle.CadastroTopicoInternoControle;
 
 public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 {
@@ -34,21 +33,19 @@ public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 	
 	public CadastroTopicoInternoVisao()
 	{
-		super(Modo.INCLUSAO);
 		this.cadastroTopicoInternoControle = new CadastroTopicoInternoControle(this);
 		this.construirTela();
 		this.vincularEventos();
-		this.definirModo();
+		this.cadastroTopicoInternoControle.carregarCampos();
 		this.setVisible(true);
 	}
 	
 	public CadastroTopicoInternoVisao(Topico topico)
 	{
-		super(Modo.EDICAO);
 		this.cadastroTopicoInternoControle = new CadastroTopicoInternoControle(this, topico);
 		this.construirTela();
 		this.vincularEventos();
-		this.definirModo();
+		this.cadastroTopicoInternoControle.carregarCampos();
 		this.setVisible(true);
 	}
 	
@@ -110,23 +107,6 @@ public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 		this.buttonCancelar.addActionListener(this.aoClicarBotaoCancelar());
 	}
 	
-	private void definirModo()
-	{
-		if (modo == Modo.INCLUSAO)
-		{
-			this.setTitle("Incluir tópico");
-			this.textFieldLimiteMensagens.setText("50");
-		} else
-		{
-			Topico topico = this.cadastroTopicoInternoControle.getTopico();			
-			this.setTitle("Editar usuário");
-			this.textFieldTitulo.setEnabled(false);			
-			this.textFieldTitulo.setText(topico.getIdentificador());
-			this.textAreaDescricao.setText(topico.getDescricao());
-			this.textFieldLimiteMensagens.setText(Integer.toString(topico.getLimiteMensagens()));			
-		}
-	}
-	
 	public String obterTitulo()
 	{
 		return this.textFieldTitulo.getText();
@@ -135,6 +115,11 @@ public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 	public void definirTitulo(String titulo)
 	{
 		this.textFieldTitulo.setText(titulo);
+	}
+	
+	public void definirTituloEditavel(boolean editavel)
+	{
+		this.textFieldTitulo.setEditable(editavel);
 	}
 	
 	public String obterDescricao()

@@ -1,4 +1,4 @@
-package pt.up.fc.lc.postagemservidor.controle;
+package pt.up.fc.lc.postagemservidor.nucleo;
 
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 

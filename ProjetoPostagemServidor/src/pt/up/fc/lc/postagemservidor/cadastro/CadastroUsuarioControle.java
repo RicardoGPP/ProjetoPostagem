@@ -1,12 +1,10 @@
-package pt.up.fc.lc.postagemservidor.controle;
+package pt.up.fc.lc.postagemservidor.cadastro;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
-import pt.up.fc.lc.postagemservidor.visao.CadastroUsuarioInternoVisao;
-import pt.up.fc.lc.postagemservidor.visao.CadastroUsuarioVisao;
 
 public class CadastroUsuarioControle
 {

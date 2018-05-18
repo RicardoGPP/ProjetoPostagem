@@ -1,12 +1,12 @@
-package pt.up.fc.lc.postagemservidor.visao;
+package pt.up.fc.lc.postagemservidor.relatorio;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 public abstract class RelatorioVisao extends JInternalFrame
 {
@@ -16,16 +16,17 @@ public abstract class RelatorioVisao extends JInternalFrame
 	protected static final int ALTURA = 500;
 	protected static final int BORDA = 15;
 	
+	protected RelatorioControle relatorioControle;
+	
 	private JButton buttonAtualizar;
 	private JScrollPane scrollPaneTabela;
-	protected DefaultTableModel tableModelTabela;
-	protected TableColumnModel columnModelTabela;
+	private DefaultTableModel tableModelTabela;
 	private JTable tableTabela;
 	
 	public RelatorioVisao(String titulo)
 	{
 		this.construirTela(titulo);
-		this.construirTabela();
+		this.inicializarTabela();
 		this.vincularEventos();
 	}
 	
@@ -48,16 +49,40 @@ public abstract class RelatorioVisao extends JInternalFrame
 		
 		this.tableModelTabela = new DefaultTableModel();
 		this.tableTabela = new JTable(this.tableModelTabela);
-		this.columnModelTabela = this.tableTabela.getColumnModel();
 		this.scrollPaneTabela.setViewportView(this.tableTabela);
 	}
 	
 	private void vincularEventos()
 	{
-		this.buttonAtualizar.addActionListener(aoClicarBotaoAtualizar());
+		this.buttonAtualizar.addActionListener(aoClicarButtonAtualizar());
 	}
 	
-	protected abstract void construirTabela();
+	public void adicionarColunas(String ... colunas)
+	{
+		for (String coluna : colunas)
+			this.tableModelTabela.addColumn(coluna);
+	}
 	
-	protected abstract ActionListener aoClicarBotaoAtualizar();
+	public void adicionarLinha(Object ... linha)
+	{
+		this.tableModelTabela.addRow(linha);
+	}
+	
+	public void limparTabela()
+	{
+		this.tableModelTabela.setRowCount(0);
+	}
+	
+	private ActionListener aoClicarButtonAtualizar()
+	{
+		return new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				relatorioControle.carregarTabela();
+			}
+		};
+	}
+	
+	protected abstract void inicializarTabela();
 }
