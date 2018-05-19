@@ -28,11 +28,11 @@ public class RelatorioMensagensPorTopicoControle extends RelatorioControle
 		for (Topico topico : this.topicoDAO.obterLista())
 		{
 			List<Comentario> comentarios = this.comentarioDAO.obterLista(topico);
-			Collections.sort(comentarios, (c1, c2) -> c1.getData().compareTo(c2.getData()));			
+			Collections.sort(comentarios, (c1, c2) -> c1.getData().compareTo(c2.getData()));						
 			String titulo = topico.getTitulo();
 			int mensagens = comentarios.size();
-			String maisAntiga = simpleDateFormat.format(comentarios.get(0).getData());
-			String maisRecente = simpleDateFormat.format(comentarios.get(comentarios.size() - 1).getData());
+			String maisAntiga = (mensagens == 0) ? "" : simpleDateFormat.format(comentarios.get(0).getData());
+			String maisRecente = (mensagens == 0) ? "" : simpleDateFormat.format(comentarios.get(comentarios.size() - 1).getData());
 			this.relatorioVisao.adicionarLinha(titulo, mensagens, maisAntiga, maisRecente);
 		}		
 	}
