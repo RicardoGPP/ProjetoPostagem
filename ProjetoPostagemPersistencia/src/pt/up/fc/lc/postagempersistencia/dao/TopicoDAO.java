@@ -73,10 +73,8 @@ public class TopicoDAO extends DAO<Topico>
 		{
 			SubscricaoDAO subscricaoDAO = new SubscricaoDAO();
 			ComentarioDAO comentarioDAO = new ComentarioDAO();
-			FavoritoDAO favoritoDAO = new FavoritoDAO();
 			subscricaoDAO.deletar(topico);
-			comentarioDAO.deletar(topico);			
-			favoritoDAO.deletar(topico);
+			comentarioDAO.deletar(topico);
 			List<String> linhas = new ArrayList<>();
 			List<Topico> topicos = obterLista();			
 			for (Iterator<Topico> iterator = topicos.iterator(); iterator.hasNext();)

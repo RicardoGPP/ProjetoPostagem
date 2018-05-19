@@ -2,57 +2,60 @@ package pt.up.fc.lc.postagemcliente.movimentacao;
 
 import java.util.Collections;
 import java.util.List;
-import pt.up.fc.lc.postagempersistencia.dao.PedidoUtilizadorDAO;
-import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
-import pt.up.fc.lc.postagempersistencia.entidades.PedidoUtilizador;
+import pt.up.fc.lc.postagempersistencia.dao.SubscricaoDAO;
+import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class GerenciarSubscricoesControle
 {
-	private PedidoUtilizadorDAO pedidoUtilizadorDAO;
-	private UsuarioDAO usuarioDAO;
+	private SubscricaoDAO subscricaoDAO;
 	private GerenciarSubscricoesVisao gerenciarSubscricoesVisao;
 	
-	public GerenciarSubscricoesControle(GerenciarSubscricoesVisao gerenciarSubscricoesVisao)
+	public GerenciarSubscricoesControle(GerenciarSubscricoesVisao gerenciarSubscricoesVisao, Usuario logado)
 	{
-		this.pedidoUtilizadorDAO = new PedidoUtilizadorDAO();
-		this.usuarioDAO = new UsuarioDAO();
+		this.subscricaoDAO = new SubscricaoDAO();
 		this.gerenciarSubscricoesVisao = gerenciarSubscricoesVisao;
-	}
-	
-	public boolean usuarioJaExiste()
-	{
-		PedidoUtilizador pedidoUtilizador = this.gerenciarSubscricoesVisao.obterSelecionado();
-		return ((pedidoUtilizador != null) && (this.usuarioDAO.obterRegistro(pedidoUtilizador.getNomeUsuario()) != null));
 	}
 	
 	public void carregarLista()
 	{
-		List<PedidoUtilizador> pedidosUtilizador = this.pedidoUtilizadorDAO.obterLista();		
-		Collections.sort(pedidosUtilizador, (p1, p2) -> p1.getNomeUsuario().compareTo(p2.getNomeUsuario()));
-		this.gerenciarSubscricoesVisao.definirSubscricoes(pedidosUtilizador);
+		List<Subscricao> subscricoes = this.subscricaoDAO.obterLista();		
+		Collections.sort(subscricoes, (s1, s2) -> s1.getTopico().getTitulo().compareTo(s2.getTopico().getTitulo()));
+		this.gerenciarSubscricoesVisao.definirSubscricoes(subscricoes);
 	}
 	
-	public void aceitar()
+	public void desinscrever()
 	{
-		PedidoUtilizador pedidoUtilizador = this.gerenciarSubscricoesVisao.obterSelecionado();
-		if (pedidoUtilizador != null)
+		Subscricao subscricao = this.gerenciarSubscricoesVisao.obterSelecionado();
+		if ((subscricao != null) && (this.subscricaoDAO.deletar(subscricao)))
+			this.gerenciarSubscricoesVisao.excluirDaLista(subscricao);				
+	}
+	
+	public void favoritarDesfavoritar()
+	{
+		Subscricao subscricao = this.gerenciarSubscricoesVisao.obterSelecionado();
+		if (subscricao != null)
 		{
-			Usuario usuario = new Usuario(pedidoUtilizador);
-			usuario.setAtivo(true);
-			this.usuarioDAO.inserir(usuario);
-			this.pedidoUtilizadorDAO.deletar(pedidoUtilizador);
-			this.gerenciarSubscricoesVisao.excluirDaLista(pedidoUtilizador);
+			if (subscricao.isFavorito())
+			{	
+				subscricao.setFavorito(false);
+				if (this.subscricaoDAO.editar(subscricao))
+					this.gerenciarSubscricoesVisao.definirTextoBotaoFavorito("Favoritar");				
+			} else
+			{
+				subscricao.setFavorito(true);
+				if (this.subscricaoDAO.editar(subscricao))
+					this.gerenciarSubscricoesVisao.definirTextoBotaoFavorito("Desfavoritar");
+			}
 		}
 	}
 	
-	public void rejeitar()
+	public void atualizarTextoBotaoFavoritar()
 	{
-		PedidoUtilizador pedidoUtilizador = this.gerenciarSubscricoesVisao.obterSelecionado();
-		if (pedidoUtilizador != null)
-		{
-			this.pedidoUtilizadorDAO.deletar(pedidoUtilizador);
-			this.gerenciarSubscricoesVisao.excluirDaLista(pedidoUtilizador);
-		}
+		Subscricao subscricao = this.gerenciarSubscricoesVisao.obterSelecionado();
+		if ((subscricao == null) || (!subscricao.isFavorito()))
+			this.gerenciarSubscricoesVisao.definirTextoBotaoFavorito("Favoritar");
+		else
+			this.gerenciarSubscricoesVisao.definirTextoBotaoFavorito("Desfavoritar");
 	}
 }

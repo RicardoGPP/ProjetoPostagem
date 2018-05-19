@@ -10,7 +10,10 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import pt.up.fc.lc.postagempersistencia.entidades.PedidoUtilizador;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
+import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class GerenciarSubscricoesVisao extends JInternalFrame
 {
@@ -24,14 +27,14 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 	
 	private JButton buttonAtualizar;
 	private JScrollPane scrollPaneListSubscricoes;
-	private DefaultListModel<PedidoUtilizador> listModelSubscricoes;
-	private JList<PedidoUtilizador> listSubscricoes;
-	private JButton buttonAceitar;
-	private JButton buttonRejeitar;
+	private DefaultListModel<Subscricao> listModelSubscricoes;
+	private JList<Subscricao> listSubscricoes;
+	private JButton buttonDesinscrever;
+	private JButton buttonFavoritarDesfavoritar;
 	
-	public GerenciarSubscricoesVisao()
+	public GerenciarSubscricoesVisao(Usuario logado)
 	{
-		this.gerenciarSubscricoesControle = new GerenciarSubscricoesControle(this);
+		this.gerenciarSubscricoesControle = new GerenciarSubscricoesControle(this, logado);
 		this.construirTela();
 		this.vincularEventos();
 		this.gerenciarSubscricoesControle.carregarLista();
@@ -40,7 +43,7 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 	
 	private void construirTela()
 	{
-		this.setTitle("Gerenciamento de pedidos de utilizador");
+		this.setTitle("Gerenciamento de subscrições");
 		this.setResizable(false);
 		this.setClosable(true);
 		this.setSize(LARGURA, ALTURA);
@@ -60,52 +63,53 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		this.listSubscricoes = new JList<>(this.listModelSubscricoes);
 		this.scrollPaneListSubscricoes.setViewportView(this.listSubscricoes);
 		
-		this.buttonAceitar = new JButton();
-		this.buttonAceitar.setText("Aceitar");
-		this.buttonAceitar.setBounds((BORDA + 85), (BORDA + 305), 80, 25);
-		this.add(this.buttonAceitar);
+		this.buttonDesinscrever = new JButton();
+		this.buttonDesinscrever.setText("Desinscrever");
+		this.buttonDesinscrever.setBounds((BORDA + 5), (BORDA + 305), 120, 25);
+		this.add(this.buttonDesinscrever);
 		
-		this.buttonRejeitar = new JButton();
-		this.buttonRejeitar.setText("Rejeitar");
-		this.buttonRejeitar.setBounds((BORDA + 170), (BORDA + 305), 80, 25);
-		this.add(this.buttonRejeitar);
+		this.buttonFavoritarDesfavoritar = new JButton();
+		this.buttonFavoritarDesfavoritar.setText("Favoritar");
+		this.buttonFavoritarDesfavoritar.setBounds((BORDA + 130), (BORDA + 305), 120, 25);
+		this.add(this.buttonFavoritarDesfavoritar);
 	}
 	
 	private void vincularEventos()
 	{
 		this.buttonAtualizar.addActionListener(this.aoClicarButtonAtualizar());
-		this.buttonAceitar.addActionListener(this.aoClicarButtonAceitar());
-		this.buttonRejeitar.addActionListener(this.aoClicarButtonRejeitar());
+		this.buttonDesinscrever.addActionListener(this.aoClicarButtonDesinscrever());
+		this.buttonFavoritarDesfavoritar.addActionListener(this.aoClicarButtonFavoritarDesfavoritar());
+		this.listSubscricoes.addListSelectionListener(this.aoSelecionarItemNaLista());
 	}
 	
-	public List<PedidoUtilizador> obterSubscricoes()
+	public List<Subscricao> obterSubscricoes()
 	{
-		List<PedidoUtilizador> pedidosUtilizadors = new ArrayList<>();
+		List<Subscricao> subscricoes = new ArrayList<>();
 		for (int i = 0; i < this.listModelSubscricoes.size(); i++)
-			pedidosUtilizadors.add(this.listModelSubscricoes.get(i));
-		return pedidosUtilizadors;
+			subscricoes.add(this.listModelSubscricoes.get(i));
+		return subscricoes;
 	}
 	
-	public void definirSubscricoes(List<PedidoUtilizador> pedidosUtilizador)
+	public void definirSubscricoes(List<Subscricao> subscricoes)
 	{
 		this.listModelSubscricoes.clear();
-		for (PedidoUtilizador pedidoUtilizador : pedidosUtilizador)
-			this.listModelSubscricoes.addElement(pedidoUtilizador);
+		for (Subscricao subscricao : subscricoes)
+			this.listModelSubscricoes.addElement(subscricao);
 	}
 	
-	public PedidoUtilizador obterSelecionado()
+	public Subscricao obterSelecionado()
 	{
 		return this.listSubscricoes.getSelectedValue();
 	}
 	
-	public void incluirNaLista(PedidoUtilizador pedidoUtilizador)
+	public void excluirDaLista(Subscricao subscricao)
 	{
-		this.listModelSubscricoes.addElement(pedidoUtilizador);
+		this.listModelSubscricoes.removeElement(subscricao);
 	}
 	
-	public void excluirDaLista(PedidoUtilizador pedidoUtilizador)
+	public void definirTextoBotaoFavorito(String texto)
 	{
-		this.listModelSubscricoes.removeElement(pedidoUtilizador);
+		this.buttonFavoritarDesfavoritar.setText(texto);
 	}
 
 	public ActionListener aoClicarButtonAtualizar()
@@ -119,24 +123,36 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		};
 	}
 	
-	public ActionListener aoClicarButtonAceitar()
+	public ActionListener aoClicarButtonDesinscrever()
 	{
 		return new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				gerenciarSubscricoesControle.aceitar();
+				gerenciarSubscricoesControle.desinscrever();
 			}
 		};
 	}
 	
-	public ActionListener aoClicarButtonRejeitar()
+	public ActionListener aoClicarButtonFavoritarDesfavoritar()
 	{
 		return new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				gerenciarSubscricoesControle.rejeitar();
+				gerenciarSubscricoesControle.favoritarDesfavoritar();
+				listSubscricoes.requestFocus();
+			}
+		};
+	}
+	
+	public ListSelectionListener aoSelecionarItemNaLista()
+	{
+		return new ListSelectionListener()
+		{	
+			public void valueChanged(ListSelectionEvent e)
+			{
+				gerenciarSubscricoesControle.atualizarTextoBotaoFavoritar();	
 			}
 		};
 	}

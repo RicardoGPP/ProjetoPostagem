@@ -21,13 +21,14 @@ public class SubscricaoDAO extends DAO<Subscricao>
 	protected Subscricao deStringParaObjeto(String linha)
 	{
 		String dados[] = linha.split(";");
-		if (dados.length == 2)
+		if (dados.length == 3)
 		{			
 			Subscricao subscricao = new Subscricao();			
 			UsuarioDAO usuarioDAO = new UsuarioDAO();
 			TopicoDAO topicoDAO = new TopicoDAO();						
 			subscricao.setUsuario(usuarioDAO.obterRegistro(dados[0]));
 			subscricao.setTopico(topicoDAO.obterRegistro(dados[1]));			
+			subscricao.setFavorito(dados[2].equals("true"));			
 			return subscricao;			
 		}
 		return null;
@@ -39,7 +40,8 @@ public class SubscricaoDAO extends DAO<Subscricao>
 		{
 			String linha = "";			
 			linha += objeto.getUsuario().getNomeUsuario() + ";";
-			linha += objeto.getTopico().getTitulo();			
+			linha += objeto.getTopico().getTitulo() + ";";
+			linha += objeto.isFavorito();
 			return linha;
 		}
 		return "";
@@ -189,6 +191,29 @@ public class SubscricaoDAO extends DAO<Subscricao>
 			{
 				return false;
 			}			
+		}
+		return false;
+	}
+	
+	public boolean editar(Subscricao subscricao)
+	{
+		if (subscricao != null)
+		{
+			List<String> linhas = new ArrayList<>();
+			List<Subscricao> subscricoes = obterLista();
+			for (int i = 0; i < subscricoes.size(); i++)
+				if (subscricao.comparar(subscricoes.get(i)))
+					subscricoes.set(i, subscricao);			
+			for (Subscricao novaSubscricao : subscricoes)
+				linhas.add(deObjetoParaString(novaSubscricao));			
+			try
+			{
+				escrever(linhas, this.arquivo, true);
+				return true;
+			} catch (IOException e)
+			{
+				return false;
+			}
 		}
 		return false;
 	}

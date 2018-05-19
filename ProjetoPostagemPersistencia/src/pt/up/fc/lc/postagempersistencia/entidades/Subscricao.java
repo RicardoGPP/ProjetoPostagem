@@ -4,6 +4,7 @@ public class Subscricao implements Entidade<Subscricao>
 {
 	private Usuario usuario;
 	private Topico topico;
+	private boolean favorito;
 	
 	public Usuario getUsuario()
 	{
@@ -21,11 +22,20 @@ public class Subscricao implements Entidade<Subscricao>
 	{
 		this.topico = topico;
 	}
+	public boolean isFavorito()
+	{
+		return favorito;
+	}
+	public void setFavorito(boolean favorito)
+	{
+		this.favorito = favorito;
+	}
 	
 	public Subscricao()
 	{
 		this.usuario = null;
 		this.topico = null;
+		this.favorito = false;
 	}
 	
 	public boolean comparar(Subscricao objeto)
@@ -34,5 +44,10 @@ public class Subscricao implements Entidade<Subscricao>
 			   (objeto.getTopico() != null) && (this.usuario != null) &&
 		       (this.topico != null) && (this.usuario.comparar(objeto.getUsuario())) &&
 		       (this.topico.comparar(objeto.getTopico())));
+	}
+	
+	public String toString()
+	{
+		return (this.favorito) ? "*" + this.topico.getTitulo() + "*" : this.topico.getTitulo();
 	}
 }

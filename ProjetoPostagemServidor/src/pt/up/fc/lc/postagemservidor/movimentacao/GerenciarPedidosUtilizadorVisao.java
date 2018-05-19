@@ -80,10 +80,10 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 	
 	public List<PedidoUtilizador> obterPedidosUtilizador()
 	{
-		List<PedidoUtilizador> pedidosUtilizadors = new ArrayList<>();
+		List<PedidoUtilizador> pedidosUtilizador = new ArrayList<>();
 		for (int i = 0; i < this.listModelPedidosUtilizador.size(); i++)
-			pedidosUtilizadors.add(this.listModelPedidosUtilizador.get(i));
-		return pedidosUtilizadors;
+			pedidosUtilizador.add(this.listModelPedidosUtilizador.get(i));
+		return pedidosUtilizador;
 	}
 	
 	public void definirPedidosUtilizador(List<PedidoUtilizador> pedidosUtilizador)
