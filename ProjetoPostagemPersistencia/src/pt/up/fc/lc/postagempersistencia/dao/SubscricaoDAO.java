@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
@@ -23,11 +22,9 @@ public class SubscricaoDAO extends DAO<Subscricao>
 		String dados[] = linha.split(";");
 		if (dados.length == 3)
 		{			
-			Subscricao subscricao = new Subscricao();			
-			UsuarioDAO usuarioDAO = new UsuarioDAO();
-			TopicoDAO topicoDAO = new TopicoDAO();						
-			subscricao.setUsuario(usuarioDAO.obterRegistro(dados[0]));
-			subscricao.setTopico(topicoDAO.obterRegistro(dados[1]));			
+			Subscricao subscricao = new Subscricao();									
+			subscricao.setUsuario((new UsuarioDAO()).obterRegistro(dados[0]));
+			subscricao.setTopico((new TopicoDAO()).obterRegistro(dados[1]));			
 			subscricao.setFavorito(dados[2].equals("true"));			
 			return subscricao;			
 		}
@@ -47,6 +44,17 @@ public class SubscricaoDAO extends DAO<Subscricao>
 		return "";
 	}
 
+	public boolean existe(Subscricao objeto)
+	{
+		return (this.obterRegistro(objeto.getUsuario(), objeto.getTopico()) != null);
+	}
+	
+	protected boolean eValido(Subscricao objeto)
+	{
+		return ((new UsuarioDAO()).existe(objeto.getUsuario())) &&
+			   ((new TopicoDAO()).existe(objeto.getTopico()));
+	}
+	
 	public Subscricao obterRegistro(Usuario usuario, Topico topico)
 	{
 		if ((usuario != null) && (topico != null))
@@ -59,7 +67,7 @@ public class SubscricaoDAO extends DAO<Subscricao>
 	public List<Subscricao> obterLista(Topico topico)
 	{
 		List<Subscricao> subscricoes = new ArrayList<>();
-		if (topico != null)
+		if ((topico != null) && ((new TopicoDAO()).existe(topico)))
 		{
 			for (Subscricao subscricao : obterLista())
 				if (subscricao.getTopico().comparar(topico))
@@ -71,7 +79,7 @@ public class SubscricaoDAO extends DAO<Subscricao>
 	public List<Subscricao> obterLista(Usuario usuario)
 	{
 		List<Subscricao> subscricoes = new ArrayList<>();
-		if (usuario != null)
+		if ((usuario != null) && ((new UsuarioDAO()).existe(usuario)))
 		{
 			for (Subscricao subscricao : obterLista())
 				if (subscricao.getUsuario().comparar(usuario))
@@ -80,31 +88,13 @@ public class SubscricaoDAO extends DAO<Subscricao>
 		return subscricoes;
 	}
 	
-	private boolean jaExiste(Subscricao subscricao)
-	{
-		if (this.arquivo.exists())
-		{
-			try
-			{
-				for (String linha : ler(this.arquivo))
-					if (deStringParaObjeto(linha).comparar(subscricao))
-						return true;
-				return false;			
-			} catch (IOException e)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	public boolean inserir(Subscricao subscricao)
 	{
-		if ((subscricao != null) && (!jaExiste(subscricao)))
+		if ((subscricao != null) && (!this.existe(subscricao)) && (this.eValido(subscricao)))
 		{
 			try
 			{
-				escrever(deObjetoParaString(subscricao), this.arquivo, false);
+				this.escrever(this.deObjetoParaString(subscricao), this.arquivo, false);
 				return true;
 			} catch (IOException e)
 			{
@@ -116,8 +106,10 @@ public class SubscricaoDAO extends DAO<Subscricao>
 	
 	public boolean deletar(Subscricao subscricao)
 	{
-		if (subscricao != null)
+		if ((subscricao != null) && (this.existe(subscricao)) && this.eValido(subscricao))
 		{			
+			(new CurtidaDAO()).deletar(subscricao);
+			(new ComentarioDAO()).deletar(subscricao);
 			List<String> linhas = new ArrayList<>();
 			List<Subscricao> subscricoes = obterLista();			
 			for (Iterator<Subscricao> iterator = subscricoes.iterator(); iterator.hasNext();)
@@ -130,10 +122,10 @@ public class SubscricaoDAO extends DAO<Subscricao>
 				}
 			}			
 			for (Subscricao subscricaoRestante : subscricoes)
-				linhas.add(deObjetoParaString(subscricaoRestante));			
+				linhas.add(this.deObjetoParaString(subscricaoRestante));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
@@ -145,7 +137,7 @@ public class SubscricaoDAO extends DAO<Subscricao>
 	
 	public boolean deletar(Usuario usuario)
 	{
-		if (usuario != null)
+		if ((usuario != null) && ((new UsuarioDAO()).existe(usuario)))
 		{
 			List<String> linhas = new ArrayList<>();
 			List<Subscricao> subscricoes = obterLista();			
@@ -156,10 +148,10 @@ public class SubscricaoDAO extends DAO<Subscricao>
 					iterator.remove();				
 			}			
 			for (Subscricao subscricao : subscricoes)
-				linhas.add(deObjetoParaString(subscricao));			
+				linhas.add(this.deObjetoParaString(subscricao));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
@@ -171,7 +163,7 @@ public class SubscricaoDAO extends DAO<Subscricao>
 	
 	public boolean deletar(Topico topico)
 	{
-		if (topico != null)
+		if ((topico != null) && ((new TopicoDAO()).existe(topico)))
 		{
 			List<String> linhas = new ArrayList<>();
 			List<Subscricao> subscricoes = obterLista();			
@@ -182,10 +174,10 @@ public class SubscricaoDAO extends DAO<Subscricao>
 					iterator.remove();
 			}			
 			for (Subscricao subscricao : subscricoes)
-				linhas.add(deObjetoParaString(subscricao));			
+				linhas.add(this.deObjetoParaString(subscricao));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
@@ -197,7 +189,7 @@ public class SubscricaoDAO extends DAO<Subscricao>
 	
 	public boolean editar(Subscricao subscricao)
 	{
-		if (subscricao != null)
+		if ((subscricao != null) && (this.existe(subscricao)) && (this.eValido(subscricao)))
 		{
 			List<String> linhas = new ArrayList<>();
 			List<Subscricao> subscricoes = obterLista();
@@ -205,10 +197,10 @@ public class SubscricaoDAO extends DAO<Subscricao>
 				if (subscricao.comparar(subscricoes.get(i)))
 					subscricoes.set(i, subscricao);			
 			for (Subscricao novaSubscricao : subscricoes)
-				linhas.add(deObjetoParaString(novaSubscricao));			
+				linhas.add(this.deObjetoParaString(novaSubscricao));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{

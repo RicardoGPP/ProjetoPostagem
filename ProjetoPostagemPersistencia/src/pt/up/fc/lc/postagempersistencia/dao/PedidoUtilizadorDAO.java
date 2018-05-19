@@ -6,8 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import pt.up.fc.lc.postagempersistencia.entidades.PedidoUtilizador;
+import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 {
@@ -55,6 +55,11 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 		return "";
 	}
 	
+	public boolean existe(PedidoUtilizador objeto)
+	{
+		return (this.obterRegistro(objeto.getNomeUsuario()) != null);
+	}
+	
 	public PedidoUtilizador obterRegistro(String nomeUsuario)
 	{
 		for (PedidoUtilizador pedidoUtilizador : obterLista())
@@ -66,8 +71,8 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 	public boolean inserir(PedidoUtilizador pedidoUtilizador)
 	{
 		if ((pedidoUtilizador != null) &&
-		   ((new UsuarioDAO()).obterRegistro(pedidoUtilizador.getNomeUsuario()) == null) &&
-		   (obterRegistro(pedidoUtilizador.getNomeUsuario()) == null))
+		   (!(new UsuarioDAO()).existe(new Usuario(pedidoUtilizador))) &&
+		   (!this.existe(pedidoUtilizador)))
 		{
 			try
 			{
@@ -83,7 +88,7 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 	
 	public boolean deletar(PedidoUtilizador pedidoUtilizador)
 	{
-		if (pedidoUtilizador != null)
+		if ((pedidoUtilizador != null) && (this.existe(pedidoUtilizador)))
 		{
 			List<String> linhas = new ArrayList<>();
 			List<PedidoUtilizador> pedidosUtilizador = obterLista();
@@ -97,10 +102,10 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 				}
 			}			
 			for (PedidoUtilizador pedidoUtilizadorRestante : pedidosUtilizador)
-				linhas.add(deObjetoParaString(pedidoUtilizadorRestante));
+				linhas.add(this.deObjetoParaString(pedidoUtilizadorRestante));
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{

@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
 import pt.up.fc.lc.postagempersistencia.entidades.Curtida;
+import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
@@ -30,15 +31,13 @@ public class CurtidaDAO extends DAO<Curtida>
 			{			
 				Curtida curtida = new Curtida();
 				UsuarioDAO usuarioDAO = new UsuarioDAO();
-				TopicoDAO topicoDAO = new TopicoDAO();
-				ComentarioDAO comentarioDAO = new ComentarioDAO();			
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);				
 				Usuario usuarioCurtiu = usuarioDAO.obterRegistro(dados[0]);			
 				Usuario usuarioComentou = usuarioDAO.obterRegistro(dados[1]);			
-				Topico topico = topicoDAO.obterRegistro(dados[2]);			
+				Topico topico = (new TopicoDAO()).obterRegistro(dados[2]);			
 				Date data = simpleDateFormat.parse(dados[3]);							
 				curtida.setUsuario(usuarioCurtiu);
-				curtida.setComentario(comentarioDAO.obterRegistro(usuarioComentou, topico, data));
+				curtida.setComentario((new ComentarioDAO()).obterRegistro(usuarioComentou, topico, data));
 				return curtida;
 			} catch (ParseException e)
 			{
@@ -63,9 +62,36 @@ public class CurtidaDAO extends DAO<Curtida>
 		return "";
 	}
 	
+	public boolean existe(Curtida objeto)
+	{
+		return (this.obterRegistro(objeto.getUsuario(), objeto.getComentario()) != null);			   
+	}
+	
+	protected boolean eValido(Curtida objeto)
+	{
+		ComentarioDAO comentarioDAO = new ComentarioDAO();
+		boolean usuarioEstaSubscrito = false;
+		for (Subscricao subscricoes : (new SubscricaoDAO()).obterLista(objeto.getComentario().getTopico()))
+		{
+			if (objeto.getUsuario().comparar(subscricoes.getUsuario()))
+			{
+				usuarioEstaSubscrito = true;
+				break;
+			}
+		}		
+		return ((new UsuarioDAO()).existe(objeto.getUsuario())) &&
+			   (comentarioDAO.existe(objeto.getComentario()) &&
+			   (comentarioDAO.eValido(objeto.getComentario())) &&
+			   (usuarioEstaSubscrito));
+	}
+	
 	public boolean curtiu(Usuario usuario, Comentario comentario)
 	{
-		if ((usuario != null) && (comentario != null))
+		ComentarioDAO comentarioDAO = new ComentarioDAO();
+		if ((usuario != null) && (comentario != null) &&
+		   ((new UsuarioDAO()).existe(usuario)) &&
+		   (comentarioDAO.existe(comentario)) &&
+		   (comentarioDAO.eValido(comentario)))
 		{
 			List<Curtida> curtidas = obterLista();			
 			for (Curtida curtida : curtidas)
@@ -78,7 +104,10 @@ public class CurtidaDAO extends DAO<Curtida>
 	
 	public int obterQuantidadeCurtidas(Comentario comentario)
 	{
-		if (comentario != null)
+		ComentarioDAO comentarioDAO = new ComentarioDAO();
+		if ((comentario != null) &&
+		   (comentarioDAO.existe(comentario)) &&
+		   (comentarioDAO.eValido(comentario)))
 		{
 			int contador = 0;
 			List<Curtida> curtidas = obterLista();						
@@ -92,19 +121,20 @@ public class CurtidaDAO extends DAO<Curtida>
 	
 	public Curtida obterRegistro(Usuario usuario, Comentario comentario)
 	{			
-		for (Curtida curtida : obterLista())
-			if ((curtida.getUsuario().comparar(usuario)) && (curtida.getComentario().comparar(comentario)))
-				return curtida;
+		if ((usuario != null) && (comentario != null))
+			for (Curtida curtida : obterLista())
+				if ((curtida.getUsuario().comparar(usuario)) && (curtida.getComentario().comparar(comentario)))
+					return curtida;
 		return null;
 	}
 	
 	public boolean inserir(Curtida curtida)
 	{
-		if ((curtida != null) && (obterRegistro(curtida.getUsuario(), curtida.getComentario()) == null))
+		if ((curtida != null) && (!this.existe(curtida)) && (this.eValido(curtida)))
 		{
 			try
 			{
-				escrever(deObjetoParaString(curtida), this.arquivo, false);
+				this.escrever(this.deObjetoParaString(curtida), this.arquivo, false);
 				return true;
 			} catch (IOException e)
 			{
@@ -116,7 +146,7 @@ public class CurtidaDAO extends DAO<Curtida>
 	
 	public boolean deletar(Curtida curtida)
 	{
-		if (curtida != null)
+		if ((curtida != null) && (this.existe(curtida)) && (this.eValido(curtida)))
 		{						
 			List<String> linhas = new ArrayList<>();
 			List<Curtida> curtidas = obterLista();						
@@ -130,10 +160,10 @@ public class CurtidaDAO extends DAO<Curtida>
 				}
 			}
 			for (Curtida curtidaRestante : curtidas)
-				linhas.add(deObjetoParaString(curtidaRestante));			
+				linhas.add(this.deObjetoParaString(curtidaRestante));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
@@ -145,7 +175,7 @@ public class CurtidaDAO extends DAO<Curtida>
 	
 	public boolean deletar(Usuario usuario)
 	{
-		if (usuario != null)
+		if ((usuario != null) && ((new UsuarioDAO()).existe(usuario)))
 		{						
 			List<String> linhas = new ArrayList<>();
 			List<Curtida> curtidas = obterLista();						
@@ -159,10 +189,10 @@ public class CurtidaDAO extends DAO<Curtida>
 				}
 			}
 			for (Curtida curtidaRestante : curtidas)
-				linhas.add(deObjetoParaString(curtidaRestante));			
+				linhas.add(this.deObjetoParaString(curtidaRestante));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
@@ -174,7 +204,8 @@ public class CurtidaDAO extends DAO<Curtida>
 	
 	public boolean deletar(Comentario comentario)
 	{
-		if (comentario != null)
+		ComentarioDAO comentarioDAO = new ComentarioDAO();
+		if ((comentario != null) && (comentarioDAO.existe(comentario) && (comentarioDAO.eValido(comentario))))
 		{						
 			List<String> linhas = new ArrayList<>();
 			List<Curtida> curtidas = obterLista();						
@@ -188,10 +219,41 @@ public class CurtidaDAO extends DAO<Curtida>
 				}
 			}
 			for (Curtida curtidaRestante : curtidas)
-				linhas.add(deObjetoParaString(curtidaRestante));			
+				linhas.add(this.deObjetoParaString(curtidaRestante));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
+				return true;
+			} catch (IOException e)
+			{
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public boolean deletar(Subscricao subscricao)
+	{
+		SubscricaoDAO subscricaoDAO = new SubscricaoDAO();
+		if ((subscricao != null) && (subscricaoDAO.existe(subscricao) && (subscricaoDAO.eValido(subscricao))))
+		{						
+			List<String> linhas = new ArrayList<>();
+			List<Curtida> curtidas = obterLista();						
+			for (Iterator<Curtida> iterator = curtidas.iterator(); iterator.hasNext();)
+			{
+				Curtida curtida = iterator.next();
+				if (curtida.getUsuario().comparar(subscricao.getUsuario()) &&
+				   (curtida.getComentario().getTopico().comparar(subscricao.getTopico())))
+				{
+					iterator.remove();
+					break;
+				}
+			}
+			for (Curtida curtidaRestante : curtidas)
+				linhas.add(this.deObjetoParaString(curtidaRestante));			
+			try
+			{
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{

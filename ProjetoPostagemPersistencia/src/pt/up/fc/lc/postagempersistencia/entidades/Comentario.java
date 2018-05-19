@@ -68,7 +68,8 @@ public class Comentario implements Entidade<Comentario>
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DAO.FORMATO_DATA_HORA);		
 		String representacao = "";
 		representacao += "[" + simpleDateFormat.format(this.data) + "] ";
-		representacao += this.usuario.getNomeUsuario() + " escreveu: ";
+		representacao += this.usuario.getNomeUsuario() + " escreveu no tópico \"";
+		representacao += this.topico.getTitulo() + "\": ";
 		representacao += this.mensagem;
 		representacao += " (" + curtidaDAO.obterQuantidadeCurtidas(this) + ")";		
 		return representacao;		

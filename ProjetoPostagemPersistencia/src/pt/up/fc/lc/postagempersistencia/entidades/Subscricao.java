@@ -48,6 +48,6 @@ public class Subscricao implements Entidade<Subscricao>
 	
 	public String toString()
 	{
-		return (this.favorito) ? "*" + this.topico.getTitulo() + "*" : this.topico.getTitulo();
+		return (this.favorito) ? this.topico.getTitulo() + "*" : this.topico.getTitulo();
 	}
 }

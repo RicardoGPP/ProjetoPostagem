@@ -64,6 +64,11 @@ public class UsuarioDAO extends DAO<Usuario>
 		return "";
 	}
 	
+	public boolean existe(Usuario objeto)
+	{
+		return (this.obterRegistro(objeto.getNomeUsuario()) != null);
+	}
+	
 	public Usuario obterRegistro(String nomeUsuario)
 	{			
 		if (nomeUsuario.equalsIgnoreCase("Master"))
@@ -82,11 +87,11 @@ public class UsuarioDAO extends DAO<Usuario>
 	
 	public boolean inserir(Usuario usuario)
 	{
-		if ((usuario != null) && (obterRegistro(usuario.getNomeUsuario()) == null))
+		if ((usuario != null) && (!this.existe(usuario)))
 		{
 			try
 			{
-				escrever(deObjetoParaString(usuario), this.arquivo, false);
+				this.escrever(this.deObjetoParaString(usuario), this.arquivo, false);
 				return true;
 			} catch (IOException e)
 			{
@@ -98,16 +103,13 @@ public class UsuarioDAO extends DAO<Usuario>
 	
 	public boolean deletar(Usuario usuario)
 	{
-		if (usuario != null)
+		if ((usuario != null) && (this.existe(usuario)))
 		{			
-			SubscricaoDAO subscricaoDAO = new SubscricaoDAO();
-			ComentarioDAO comentarioDAO = new ComentarioDAO();
-			CurtidaDAO curtidaDAO = new CurtidaDAO();
-			subscricaoDAO.deletar(usuario);
-			comentarioDAO.deletar(usuario);
-			curtidaDAO.deletar(usuario);
+			(new SubscricaoDAO()).deletar(usuario);
+			(new ComentarioDAO()).deletar(usuario);
+			(new CurtidaDAO()).deletar(usuario);
 			List<String> linhas = new ArrayList<>();
-			List<Usuario> usuarios = obterLista();			
+			List<Usuario> usuarios = this.obterLista();			
 			for (Iterator<Usuario> iterator = usuarios.iterator(); iterator.hasNext();)
 			{
 				Usuario outroUsuario = iterator.next();
@@ -121,7 +123,7 @@ public class UsuarioDAO extends DAO<Usuario>
 				linhas.add(deObjetoParaString(usuarioRestante));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
@@ -133,15 +135,15 @@ public class UsuarioDAO extends DAO<Usuario>
 	
 	public boolean editar(Usuario usuario)
 	{
-		if (usuario != null)
+		if ((usuario != null) && (this.existe(usuario)))
 		{
 			List<String> linhas = new ArrayList<>();
-			List<Usuario> usuarios = obterLista();
+			List<Usuario> usuarios = this.obterLista();
 			for (int i = 0; i < usuarios.size(); i++)
 				if (usuario.comparar(usuarios.get(i)))
 					usuarios.set(i, usuario);			
 			for (Usuario novoUsuario : usuarios)
-				linhas.add(deObjetoParaString(novoUsuario));			
+				linhas.add(this.deObjetoParaString(novoUsuario));			
 			try
 			{
 				escrever(linhas, this.arquivo, true);

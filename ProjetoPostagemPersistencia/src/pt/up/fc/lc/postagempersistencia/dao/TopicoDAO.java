@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 
 public class TopicoDAO extends DAO<Topico>
@@ -43,21 +42,26 @@ public class TopicoDAO extends DAO<Topico>
 		return "";
 	}
 	
-	public Topico obterRegistro(String identificador)
+	public boolean existe(Topico objeto)
+	{
+		return (this.obterRegistro(objeto.getTitulo()) != null);
+	}
+	
+	public Topico obterRegistro(String titulo)
 	{			
 		for (Topico topico : obterLista())
-			if (topico.getTitulo().equalsIgnoreCase(identificador))
+			if (topico.getTitulo().equalsIgnoreCase(titulo))
 				return topico;
 		return null;
 	}
 	
 	public boolean inserir(Topico topico)
 	{
-		if ((topico != null) && (obterRegistro(topico.getTitulo()) == null))
+		if ((topico != null) && (!this.existe(topico)))
 		{
 			try
 			{
-				escrever(deObjetoParaString(topico), this.arquivo, false);
+				this.escrever(this.deObjetoParaString(topico), this.arquivo, false);
 				return true;
 			} catch (IOException e)
 			{
@@ -69,12 +73,10 @@ public class TopicoDAO extends DAO<Topico>
 	
 	public boolean deletar(Topico topico)
 	{
-		if (topico != null)
+		if ((topico != null) && (this.existe(topico)))
 		{
-			SubscricaoDAO subscricaoDAO = new SubscricaoDAO();
-			ComentarioDAO comentarioDAO = new ComentarioDAO();
-			subscricaoDAO.deletar(topico);
-			comentarioDAO.deletar(topico);
+			(new SubscricaoDAO()).deletar(topico);
+			(new TopicoDAO()).deletar(topico);
 			List<String> linhas = new ArrayList<>();
 			List<Topico> topicos = obterLista();			
 			for (Iterator<Topico> iterator = topicos.iterator(); iterator.hasNext();)
@@ -87,10 +89,10 @@ public class TopicoDAO extends DAO<Topico>
 				}
 			}			
 			for (Topico topicoRestante : topicos)
-				linhas.add(deObjetoParaString(topicoRestante));			
+				linhas.add(this.deObjetoParaString(topicoRestante));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
@@ -102,7 +104,7 @@ public class TopicoDAO extends DAO<Topico>
 	
 	public boolean editar(Topico topico)
 	{
-		if (topico != null)
+		if ((topico != null) && (this.existe(topico)))
 		{
 			List<String> linhas = new ArrayList<>();
 			List<Topico> topicos = obterLista();
@@ -110,10 +112,10 @@ public class TopicoDAO extends DAO<Topico>
 				if (topico.comparar(topicos.get(i)))
 					topicos.set(i, topico);			
 			for (Topico novoTopico : topicos)
-				linhas.add(deObjetoParaString(novoTopico));			
+				linhas.add(this.deObjetoParaString(novoTopico));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{

@@ -14,7 +14,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Entidade;
 public abstract class DAO<T extends Entidade<T>>
 {
 	public static final String FORMATO_DATA = "dd/MM/yyyy";
-	public static final String FORMATO_DATA_HORA = "dd/MM/yyyy HH:mm:ss.SSS";
+	public static final String FORMATO_DATA_HORA = "dd/MM/yyyy HH:mm:ss";
 	protected File arquivo;
 	
 	protected DAO(String caminho)
@@ -77,7 +77,14 @@ public abstract class DAO<T extends Entidade<T>>
 		return objetos;
 	}
 	
+	protected boolean eValido(T objeto)
+	{
+		return true;
+	}
+	
 	protected abstract T deStringParaObjeto(String linha);
 	
 	protected abstract String deObjetoParaString(T objeto);
+	
+	public abstract boolean existe(T objeto);
 }

@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
+import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
@@ -30,11 +31,9 @@ public class ComentarioDAO extends DAO<Comentario>
 			try
 			{
 				Comentario comentario = new Comentario();				
-				UsuarioDAO usuarioDAO = new UsuarioDAO();
-				TopicoDAO topicoDAO = new TopicoDAO();
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);				
-				comentario.setUsuario(usuarioDAO.obterRegistro(dados[0]));
-				comentario.setTopico(topicoDAO.obterRegistro(dados[1]));
+				comentario.setUsuario((new UsuarioDAO()).obterRegistro(dados[0]));
+				comentario.setTopico((new TopicoDAO()).obterRegistro(dados[1]));
 				comentario.setData(simpleDateFormat.parse(dados[2]));
 				comentario.setMensagem(dados[3]);
 				return comentario;
@@ -48,10 +47,11 @@ public class ComentarioDAO extends DAO<Comentario>
 
 	protected String deObjetoParaString(Comentario objeto)
 	{
-		if ((objeto != null) && (objeto.getUsuario() != null) && (objeto.getTopico() != null))
+		if ((objeto != null) && (objeto.getUsuario() != null) &&
+		   (objeto.getTopico() != null) && (objeto.getData() != null))
 		{
-			String linha = "";			
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);
+			String linha = "";								
 			linha += objeto.getUsuario().getNomeUsuario() + ";";
 			linha += objeto.getTopico().getTitulo() + ";";
 			linha += simpleDateFormat.format(objeto.getData()) + ";";
@@ -61,47 +61,75 @@ public class ComentarioDAO extends DAO<Comentario>
 		return "";
 	}
 	
+	public boolean existe(Comentario objeto)
+	{
+		return (this.obterRegistro(objeto.getUsuario(), objeto.getTopico(), objeto.getData()) != null);			   
+	}
+	
+	protected boolean eValido(Comentario objeto)
+	{
+		boolean usuarioEstaSubscrito = false;
+		for (Subscricao subscricao : (new SubscricaoDAO()).obterLista(objeto.getTopico()))
+		{
+			if (objeto.getUsuario().comparar(subscricao.getUsuario()))
+			{
+				usuarioEstaSubscrito = true;
+				break;
+			}
+		}		
+		return ((new UsuarioDAO()).existe(objeto.getUsuario())) &&
+			   ((new TopicoDAO()).existe(objeto.getTopico()) &&
+			   (usuarioEstaSubscrito));
+	}
+	
 	public Comentario obterRegistro(Usuario usuario, Topico topico, Date data)
 	{			
-		for (Comentario comentario : obterLista())
-			if ((comentario.getUsuario().comparar(usuario)) &&
-				(comentario.getTopico().comparar(topico)) &&
-				(comentario.getData().compareTo(data) == 0))
-				return comentario;
+		if ((usuario != null) && (topico != null) && (data != null))
+			for (Comentario comentario : obterLista())
+				if ((comentario.getUsuario().comparar(usuario)) &&
+					(comentario.getTopico().comparar(topico)) &&
+					(comentario.getData().compareTo(data) == 0))
+					return comentario;
 		return null;
 	}
 	
 	public List<Comentario> obterLista(Topico topico)
-	{
+	{		
 		List<Comentario> comentarios = new ArrayList<>();
-		for (Comentario comentario : obterLista())
-			if (comentario.getTopico().comparar(topico))
-				comentarios.add(comentario);
+		if ((topico != null) && ((new TopicoDAO()).existe(topico)))
+		{
+			for (Comentario comentario : obterLista())
+				if (comentario.getTopico().comparar(topico))
+					comentarios.add(comentario);
+		}
 		return comentarios;
 	}
 	
 	public List<Comentario> obterLista(Usuario usuario)
 	{
 		List<Comentario> comentarios = new ArrayList<>();
-		for (Comentario comentario : obterLista())
-			if (comentario.getUsuario().comparar(usuario))
-				comentarios.add(comentario);
+		if ((usuario != null) && ((new UsuarioDAO()).existe(usuario)))
+		{
+			for (Comentario comentario : obterLista())
+				if (comentario.getUsuario().comparar(usuario))
+					comentarios.add(comentario);
+		}
 		return comentarios;
 	}
 	
 	public boolean inserir(Comentario comentario)
 	{
-		if ((comentario != null) && (obterRegistro(comentario.getUsuario(), comentario.getTopico(), comentario.getData()) == null))
+		if ((comentario != null) && (!this.existe(comentario)) && (this.eValido(comentario)))
 		{
 			List<Comentario> comentarios = this.obterLista(comentario.getTopico());
 			if (comentarios.size() >= comentario.getTopico().getLimiteMensagens())
 			{
 				Collections.sort(comentarios, (c1, c2) -> c1.getData().compareTo(c2.getData()));
-				deletar(comentarios.get(0));
+				this.deletar(comentarios.get(0));
 			}			
 			try
 			{
-				escrever(deObjetoParaString(comentario), this.arquivo, false);
+				this.escrever(this.deObjetoParaString(comentario), this.arquivo, false);
 				return true;
 			} catch (IOException e)
 			{
@@ -113,10 +141,9 @@ public class ComentarioDAO extends DAO<Comentario>
 	
 	public boolean deletar(Comentario comentario)
 	{
-		if (comentario != null)
+		if ((comentario != null) && (this.existe(comentario)) && (this.eValido(comentario)))
 		{			
-			CurtidaDAO curtidaDAO = new CurtidaDAO();
-			curtidaDAO.deletar(comentario);			
+			(new CurtidaDAO()).deletar(comentario);			
 			List<String> linhas = new ArrayList<>();
 			List<Comentario> comentarios = obterLista();			
 			for (Iterator<Comentario> iterator = comentarios.iterator(); iterator.hasNext();)
@@ -129,10 +156,10 @@ public class ComentarioDAO extends DAO<Comentario>
 				}
 			}			
 			for (Comentario comentarioRestante : comentarios)
-				linhas.add(deObjetoParaString(comentarioRestante));			
+				linhas.add(this.deObjetoParaString(comentarioRestante));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
@@ -144,7 +171,7 @@ public class ComentarioDAO extends DAO<Comentario>
 	
 	public boolean deletar(Usuario usuario)
 	{
-		if (usuario != null)
+		if ((usuario != null) && ((new UsuarioDAO()).existe(usuario)))
 		{
 			List<String> linhas = new ArrayList<>();
 			List<Comentario> comentarios = obterLista();			
@@ -155,10 +182,10 @@ public class ComentarioDAO extends DAO<Comentario>
 					iterator.remove();				
 			}			
 			for (Comentario comentario : comentarios)
-				linhas.add(deObjetoParaString(comentario));			
+				linhas.add(this.deObjetoParaString(comentario));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
@@ -170,7 +197,7 @@ public class ComentarioDAO extends DAO<Comentario>
 	
 	public boolean deletar(Topico topico)
 	{
-		if (topico != null)
+		if ((topico != null) && ((new TopicoDAO()).existe(topico)))
 		{
 			List<String> linhas = new ArrayList<>();
 			List<Comentario> comentarios = obterLista();			
@@ -181,10 +208,10 @@ public class ComentarioDAO extends DAO<Comentario>
 					iterator.remove();				
 			}			
 			for (Comentario comentario : comentarios)
-				linhas.add(deObjetoParaString(comentario));			
+				linhas.add(this.deObjetoParaString(comentario));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
@@ -194,25 +221,29 @@ public class ComentarioDAO extends DAO<Comentario>
 		return false;
 	}
 	
-	public boolean editar(Comentario comentario)
+	public boolean deletar(Subscricao subscricao)
 	{
-		if (comentario != null)
+		if ((subscricao != null) && ((new SubscricaoDAO()).existe(subscricao)))
 		{
 			List<String> linhas = new ArrayList<>();
-			List<Comentario> comentarios = obterLista();		
-			for (int i = 0; i < comentarios.size(); i++)
-				if (comentario.comparar(comentarios.get(i)))
-					comentarios.set(i, comentario);			
-			for (Comentario novoComentario : comentarios)
-				linhas.add(deObjetoParaString(novoComentario));			
+			List<Comentario> comentarios = obterLista();			
+			for (Iterator<Comentario> iterator = comentarios.iterator(); iterator.hasNext();)
+			{
+				Comentario comentario = iterator.next();				
+				if (comentario.getUsuario().comparar(subscricao.getUsuario()) &&
+				   (comentario.getTopico().comparar(subscricao.getTopico())))
+					iterator.remove();				
+			}			
+			for (Comentario comentario : comentarios)
+				linhas.add(this.deObjetoParaString(comentario));			
 			try
 			{
-				escrever(linhas, this.arquivo, true);
+				this.escrever(linhas, this.arquivo, true);
 				return true;
 			} catch (IOException e)
 			{
 				return false;
-			}
+			}			
 		}
 		return false;
 	}
