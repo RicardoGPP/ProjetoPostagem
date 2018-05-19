@@ -204,7 +204,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-
+				menuControle.abrirVisualizacaoMensagensTopico();
 			}
 		};
 	}
