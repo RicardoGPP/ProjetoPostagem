@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import pt.up.fc.lc.postagempersistencia.entidades.Favorito;
+import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
@@ -149,6 +150,36 @@ public class FavoritoDAO extends DAO<Favorito>
 			{
 				Favorito favorito = iterator.next();
 				if (favorito.getTopico().comparar(topico))
+				{
+					iterator.remove();
+					break;
+				}
+			}
+			for (Favorito favoritoRestante : favoritos)
+				linhas.add(deObjetoParaString(favoritoRestante));			
+			try
+			{
+				escrever(linhas, this.arquivo, true);
+				return true;
+			} catch (IOException e)
+			{
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public boolean deletar(Subscricao subscricao)
+	{
+		if (subscricao != null)
+		{						
+			List<String> linhas = new ArrayList<>();
+			List<Favorito> favoritos = obterLista();						
+			for (Iterator<Favorito> iterator = favoritos.iterator(); iterator.hasNext();)
+			{
+				Favorito favorito = iterator.next();
+				if ((favorito.getUsuario().comparar(subscricao.getUsuario())) && 
+				   (favorito.getTopico().comparar(subscricao.getTopico())))
 				{
 					iterator.remove();
 					break;
