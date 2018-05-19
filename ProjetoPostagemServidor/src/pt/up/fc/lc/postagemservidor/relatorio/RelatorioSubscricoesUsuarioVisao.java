@@ -44,7 +44,7 @@ public class RelatorioSubscricoesUsuarioVisao extends RelatorioVisao
 	
 	protected void inicializarTabela()
 	{	
-		this.adicionarColunas("Tópico", "Mensagens");
+		this.adicionarColunas("Tópico", "Favorito", "Mensagens");
 	}
 	
 	public void adicionarUsuario(Usuario usuario)

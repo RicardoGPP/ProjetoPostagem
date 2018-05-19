@@ -23,7 +23,7 @@ public class MenuVisao extends JFrame
 	private JMenu menuMovimentacao;
 	private JMenu menuRelatorios;
 	private JMenuItem menuItemArquivoGerenciarConta;
-	private JMenuItem menuItemArquivoTrocarUsuario;
+	private JMenuItem menuItemArquivoFazerLogoff;
 	private JMenuItem menuItemArquivoSair;
 	private JMenuItem menuItemCadastroUsuarios;
 	private JMenuItem menuItemCadastroTopicos;
@@ -37,8 +37,7 @@ public class MenuVisao extends JFrame
 	public MenuVisao()
 	{
 		this.menuControle = new MenuControle(this);
-		this.menuControle.fazerLogin();
-		if (!this.menuControle.foiAutenticado())
+		if (!this.menuControle.fazerLogin())
 			dispose();
 		else
 		{
@@ -50,7 +49,6 @@ public class MenuVisao extends JFrame
 	
 	private void construirTela()
 	{
-		this.setTitle("Sistema de postagem");
 		this.setSize(800, 600);
 		this.setLocationRelativeTo(null);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -84,9 +82,9 @@ public class MenuVisao extends JFrame
 		this.menuItemArquivoGerenciarConta.setVisible(!this.menuControle.usuarioLogadoEMaster());
 		this.menuArquivo.add(this.menuItemArquivoGerenciarConta);
 		
-		this.menuItemArquivoTrocarUsuario = new JMenuItem();
-		this.menuItemArquivoTrocarUsuario.setText("Trocar usuário");
-		this.menuArquivo.add(this.menuItemArquivoTrocarUsuario);
+		this.menuItemArquivoFazerLogoff = new JMenuItem();
+		this.menuItemArquivoFazerLogoff.setText("Fazer logoff");
+		this.menuArquivo.add(this.menuItemArquivoFazerLogoff);
 		
 		this.menuItemArquivoSair = new JMenuItem();
 		this.menuItemArquivoSair.setText("Sair");
@@ -128,7 +126,7 @@ public class MenuVisao extends JFrame
 	private void vincularEventos()
 	{
 		this.menuItemArquivoGerenciarConta.addActionListener(this.aoClicarMenuItemArquivoGerenciarConta());
-		this.menuItemArquivoTrocarUsuario.addActionListener(this.aoClicarMenuItemArquivoTrocarUsuario());
+		this.menuItemArquivoFazerLogoff.addActionListener(this.aoClicarMenuItemArquivoFazerLogoff());
 		this.menuItemArquivoSair.addActionListener(this.aoClicarMenuItemArquivoSair());
 		this.menuItemCadastroUsuarios.addActionListener(this.aoClicarMenuItemCadastroUsuarios());
 		this.menuItemCadastroTopicos.addActionListener(this.aoClicarMenuItemCadastroTopicos());
@@ -161,17 +159,21 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
-	private ActionListener aoClicarMenuItemArquivoTrocarUsuario()
+	private ActionListener aoClicarMenuItemArquivoFazerLogoff()
 	{
 		return new ActionListener()
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
 				setVisible(false);
-				if (menuControle.trocarUsuario())
+				if (!menuControle.fazerLogoff())
+					dispose();
+				else
+				{
 					for (JInternalFrame tela : desktopPaneTelas.getAllFrames())
 						tela.dispose();
-				setVisible(true);
+					setVisible(true);
+				}					
 			}
 		};
 	}

@@ -37,8 +37,7 @@ public class MenuVisao extends JFrame
 	public MenuVisao()
 	{
 		this.menuControle = new MenuControle(this);
-		this.menuControle.fazerLogin();
-		if (!this.menuControle.foiAutenticado())
+		if (!this.menuControle.fazerLogin())
 			dispose();
 		else
 		{
@@ -168,10 +167,14 @@ public class MenuVisao extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				setVisible(false);
-				if (menuControle.trocarUsuario())
+				if (!menuControle.fazerLogoff())
+					dispose();
+				else
+				{
 					for (JInternalFrame tela : desktopPaneTelas.getAllFrames())
 						tela.dispose();
-				setVisible(true);
+					setVisible(true);
+				}
 			}
 		};
 	}
@@ -226,7 +229,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-
+				menuControle.abrirPublicacaoEmUmTopico();
 			}
 		};
 	}

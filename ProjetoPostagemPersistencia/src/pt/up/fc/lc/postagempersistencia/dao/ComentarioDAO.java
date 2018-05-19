@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -92,6 +93,12 @@ public class ComentarioDAO extends DAO<Comentario>
 	{
 		if ((comentario != null) && (obterRegistro(comentario.getUsuario(), comentario.getTopico(), comentario.getData()) == null))
 		{
+			List<Comentario> comentarios = this.obterLista(comentario.getTopico());
+			if (comentarios.size() >= comentario.getTopico().getLimiteMensagens())
+			{
+				Collections.sort(comentarios, (c1, c2) -> c1.getData().compareTo(c2.getData()));
+				deletar(comentarios.get(0));
+			}			
 			try
 			{
 				escrever(deObjetoParaString(comentario), this.arquivo, false);

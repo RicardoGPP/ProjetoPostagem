@@ -12,7 +12,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
+import pt.up.fc.lc.postagemcliente.movimentacao.VisualizacaoFeedControle.ComentarioFavorito;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class VisualizacaoFeedVisao extends JInternalFrame
@@ -27,8 +27,8 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 	
 	private JButton buttonAtualizar;
 	private JScrollPane scrollPaneListComentarios;
-	private DefaultListModel<Comentario> listModelComentarios;
-	private JList<Comentario> listComentarios;
+	private DefaultListModel<ComentarioFavorito> listModelComentarios;
+	private JList<ComentarioFavorito> listComentarios;
 	private JButton buttonCurtirDescurtir;
 	
 	public VisualizacaoFeedVisao(Usuario logado)
@@ -75,22 +75,22 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 		this.listComentarios.addListSelectionListener(this.aoSelecionarItemNaLista());
 	}
 	
-	public List<Comentario> obterComentarios()
+	public List<ComentarioFavorito> obterComentarios()
 	{
-		List<Comentario> comentarios = new ArrayList<>();
+		List<ComentarioFavorito> comentarios = new ArrayList<>();
 		for (int i = 0; i < this.listModelComentarios.size(); i++)
 			comentarios.add(this.listModelComentarios.get(i));
 		return comentarios;
 	}
 	
-	public void definirComentarios(List<Comentario> comentarios)
+	public void definirComentarios(List<ComentarioFavorito> comentarios)
 	{
 		this.listModelComentarios.clear();
-		for (Comentario comentario : comentarios)
+		for (ComentarioFavorito comentario : comentarios)
 			this.listModelComentarios.addElement(comentario);
 	}
 	
-	public Comentario obterSelecionado()
+	public ComentarioFavorito obterSelecionado()
 	{
 		return this.listComentarios.getSelectedValue();
 	}

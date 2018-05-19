@@ -18,17 +18,11 @@ public class LoginControle
 	{
 		String nomeUsuario = this.loginVisao.obterNomeUsuario().trim();
 		String senha = this.loginVisao.obterSenha();
-			
-		if ((nomeUsuario.equalsIgnoreCase("Master")) && (senha.equals("master")))
-			return true;
+		Usuario usuario = this.usuarioDAO.obterRegistro(nomeUsuario);			
+		if (usuario == null)
+			return false;
 		else
-		{
-			Usuario usuario = this.usuarioDAO.obterRegistro(nomeUsuario);			
-			if ((usuario == null) || (usuario.getGrupo() == Usuario.Grupo.OTHER))
-				return false;
-			else
-				return usuario.autenticar(senha);
-		}
+			return usuario.autenticar(senha);
 	}
 	
 	public boolean tudoPreenchido()

@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import pt.up.fc.lc.postagempersistencia.dao.ComentarioDAO;
 import pt.up.fc.lc.postagempersistencia.dao.DAO;
 import pt.up.fc.lc.postagempersistencia.dao.SubscricaoDAO;
@@ -34,7 +33,7 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 	}
 	
 	public void carregarTabela()
-	{	
+	{
 		Periodo periodo = this.obterPeriodo();
 		Map<Topico, Integer> comentarios = this.obterComentariosNoPeriodo(periodo);
 		List<Topico> topicos = new ArrayList<>(comentarios.keySet());
@@ -76,7 +75,7 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 		RelatorioTopicosMaisAtivosVisao relatorioVisao = (RelatorioTopicosMaisAtivosVisao) this.relatorioVisao;
 		String opcao = relatorioVisao.obterSelecionado();
 		Periodo periodo = null;				
-		if (opcao.equals("Periodo específico"))
+		if (opcao.equals("Período específico"))
 			periodo = this.obterPeriodoEspecifico();
 		else if (opcao.equals("Na última hora"))
 			periodo = this.obterPeriodoUltimaHora();				

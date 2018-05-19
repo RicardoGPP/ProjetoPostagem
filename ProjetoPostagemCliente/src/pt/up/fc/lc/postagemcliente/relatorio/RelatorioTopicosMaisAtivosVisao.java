@@ -8,6 +8,8 @@ import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import pt.up.fc.lc.postagempersistencia.dao.DAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class RelatorioTopicosMaisAtivosVisao extends RelatorioVisao
@@ -80,7 +82,7 @@ public class RelatorioTopicosMaisAtivosVisao extends RelatorioVisao
 	{
 		try
 		{
-			return (new SimpleDateFormat("dd/MM/yyyy hh:mm:ss")).parse(this.textFieldDataInicio.getText().trim());
+			return (new SimpleDateFormat(DAO.FORMATO_DATA_HORA)).parse(this.textFieldDataInicio.getText().trim());
 		} catch (ParseException e)
 		{
 			return null;
@@ -91,7 +93,7 @@ public class RelatorioTopicosMaisAtivosVisao extends RelatorioVisao
 	{
 		try
 		{
-			return (new SimpleDateFormat("dd/MM/yyyy hh:mm:ss")).parse(this.textFieldDataFim.getText().trim());
+			return (new SimpleDateFormat(DAO.FORMATO_DATA_HORA)).parse(this.textFieldDataFim.getText().trim());
 		} catch (ParseException e)
 		{
 			return null;

@@ -27,30 +27,40 @@ public class MenuControle implements Autenticavel
 		this.logado = usuario;
 	}
 	
-	public void fazerLogin()
-	{
+	public boolean fazerLogin()
+	{		
 		new LoginVisao(this);
+		if (this.logado == null)
+			return false;
+		else
+		{
+			this.definirTitulo();
+			return true;
+		}
 	}
 	
-	public boolean foiAutenticado()
+	public boolean fazerLogoff()
+	{		
+		this.logado = null;
+		new LoginVisao(this);
+		if (this.logado == null)
+			return false;
+		else
+		{
+			this.definirTitulo();
+			return true;
+		}
+	}
+	
+	private void definirTitulo()
 	{
-		return (this.logado != null);
+		this.menuVisao.setTitle("Sistema de postagens | Servidor | [" + this.logado.getNomeUsuario() + "]");
 	}
 	
 	public boolean usuarioLogadoEMaster()
 	{
 		return this.logado.getNomeUsuario().equalsIgnoreCase("Master");
-	}
-	
-	public boolean trocarUsuario()
-	{
-		Usuario usuarioAnterior = this.logado;
-		new LoginVisao(this);
-		if (this.logado == null)
-			this.logado = usuarioAnterior;
-		this.menuVisao.definirItemMenuArquivoGerenciarContaVisivel(!this.usuarioLogadoEMaster());
-		return (!this.logado.comparar(usuarioAnterior));
-	}
+	}	
 
 	public void abrirGerenciamentoDeConta()
 	{

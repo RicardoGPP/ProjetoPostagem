@@ -30,17 +30,17 @@ public class VisualizacaoFeedControle
 	
 	public void carregarLista()
 	{
-		List<Comentario> comentarios = new ArrayList<>();		
+		List<ComentarioFavorito> comentarios = new ArrayList<>();		
 		for (Subscricao subscricao : this.subscricaoDAO.obterLista(this.logado))
 			for (Comentario comentario : this.comentarioDAO.obterLista(subscricao.getTopico()))
-				comentarios.add(comentario);		
-		Collections.sort(comentarios, (c1, c2) -> c2.getData().compareTo(c1.getData()));
+				comentarios.add(new ComentarioFavorito(comentario, subscricao.isFavorito()));		
+		Collections.sort(comentarios, (c1, c2) -> c2.comentario.getData().compareTo(c1.comentario.getData()));
 		this.visualizacaoFeedVisao.definirComentarios(comentarios);
 	}
 	
 	public void curtirDescurtir()
 	{
-		Comentario comentario = this.visualizacaoFeedVisao.obterSelecionado();
+		Comentario comentario = this.visualizacaoFeedVisao.obterSelecionado().comentario;
 		if (comentario != null)
 		{
 			Curtida curtida = new Curtida();
@@ -60,10 +60,27 @@ public class VisualizacaoFeedControle
 	
 	public void atualizarTextoBotaoCurtir()
 	{
-		Comentario comentario = this.visualizacaoFeedVisao.obterSelecionado();
+		Comentario comentario = this.visualizacaoFeedVisao.obterSelecionado().comentario;
 		if ((comentario == null) || (!this.curtidaDAO.curtiu(this.logado, comentario)))
 			this.visualizacaoFeedVisao.definirTextoBotaoCurtir("Curtir");
 		else
 			this.visualizacaoFeedVisao.definirTextoBotaoCurtir("Descurtir");
+	}
+	
+	public class ComentarioFavorito
+	{
+		private Comentario comentario;
+		private boolean favorito;
+		
+		private ComentarioFavorito(Comentario comentario, boolean favorito)
+		{
+			this.comentario = comentario;
+			this.favorito = favorito;
+		}
+		
+		public String toString()
+		{
+			return this.comentario.toString() + ((this.favorito) ? " *" : "");
+		}
 	}
 }

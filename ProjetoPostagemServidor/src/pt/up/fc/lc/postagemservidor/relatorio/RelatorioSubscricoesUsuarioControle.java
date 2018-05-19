@@ -31,8 +31,9 @@ public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
 				for (Comentario comentario : this.comentarioDAO.obterLista(subscricao.getTopico()))
 					if (comentario.getUsuario().comparar(usuario))
 						mensagens++;				
-				String titulo = subscricao.getTopico().getTitulo();				
-				this.relatorioVisao.adicionarLinha(titulo, mensagens);
+				String titulo = subscricao.getTopico().getTitulo();
+				String favorito = (subscricao.isFavorito()) ? "Sim" : "Não";
+				this.relatorioVisao.adicionarLinha(titulo, favorito, mensagens);
 			}
 		}
 	}

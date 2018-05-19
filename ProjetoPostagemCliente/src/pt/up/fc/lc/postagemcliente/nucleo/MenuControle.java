@@ -2,6 +2,7 @@ package pt.up.fc.lc.postagemcliente.nucleo;
 
 import pt.up.fc.lc.postagemcliente.arquivo.GerenciarContaVisao;
 import pt.up.fc.lc.postagemcliente.movimentacao.GerenciarSubscricoesVisao;
+import pt.up.fc.lc.postagemcliente.movimentacao.PublicarEmUmTopicoVisao;
 import pt.up.fc.lc.postagemcliente.movimentacao.SubscricaoEmTopicosVisao;
 import pt.up.fc.lc.postagemcliente.movimentacao.VisualizacaoFeedVisao;
 import pt.up.fc.lc.postagemcliente.movimentacao.VisualizacaoMensagensTopicoVisao;
@@ -10,6 +11,7 @@ import pt.up.fc.lc.postagemcliente.relatorio.RelatorioMensagensPorTopicoVisao;
 import pt.up.fc.lc.postagemcliente.relatorio.RelatorioMensagensRecebidasVisao;
 import pt.up.fc.lc.postagemcliente.relatorio.RelatorioTopicosMaisAtivosVisao;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
+import pt.up.fc.lc.postagemcliente.nucleo.LoginVisao;
 
 public class MenuControle implements Autenticavel
 {
@@ -27,23 +29,34 @@ public class MenuControle implements Autenticavel
 		this.logado = usuario;
 	}
 	
-	public void fazerLogin()
-	{
-		new LoginVisao(this);
-	}
-	
-	public boolean foiAutenticado()
-	{
-		return (this.logado != null);
-	}
-	
-	public boolean trocarUsuario()
-	{
-		Usuario usuarioAnterior = this.logado;
+	public boolean fazerLogin()
+	{		
 		new LoginVisao(this);
 		if (this.logado == null)
-			this.logado = usuarioAnterior;
-		return (!this.logado.comparar(usuarioAnterior));
+			return false;
+		else
+		{
+			this.definirTitulo();
+			return true;
+		}
+	}
+	
+	public boolean fazerLogoff()
+	{		
+		this.logado = null;
+		new LoginVisao(this);
+		if (this.logado == null)
+			return false;
+		else
+		{
+			this.definirTitulo();
+			return true;
+		}
+	}
+	
+	private void definirTitulo()
+	{
+		this.menuVisao.setTitle("Sistema de postagens | Cliente | [" + this.logado.getNomeUsuario() + "]");
 	}
 
 	public void abrirGerenciamentoDeConta()
@@ -65,6 +78,11 @@ public class MenuControle implements Autenticavel
 	{
 		this.menuVisao.obterPainel().add(new SubscricaoEmTopicosVisao(this.logado));
 	} 
+	
+	public void abrirPublicacaoEmUmTopico()
+	{
+		this.menuVisao.obterPainel().add(new PublicarEmUmTopicoVisao(this.logado));
+	}
 	
 	public void abrirGerenciamentoSubscricoes()
 	{
