@@ -4,6 +4,7 @@ import pt.up.fc.lc.postagemcliente.arquivo.GerenciarContaVisao;
 import pt.up.fc.lc.postagemcliente.relatorio.RelatorioCurtidasVisao;
 import pt.up.fc.lc.postagemcliente.relatorio.RelatorioMensagensPorTopicoVisao;
 import pt.up.fc.lc.postagemcliente.relatorio.RelatorioMensagensRecebidasVisao;
+import pt.up.fc.lc.postagemcliente.relatorio.RelatorioTopicosMaisAtivosVisao;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
 public class MenuControle implements Autenticavel
@@ -46,6 +47,11 @@ public class MenuControle implements Autenticavel
 		this.menuVisao.obterPainel().add(new GerenciarContaVisao(this.logado));
 	}
 
+	public void abrirRelatorioTopicosMaisAtivos()
+	{
+		this.menuVisao.obterPainel().add(new RelatorioTopicosMaisAtivosVisao(this.logado));
+	}
+	
 	public void abrirRelatorioMensagensRecebidas()
 	{
 		this.menuVisao.obterPainel().add(new RelatorioMensagensRecebidasVisao(this.logado));
