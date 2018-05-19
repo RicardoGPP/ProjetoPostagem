@@ -193,7 +193,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-
+				menuControle.abrirVisualizacaoFeed();
 			}
 		};
 	}
@@ -215,7 +215,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-
+				menuControle.abrirSubscricaoEmTopicos();
 			}
 		};
 	}

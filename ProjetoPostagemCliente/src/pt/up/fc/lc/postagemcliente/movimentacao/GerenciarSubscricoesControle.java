@@ -10,16 +10,18 @@ public class GerenciarSubscricoesControle
 {
 	private SubscricaoDAO subscricaoDAO;
 	private GerenciarSubscricoesVisao gerenciarSubscricoesVisao;
+	private Usuario logado;
 	
 	public GerenciarSubscricoesControle(GerenciarSubscricoesVisao gerenciarSubscricoesVisao, Usuario logado)
 	{
 		this.subscricaoDAO = new SubscricaoDAO();
+		this.logado = logado;
 		this.gerenciarSubscricoesVisao = gerenciarSubscricoesVisao;
 	}
 	
 	public void carregarLista()
 	{
-		List<Subscricao> subscricoes = this.subscricaoDAO.obterLista();		
+		List<Subscricao> subscricoes = this.subscricaoDAO.obterLista(this.logado);		
 		Collections.sort(subscricoes, (s1, s2) -> s1.getTopico().getTitulo().compareTo(s2.getTopico().getTitulo()));
 		this.gerenciarSubscricoesVisao.definirSubscricoes(subscricoes);
 	}
