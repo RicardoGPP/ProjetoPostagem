@@ -8,15 +8,32 @@ import java.util.Iterator;
 import java.util.List;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe para acesso a dados da entidade de usuário.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class UsuarioDAO extends DAO<Usuario>
 {
 	private static final String CAMINHO = "USUARIO";
 	
+	/**
+		Cria o DAO e passa o caminho do arquivo à superclasse.
+	*/
 	public UsuarioDAO()
 	{
 		super(CAMINHO);
 	}
 	
+	/**
+		Converte uma linha de dados delimitados por ponto e vírgula
+		para um objeto de usuário.
+		
+		@param Uma linha de dados.
+		@return Um objeto de usuário.
+	*/
 	protected Usuario deStringParaObjeto(String linha)
 	{
 		String[] dados = linha.split(";");		
@@ -44,31 +61,50 @@ public class UsuarioDAO extends DAO<Usuario>
 		return null;
 	}
 	
-	protected String deObjetoParaString(Usuario objeto)
+	/**
+		Converte um objeto de usuário para uma linha de dados delimitada
+		por ponto e vírgula.
+		
+		@param Um objeto de usuário.
+		@return Uma linha de dados. 
+	*/
+	protected String deObjetoParaString(Usuario usuario)
 	{
-		if (objeto != null)
+		if (usuario != null)
 		{
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA);			
 			String linha = "";
-			linha += objeto.getNomeUsuario() + ";";
-			linha += objeto.getSenha() + ";";
-			linha += objeto.getGrupo() + ";";
-			linha += objeto.getContato().getNomeCompleto() + ";";
-			linha += objeto.getContato().getEmail() + ";";
-			linha += objeto.getContato().getTelefone() + ";";
-			linha += simpleDateFormat.format(objeto.getContato().getDataNascimento()) + ";";
-			linha += objeto.getLimiteSubscricoes() + ";";
-			linha += objeto.isAtivo();
+			linha += usuario.getNomeUsuario() + ";";
+			linha += usuario.getSenha() + ";";
+			linha += usuario.getGrupo() + ";";
+			linha += usuario.getContato().getNomeCompleto() + ";";
+			linha += usuario.getContato().getEmail() + ";";
+			linha += usuario.getContato().getTelefone() + ";";
+			linha += simpleDateFormat.format(usuario.getContato().getDataNascimento()) + ";";
+			linha += usuario.getLimiteSubscricoes() + ";";
+			linha += usuario.isAtivo();
 			return linha;			
 		}
 		return "";
 	}
 	
-	public boolean existe(Usuario objeto)
+	/**
+		Verifica se o usuário existe no arquivo.
+		
+		@param Um usuário.
+		@return Se o usuário existe ou não.
+	*/
+	public boolean existe(Usuario usuario)
 	{
-		return (this.obterRegistro(objeto.getNomeUsuario()) != null);
+		return (this.obterRegistro(usuario.getNomeUsuario()) != null);
 	}
 	
+	/**
+		Busca um usuário no arquivo por meio de um nome de usuário.
+		
+		@param O nome do usuário a ser recuperado.
+		@return O usuário se for encontrado ou null se não for. 
+	*/
 	public Usuario obterRegistro(String nomeUsuario)
 	{			
 		if (nomeUsuario.equalsIgnoreCase("Master"))
@@ -85,6 +121,12 @@ public class UsuarioDAO extends DAO<Usuario>
 		return null;
 	}
 	
+	/**
+		Insere um usuário no arquivo.
+	
+		@param O usuário a ser inserido.
+		@return Se o usuário foi inserido ou não.
+	*/
 	public boolean inserir(Usuario usuario)
 	{
 		if ((usuario != null) && (!this.existe(usuario)))
@@ -101,6 +143,12 @@ public class UsuarioDAO extends DAO<Usuario>
 		return false;
 	}
 	
+	/**
+		Deleta um usuário no arquivo.
+	
+		@param O usuário a ser deletado.
+		@return Se o usuário foi deletado ou não.
+	*/
 	public boolean deletar(Usuario usuario)
 	{
 		if ((usuario != null) && (this.existe(usuario)))
@@ -133,6 +181,12 @@ public class UsuarioDAO extends DAO<Usuario>
 		return false;
 	}
 	
+	/**
+		Edita um usuário no arquivo.
+	
+		@param O usuário a ser editado.
+		@return Se o usuário foi editado ou não.
+	*/
 	public boolean editar(Usuario usuario)
 	{
 		if ((usuario != null) && (this.existe(usuario)))

@@ -6,15 +6,32 @@ import java.util.Iterator;
 import java.util.List;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 
+/**
+	Classe para acesso a dados da entidade de tópico.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class TopicoDAO extends DAO<Topico>
 {
 	private static final String CAMINHO = "TOPICO";
 	
+	/**
+		Cria o DAO e passa o caminho do arquivo à superclasse.
+	*/
 	public TopicoDAO()
 	{
 		super(CAMINHO);
 	}
 	
+	/**
+		Converte uma linha de dados delimitados por ponto e vírgula
+		para um objeto de tópico.
+		
+		@param Uma linha de dados.
+		@return Um objeto de tópico.
+	*/
 	protected Topico deStringParaObjeto(String linha)
 	{
 		String dados[] = linha.split(";");
@@ -29,24 +46,43 @@ public class TopicoDAO extends DAO<Topico>
 		return null;
 	}
 	
-	protected String deObjetoParaString(Topico objeto)
+	/**
+		Converte um objeto de tópico para uma linha de dados delimitada
+		por ponto e vírgula.
+		
+		@param Um objeto de tópico.
+		@return Uma linha de dados. 
+	*/
+	protected String deObjetoParaString(Topico topico)
 	{
-		if (objeto != null)
+		if (topico != null)
 		{
 			String linha = "";
-			linha += objeto.getTitulo() + ";";
-			linha += objeto.getDescricao() + ";";
-			linha += objeto.getLimiteMensagens();					
+			linha += topico.getTitulo() + ";";
+			linha += topico.getDescricao() + ";";
+			linha += topico.getLimiteMensagens();					
 			return linha;					
 		}
 		return "";
 	}
 	
-	public boolean existe(Topico objeto)
+	/**
+		Verifica se o tópico existe no arquivo.
+		
+		@param Um tópico.
+		@return Se o tópico existe ou não.
+	*/
+	public boolean existe(Topico topico)
 	{
-		return (this.obterRegistro(objeto.getTitulo()) != null);
+		return (this.obterRegistro(topico.getTitulo()) != null);
 	}
 	
+	/**
+		Busca um tópico no arquivo por meio de um titulo.
+		
+		@param O título do tópico a ser recuperado.
+		@return O tópico se for encontrado ou null se não for. 
+	*/
 	public Topico obterRegistro(String titulo)
 	{			
 		for (Topico topico : obterLista())
@@ -55,6 +91,12 @@ public class TopicoDAO extends DAO<Topico>
 		return null;
 	}
 	
+	/**
+		Insere um tópico no arquivo.
+	
+		@param O tópico a ser inserido.
+		@return Se o tópico foi inserido ou não.
+	*/
 	public boolean inserir(Topico topico)
 	{
 		if ((topico != null) && (!this.existe(topico)))
@@ -71,6 +113,12 @@ public class TopicoDAO extends DAO<Topico>
 		return false;
 	}
 	
+	/**
+		Deleta um tópico no arquivo.
+	
+		@param O tópico a ser deletado.
+		@return Se o tópico foi deletado ou não.
+	*/
 	public boolean deletar(Topico topico)
 	{
 		if ((topico != null) && (this.existe(topico)))
@@ -102,6 +150,12 @@ public class TopicoDAO extends DAO<Topico>
 		return false;
 	}
 	
+	/**
+		Edita um tópico no arquivo.
+	
+		@param O tópico a ser deletado.
+		@return Se o tópico foi deletado ou não.
+	*/
 	public boolean editar(Topico topico)
 	{
 		if ((topico != null) && (this.existe(topico)))

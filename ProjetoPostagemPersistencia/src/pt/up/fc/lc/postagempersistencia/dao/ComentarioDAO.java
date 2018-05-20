@@ -14,15 +14,32 @@ import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe para acesso a dados da entidade de comentário.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class ComentarioDAO extends DAO<Comentario>
 {
 	private static final String CAMINHO = "COMENTARIO";	
 	
+	/**
+		Cria o DAO e passa o caminho do arquivo à superclasse.
+	*/
 	public ComentarioDAO()
 	{
 		super(CAMINHO);
 	}
 	
+	/**
+		Converte uma linha de dados delimitados por ponto e vírgula
+		para um objeto de comentário.
+		
+		@param Uma linha de dados.
+		@return Um objeto de comentários.
+	*/
 	protected Comentario deStringParaObjeto(String linha)
 	{
 		String dados[] = linha.split(";");
@@ -45,43 +62,69 @@ public class ComentarioDAO extends DAO<Comentario>
 		return null;
 	}
 
-	protected String deObjetoParaString(Comentario objeto)
+	/**
+		Converte um objeto de comentário para uma linha de dados delimitada
+		por ponto e vírgula.
+		
+		@param Um objeto de comentário.
+		@return Uma linha de dados. 
+	*/
+	protected String deObjetoParaString(Comentario comentario)
 	{
-		if ((objeto != null) && (objeto.getUsuario() != null) &&
-		   (objeto.getTopico() != null) && (objeto.getData() != null))
+		if ((comentario != null) && (comentario.getUsuario() != null) &&
+		   (comentario.getTopico() != null) && (comentario.getData() != null))
 		{
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);
 			String linha = "";								
-			linha += objeto.getUsuario().getNomeUsuario() + ";";
-			linha += objeto.getTopico().getTitulo() + ";";
-			linha += simpleDateFormat.format(objeto.getData()) + ";";
-			linha += objeto.getMensagem();			
+			linha += comentario.getUsuario().getNomeUsuario() + ";";
+			linha += comentario.getTopico().getTitulo() + ";";
+			linha += simpleDateFormat.format(comentario.getData()) + ";";
+			linha += comentario.getMensagem();			
 			return linha;			
 		}
 		return "";
 	}
 	
-	public boolean existe(Comentario objeto)
+	/**
+		Verifica se o comentário existe no arquivo.
+		
+		@param Um comentário.
+		@return Se o tópico existe ou não.
+	*/
+	public boolean existe(Comentario comentario)
 	{
-		return (this.obterRegistro(objeto.getUsuario(), objeto.getTopico(), objeto.getData()) != null);			   
+		return (this.obterRegistro(comentario.getUsuario(), comentario.getTopico(), comentario.getData()) != null);			   
 	}
 	
-	protected boolean eValido(Comentario objeto)
+	/**
+		Verifica se o comentário é consistente, isto é, se o usuário existe e está
+		subscrito no tópico, e se o tópico existe.
+		
+		@param O comentário a ser validada.
+		@return Se o comentário é válido ou não. 
+	*/
+	protected boolean eValido(Comentario comentario)
 	{
 		boolean usuarioEstaSubscrito = false;
-		for (Subscricao subscricao : (new SubscricaoDAO()).obterLista(objeto.getTopico()))
+		for (Subscricao subscricao : (new SubscricaoDAO()).obterLista(comentario.getTopico()))
 		{
-			if (objeto.getUsuario().comparar(subscricao.getUsuario()))
+			if (comentario.getUsuario().comparar(subscricao.getUsuario()))
 			{
 				usuarioEstaSubscrito = true;
 				break;
 			}
 		}		
-		return ((new UsuarioDAO()).existe(objeto.getUsuario())) &&
-			   ((new TopicoDAO()).existe(objeto.getTopico()) &&
+		return ((new UsuarioDAO()).existe(comentario.getUsuario())) &&
+			   ((new TopicoDAO()).existe(comentario.getTopico()) &&
 			   (usuarioEstaSubscrito));
 	}
 	
+	/**
+		Busca um comentário no arquivo por meio de um usuário, um tópico e uma data.
+		
+		@param O usuário, o tópico e a data do comentário a ser recuperado.
+		@return O comentário se for encontrado ou null se não for. 
+	*/
 	public Comentario obterRegistro(Usuario usuario, Topico topico, Date data)
 	{			
 		if ((usuario != null) && (topico != null) && (data != null))
@@ -93,18 +136,12 @@ public class ComentarioDAO extends DAO<Comentario>
 		return null;
 	}
 	
-	public List<Comentario> obterLista(Topico topico)
-	{		
-		List<Comentario> comentarios = new ArrayList<>();
-		if ((topico != null) && ((new TopicoDAO()).existe(topico)))
-		{
-			for (Comentario comentario : obterLista())
-				if (comentario.getTopico().comparar(topico))
-					comentarios.add(comentario);
-		}
-		return comentarios;
-	}
+	/**
+		Busca os comentários de um usuário.
 	
+		@param O usuário a ser usado na pesquisa.
+		@return Uma lista com os comentários encontrados.
+	*/
 	public List<Comentario> obterLista(Usuario usuario)
 	{
 		List<Comentario> comentarios = new ArrayList<>();
@@ -117,6 +154,30 @@ public class ComentarioDAO extends DAO<Comentario>
 		return comentarios;
 	}
 	
+	/**
+		Busca os comentários de um tópico.
+	
+		@param O tópico a ser usado na pesquisa.
+		@return Uma lista com os tópicos encontrados.
+	*/
+	public List<Comentario> obterLista(Topico topico)
+	{		
+		List<Comentario> comentarios = new ArrayList<>();
+		if ((topico != null) && ((new TopicoDAO()).existe(topico)))
+		{
+			for (Comentario comentario : obterLista())
+				if (comentario.getTopico().comparar(topico))
+					comentarios.add(comentario);
+		}
+		return comentarios;
+	}	
+	
+	/**
+		Insere um comentário no arquivo.
+	
+		@param O comentário a ser inserido.
+		@return Se o comentário foi inserido ou não.
+	*/
 	public boolean inserir(Comentario comentario)
 	{
 		if ((comentario != null) && (!this.existe(comentario)) && (this.eValido(comentario)))
@@ -139,6 +200,12 @@ public class ComentarioDAO extends DAO<Comentario>
 		return false;
 	}
 	
+	/**
+		Deleta um comentário no arquivo.
+	
+		@param O comentário a ser deletado.
+		@return Se o comentário foi deletado ou não.
+	*/
 	public boolean deletar(Comentario comentario)
 	{
 		if ((comentario != null) && (this.existe(comentario)) && (this.eValido(comentario)))
@@ -169,6 +236,12 @@ public class ComentarioDAO extends DAO<Comentario>
 		return false;
 	}
 	
+	/**
+		Deleta os comentários que estejam vinculados a um usuário.
+	
+		@param O usuário a ser pesquisado na exclusão.
+		@return Se os comentários foram deletados ou não.
+	*/
 	public boolean deletar(Usuario usuario)
 	{
 		if ((usuario != null) && ((new UsuarioDAO()).existe(usuario)))
@@ -195,6 +268,12 @@ public class ComentarioDAO extends DAO<Comentario>
 		return false;
 	}
 	
+	/**
+		Deleta os comentários que estejam vinculados a um tópico.
+	
+		@param O tópico a ser pesquisado na exclusão.
+		@return Se os comentários foram deletados ou não.
+	*/
 	public boolean deletar(Topico topico)
 	{
 		if ((topico != null) && ((new TopicoDAO()).existe(topico)))
@@ -221,6 +300,12 @@ public class ComentarioDAO extends DAO<Comentario>
 		return false;
 	}
 	
+	/**
+		Deleta os comentários que estejam vinculados a uma subscrição.
+	
+		@param A subscrição a ser pesquisada na exclusão.
+		@return Se os comentários foram deletados ou não.
+	*/
 	public boolean deletar(Subscricao subscricao)
 	{
 		if ((subscricao != null) && ((new SubscricaoDAO()).existe(subscricao)))

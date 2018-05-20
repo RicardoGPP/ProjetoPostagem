@@ -9,15 +9,32 @@ import java.util.List;
 import pt.up.fc.lc.postagempersistencia.entidades.PedidoUtilizador;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe para acesso a dados da entidade de pedido de utilizador.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 {
 	private static final String CAMINHO = "PEDIDO_UTILIZADOR";
 	
+	/**
+		Cria o DAO e passa o caminho do arquivo à superclasse.
+	*/
 	public PedidoUtilizadorDAO()
 	{
 		super(CAMINHO);
 	}
 
+	/**
+		Converte uma linha de dados delimitados por ponto e vírgula
+		para um objeto de pedido de utilizador.
+		
+		@param Uma linha de dados.
+		@return Um objeto de pedido de utilizador.
+	*/
 	protected PedidoUtilizador deStringParaObjeto(String linha)
 	{
 		String dados[] = linha.split(";");
@@ -40,26 +57,45 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 		return null;
 	}
 
-	protected String deObjetoParaString(PedidoUtilizador objeto)
+	/**
+		Converte um objeto de pedido de utilizador para uma linha de dados
+		delimitada por ponto e vírgula.
+		
+		@param Um objeto de pedido de utilizador.
+		@return Uma linha de dados. 
+	*/
+	protected String deObjetoParaString(PedidoUtilizador pedidoUtilizador)
 	{
-		if (objeto != null)
+		if (pedidoUtilizador != null)
 		{
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMATO_DATA_HORA);
 			String linha = "";
-			linha += objeto.getNomeUsuario() + ";";
-			linha += objeto.getSenha() + ";";
-			linha += objeto.getEmail() + ";";
-			linha += simpleDateFormat.format(objeto.getDataNascimento());	
+			linha += pedidoUtilizador.getNomeUsuario() + ";";
+			linha += pedidoUtilizador.getSenha() + ";";
+			linha += pedidoUtilizador.getEmail() + ";";
+			linha += simpleDateFormat.format(pedidoUtilizador.getDataNascimento());	
 			return linha;
 		}		
 		return "";
 	}
 	
-	public boolean existe(PedidoUtilizador objeto)
+	/**
+		Verifica se o pedido de utilizador existe no arquivo.
+		
+		@param Um pedido de utilizador.
+		@return Se o pedido de utilizador existe ou não.
+	*/
+	public boolean existe(PedidoUtilizador pedidoUtilizador)
 	{
-		return (this.obterRegistro(objeto.getNomeUsuario()) != null);
+		return (this.obterRegistro(pedidoUtilizador.getNomeUsuario()) != null);
 	}
 	
+	/**
+		Busca um pedido de utilizador no arquivo por meio de um nome de usuário.
+		
+		@param O nome do usuário a ser recuperado.
+		@return O pedido de utilizador se for encontrado ou null se não for. 
+	*/
 	public PedidoUtilizador obterRegistro(String nomeUsuario)
 	{
 		for (PedidoUtilizador pedidoUtilizador : obterLista())
@@ -68,6 +104,12 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 		return null;
 	}
 	
+	/**
+		Insere um pedido de utilizador no arquivo.
+	
+		@param O pedido de utilizador a ser inserido.
+		@return Se o pedido de utilizador foi inserido ou não.
+	*/
 	public boolean inserir(PedidoUtilizador pedidoUtilizador)
 	{
 		if ((pedidoUtilizador != null) &&
@@ -86,6 +128,12 @@ public class PedidoUtilizadorDAO extends DAO<PedidoUtilizador>
 		return false;
 	}
 	
+	/**
+		Deleta um pedido de utilizador no arquivo.
+	
+		@param O pedido de utilizador a ser deletado.
+		@return Se o pedido de utilizador foi deletado ou não.
+	*/
 	public boolean deletar(PedidoUtilizador pedidoUtilizador)
 	{
 		if ((pedidoUtilizador != null) && (this.existe(pedidoUtilizador)))
