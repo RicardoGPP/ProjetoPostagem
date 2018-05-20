@@ -11,7 +11,7 @@ import pt.up.fc.lc.postagemcliente.nucleo.LoginVisao;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class GerenciarContaControle implements Autenticavel
 {

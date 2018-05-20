@@ -2,7 +2,6 @@ package pt.up.fc.lc.postagemcliente.movimentacao;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -16,6 +15,13 @@ import javax.swing.JTextField;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de visão da subscrição em tópicos.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class SubscricaoEmTopicosVisao extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -34,6 +40,11 @@ public class SubscricaoEmTopicosVisao extends JInternalFrame
 	private JList<Topico> listTopicos;
 	private JButton buttonSubscrever;
 	
+	/**
+		Cria e inicializa a visão de subscrição em tópicos.
+		
+		@param O usuário logado.
+	*/
 	public SubscricaoEmTopicosVisao(Usuario logado)
 	{
 		this.subscricaoEmTopicosControle = new SubscricaoEmTopicosControle(this, logado);
@@ -43,6 +54,10 @@ public class SubscricaoEmTopicosVisao extends JInternalFrame
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setTitle("Subscrição em tópicos");
@@ -80,30 +95,32 @@ public class SubscricaoEmTopicosVisao extends JInternalFrame
 		this.add(this.buttonSubscrever);
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonAtualizar.addActionListener(this.aoClicarButtonAtualizar());
 		this.buttonSubscrever.addActionListener(this.aoClicarButtonSubscrever());
 	}
 	
+	/**
+		Obtém o padrão no componente correspondente da visão. O texto definido
+		no campo é seguido de dois modificadores para explicar que o padrão deve
+		ser comparado em qualquer parte da string.		
+		
+		@return Um padrão de pesquisa.
+	*/
 	public String obterPadrao()
 	{
 		return "(.*)" + this.textFieldTopico.getText() + "(.*)";
 	}
 	
-	public void definirPadrao(String padrao)
-	{
-		this.textFieldTopico.setText(padrao);
-	}
-	
-	public List<Topico> obterTopicos()
-	{
-		List<Topico> topicos = new ArrayList<>();
-		for (int i = 0; i < this.listModelTopicos.size(); i++)
-			topicos.add(this.listModelTopicos.get(i));
-		return topicos;
-	}
-	
+	/**
+		Define os tópicos na lista da visão.
+		
+		@param Uma lista de tópicos.
+	*/
 	public void definirTopicos(List<Topico> topicos)
 	{
 		this.listModelTopicos.clear();
@@ -111,16 +128,32 @@ public class SubscricaoEmTopicosVisao extends JInternalFrame
 			this.listModelTopicos.addElement(topico);
 	}
 	
+	/**
+		Obtém o tópico selecionado na lista da visão.
+		
+		@return O tópico selecionado ou null se não houver seleção.
+	*/
 	public Topico obterSelecionado()
 	{
 		return this.listTopicos.getSelectedValue();
 	}
 	
+	/**
+		Exclui um tópico da lista.
+		
+		@param Um tópico.
+	*/
 	public void excluirDaLista(Topico topico)
 	{
 		this.listModelTopicos.removeElement(topico);
 	}
 
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Atualizar".
+		
+		@return Um handler ao evento.
+	*/	
 	public ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
@@ -132,6 +165,12 @@ public class SubscricaoEmTopicosVisao extends JInternalFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Subscrever".
+		
+		@return Um handler ao evento.
+	*/	
 	public ActionListener aoClicarButtonSubscrever()
 	{
 		return new ActionListener()

@@ -38,6 +38,11 @@ public class PublicarEmUmTopicoVisao extends JInternalFrame
 	private JTextArea textAreaMensagem;
 	private JButton buttonPublicar;
 	
+	/**
+		Cria e inicializa a visão da publicação em um tópico.
+		
+		@param O usuário logado.
+	*/
 	public PublicarEmUmTopicoVisao(Usuario logado)
 	{
 		this.publicarEmUmTopicoControle = new PublicarEmUmTopicoControle(this, logado);
@@ -47,6 +52,10 @@ public class PublicarEmUmTopicoVisao extends JInternalFrame
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setTitle("Publicar em um tópico");
@@ -85,16 +94,29 @@ public class PublicarEmUmTopicoVisao extends JInternalFrame
 		this.add(this.buttonPublicar);
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonPublicar.addActionListener(this.aoClicarButtonPublicar());
 	}
 	
+	/**
+		Obtém o tópico no componente correspondente da visão.
+		
+		@return O tópico selecionado ou null caso não haja seleção.
+	*/
 	public Topico obterTopico()
 	{
 		return (Topico) this.comboBoxTopico.getSelectedItem();
 	}
 	
+	/**
+		Carrega os tópicos no combobox de tópicos.
+		
+		@param Uma lista de tópicos.
+	*/
 	public void definirTopicos(List<Topico> topicos)
 	{
 		this.comboBoxTopico.removeAllItems();
@@ -102,22 +124,41 @@ public class PublicarEmUmTopicoVisao extends JInternalFrame
 			this.comboBoxTopico.addItem(topico);			
 	}
 	
+	/**
+		Obtém a mensagem no componente correspondente da visão.
+		
+		@return O e-mail do usuário.
+	*/
 	public String obterMensagem()
 	{
 		return this.textAreaMensagem.getText();
 	}
 	
+	/**
+		Define a mensagem no componente correspondente da visão.
+		
+		@param A mensagem a ser definida.
+	*/
 	public void definirMensagem(String mensagem)
 	{
 		this.textAreaMensagem.setText(mensagem);
 	}
 	
+	/**
+		Limpa todos os campos da tela.
+	*/
 	private void limparCampos()
 	{
 		this.comboBoxTopico.setSelectedItem(null);
 		this.textAreaMensagem.setText("");
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Publicar".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarButtonPublicar()
 	{
 		return new ActionListener()

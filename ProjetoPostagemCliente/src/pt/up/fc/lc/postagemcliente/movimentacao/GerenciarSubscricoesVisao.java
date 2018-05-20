@@ -19,7 +19,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class GerenciarSubscricoesVisao extends JInternalFrame
 {
@@ -115,7 +115,7 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 	/**
 		Obtém a subscrição selecionada na lista.
 		
-		@return Uma subscrição.
+		@return Uma subscrição ou null caso não haja seleção.
 	*/
 	public Subscricao obterSelecionado()
 	{
@@ -133,7 +133,7 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 	}
 	
 	/**
-		Define o texto do botão.
+		Define o texto do botão de favorito.
 		
 		@param O texto a ser definido no botão.
 	*/

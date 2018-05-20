@@ -2,7 +2,6 @@ package pt.up.fc.lc.postagemcliente.movimentacao;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -15,6 +14,13 @@ import javax.swing.event.ListSelectionListener;
 import pt.up.fc.lc.postagemcliente.movimentacao.VisualizacaoFeedControle.ComentarioFavorito;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de visão da visualização de feed.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class VisualizacaoFeedVisao extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -31,6 +37,11 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 	private JList<ComentarioFavorito> listComentarios;
 	private JButton buttonCurtirDescurtir;
 	
+	/**
+		Cria e inicializa a visão de visualização de feed.
+		
+		@param O usuário logado.
+	*/
 	public VisualizacaoFeedVisao(Usuario logado)
 	{
 		this.visualizacaoFeedControle = new VisualizacaoFeedControle(this, logado);
@@ -40,6 +51,10 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setTitle("Feed de mensagens");
@@ -68,6 +83,9 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 		this.add(this.buttonCurtirDescurtir);
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonAtualizar.addActionListener(this.aoClicarButtonAtualizar());
@@ -75,14 +93,11 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 		this.listComentarios.addListSelectionListener(this.aoSelecionarItemNaLista());
 	}
 	
-	public List<ComentarioFavorito> obterComentarios()
-	{
-		List<ComentarioFavorito> comentarios = new ArrayList<>();
-		for (int i = 0; i < this.listModelComentarios.size(); i++)
-			comentarios.add(this.listModelComentarios.get(i));
-		return comentarios;
-	}
-	
+	/**
+		Define os comentários na lista da visão.
+		
+		@param Uma lista de objetos ComentarioFavorito.
+	*/
 	public void definirComentarios(List<ComentarioFavorito> comentarios)
 	{
 		this.listModelComentarios.clear();
@@ -90,16 +105,32 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 			this.listModelComentarios.addElement(comentario);
 	}
 	
+	/**
+		Obtém o comentário selecionado na lista da visão.
+		
+		@return O objeto ComentarioFavorito selecionado ou null se não houver seleção.
+	*/
 	public ComentarioFavorito obterSelecionado()
 	{
 		return this.listComentarios.getSelectedValue();
 	}
 	
+	/**
+		Define o texto do botão de curtida.
+		
+		@param O texto a ser definido no botão.
+	*/
 	public void definirTextoBotaoCurtir(String texto)
 	{
 		this.buttonCurtirDescurtir.setText(texto);
 	}
 
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Atualizar".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
@@ -111,6 +142,12 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Curtir/Descurtir".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonCurtirDescurtir()
 	{
 		return new ActionListener()
@@ -123,6 +160,12 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do modificação de seleção
+		de um item na lista.
+		
+		@return Um handler ao evento.
+	*/
 	public ListSelectionListener aoSelecionarItemNaLista()
 	{
 		return new ListSelectionListener()

@@ -2,7 +2,6 @@ package pt.up.fc.lc.postagemcliente.movimentacao;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -12,11 +11,17 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-
 import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de visão da visualização de mensagens dos tópicos.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class VisualizacaoMensagensTopicoVisao extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -34,6 +39,11 @@ public class VisualizacaoMensagensTopicoVisao extends JInternalFrame
 	private DefaultListModel<Comentario> listModelComentarios;
 	private JList<Comentario> listComentarios;
 	
+	/**
+		Cria e inicializa a visão da visualização de mensagens dos tópicos.
+		
+		@param O usuário logado.
+	*/
 	public VisualizacaoMensagensTopicoVisao(Usuario logado)
 	{
 		this.visualizacaoMensagensTopicoControle = new VisualizacaoMensagensTopicoControle(this, logado);
@@ -44,6 +54,10 @@ public class VisualizacaoMensagensTopicoVisao extends JInternalFrame
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setTitle("Visualização de mensagens por tópico");
@@ -76,19 +90,19 @@ public class VisualizacaoMensagensTopicoVisao extends JInternalFrame
 		this.scrollPaneListComentarios.setViewportView(this.listComentarios);
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonAtualizar.addActionListener(this.aoClicarButtonAtualizar());
 	}
 	
-	public List<Comentario> obterComentarios()
-	{
-		List<Comentario> comentarios = new ArrayList<>();
-		for (int i = 0; i < this.listModelComentarios.size(); i++)
-			comentarios.add(this.listModelComentarios.get(i));
-		return comentarios;
-	}
-	
+	/**
+		Define os comentários na lista da visão.
+		
+		@param Uma lista de comentários.
+	*/
 	public void definirComentarios(List<Comentario> comentarios)
 	{
 		this.listModelComentarios.clear();
@@ -96,17 +110,34 @@ public class VisualizacaoMensagensTopicoVisao extends JInternalFrame
 			this.listModelComentarios.addElement(comentario);
 	}
 	
+	/**
+		Define os tópicos no combobox de tópicos.
+		
+		@param Uma lista de subscrições.
+	*/
 	public void definirTopicos(List<Topico> topicos)
 	{
+		this.comboBoxTopicos.removeAllItems();
 		for (Topico topico : topicos)
 			this.comboBoxTopicos.addItem(topico);
 	}
 	
+	/**
+		Obtém o tópico selecionado no combobox.
+		
+		@return Um tópico ou null caso não haja seleção.
+	*/
 	public Topico obterTopico()
 	{
 		return (Topico) this.comboBoxTopicos.getSelectedItem();
 	}
 
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Atualizar".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
