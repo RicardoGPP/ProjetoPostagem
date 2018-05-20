@@ -14,6 +14,13 @@ import javax.swing.JTextArea;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de visão da publicação em um tópico.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class PublicarEmUmTopicoVisao extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -119,8 +126,6 @@ public class PublicarEmUmTopicoVisao extends JInternalFrame
 			{
 				if (!publicarEmUmTopicoControle.tudoPreenchido())
 					JOptionPane.showMessageDialog(null, "Há campo(s) obrigatório(s) sem preenchimento.");
-				else if (!publicarEmUmTopicoControle.aindaEstaSubscrito())
-					JOptionPane.showMessageDialog(null, "Você já não está mais subscrito neste tópico.");
 				else if (!publicarEmUmTopicoControle.publicar())
 					JOptionPane.showMessageDialog(null, "Ocorreu um erro ao publicar sua mensagem.");
 				else

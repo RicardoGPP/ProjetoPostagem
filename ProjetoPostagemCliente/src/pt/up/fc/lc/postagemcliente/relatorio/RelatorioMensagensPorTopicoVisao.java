@@ -2,10 +2,22 @@ package pt.up.fc.lc.postagemcliente.relatorio;
 
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de visão do relatório de mensagens por tópico.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class RelatorioMensagensPorTopicoVisao extends RelatorioVisao
 {
 	private static final long serialVersionUID = 1L;
 	
+	/**
+		Cria e inicializa a visão do relatório de mensagens por tópico.
+		
+		@param O usuário logado.
+	*/
 	public RelatorioMensagensPorTopicoVisao(Usuario logado)
 	{
 		super("Relatório de mensagens por tópico");
@@ -14,6 +26,9 @@ public class RelatorioMensagensPorTopicoVisao extends RelatorioVisao
 		this.setVisible(true);
 	}
 	
+	/**
+		Inicializa a tabela, definido colunas, tamanhos e ordenação.
+	*/
 	protected void inicializarTabela()
 	{
 		this.adicionarColunas("Tópico", "Mensagens", "Suas mensagens");

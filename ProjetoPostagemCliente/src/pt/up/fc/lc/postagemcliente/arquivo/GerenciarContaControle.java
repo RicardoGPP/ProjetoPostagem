@@ -6,6 +6,13 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 import pt.up.fc.lc.postagemcliente.nucleo.Autenticavel;
 import pt.up.fc.lc.postagemcliente.nucleo.LoginVisao;
 
+/**
+	Classe da camada de controle do gerenciamento de conta do sistema.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class GerenciarContaControle implements Autenticavel
 {
 	private UsuarioDAO usuarioDAO;
@@ -13,6 +20,11 @@ public class GerenciarContaControle implements Autenticavel
 	private Usuario logado;
 	private Usuario autenticado;
 	
+	/**
+		Cria e inicializa o controle de gerenciamento de conta.
+		
+		@param A visão do gerenciamento de conta e o usuário logado na sessão.
+	*/
 	public GerenciarContaControle(GerenciarContaVisao gerenciarContaVisao, Usuario logado)
 	{
 		this.usuarioDAO = new UsuarioDAO();
@@ -21,11 +33,19 @@ public class GerenciarContaControle implements Autenticavel
 		this.autenticado = null;
 	}
 
+	/**
+		Define o usuário recuperado pela autenticação.
+	
+		@param Um usuário.
+	*/
 	public void definirUsuario(Usuario usuario)
 	{
 		this.autenticado = usuario;
 	}
 	
+	/**
+		Carrega os campos da visão com os dados do usuário logado.
+	*/
 	public void carregarCampos()
 	{
 		this.gerenciarContaVisao.definirSenha(this.logado.getSenha());
@@ -35,6 +55,12 @@ public class GerenciarContaControle implements Autenticavel
 		this.gerenciarContaVisao.definirDataDeNascimento(this.logado.getContato().getDataNascimento());
 	}
 	
+	/**
+		Verifica se todos os campos obrigatórios da visão foram
+		preenchidos.
+	
+		@return Se todos os campos foram preenchidos ou não.
+	*/
 	public boolean tudoPreenchido()
 	{
 		String senha = this.gerenciarContaVisao.obterSenha();
@@ -46,17 +72,33 @@ public class GerenciarContaControle implements Autenticavel
 			   (!telefone.equals("")) && (dataNascimento != null));
 	}
 	
+	/**
+		Verifica se a senha informada é diferente da senha do usuário
+		logado.
+		
+		@return Se as senhas são diferentes ou não.
+	*/
 	public boolean senhaEstaDiferente()
 	{
 		return (!this.gerenciarContaVisao.obterSenha().equals(this.logado.getSenha())); 
 	}
 	
+	/**
+		Abre a tela de login e refaz a autenticação do usuário.
+		
+		@return Se a autenticação foi bem-sucedida ou não.
+	*/
 	public boolean autenticar()
 	{
 		new LoginVisao(this, this.logado);
 		return (this.autenticado != null);
 	}
 	
+	/**
+		Salva os novos dados do usuário no arquivo.
+		
+		@return Se conseguiu salvar ou não.
+	*/
 	public boolean salvar()
 	{
 		Usuario usuario = this.usuarioDAO.obterRegistro(this.logado.getNomeUsuario());		

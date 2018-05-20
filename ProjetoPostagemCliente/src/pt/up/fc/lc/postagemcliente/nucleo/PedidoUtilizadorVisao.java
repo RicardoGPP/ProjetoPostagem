@@ -13,6 +13,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import pt.up.fc.lc.postagempersistencia.dao.DAO;
 
+/**
+	Classe da camada de visão do pedido de utilizador do sistema.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class PedidoUtilizadorVisao extends JDialog
 {
 	private static final long serialVersionUID = 1L;
@@ -33,6 +40,9 @@ public class PedidoUtilizadorVisao extends JDialog
 	private JTextField textFieldDataNascimento;
 	private JButton buttonOK;
 	
+	/**
+		Cria e inicializa a visão de gerenciamento de conta.
+	*/
 	public PedidoUtilizadorVisao()
 	{
 		this.pedidoUtilizadorControle = new PedidoUtilizadorControle(this);
@@ -41,6 +51,10 @@ public class PedidoUtilizadorVisao extends JDialog
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setTitle("Pedido de registro de utilizador");
@@ -93,41 +107,79 @@ public class PedidoUtilizadorVisao extends JDialog
 		this.add(this.buttonOK);	
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonOK.addActionListener(this.aoClicarButtonOK());
 	}
 	
+	/**
+		Obtém o nome de usuário no componente correspondente da visão.
+		
+		@return O nome de usuário.
+	*/
 	public String obterNomeUsuario()
 	{
 		return this.textFieldNomeUsuario.getText();
 	}
 	
+	/**
+		Define o nome de usuário no componente correspondente da visão. 
+	
+		@param O nome de usuário.
+	 */
 	public void definirNomeUsuario(String nomeUsuario)
 	{
 		this.textFieldNomeUsuario.setText(nomeUsuario);
 	}
 	
+	/**
+		Obtém a senha no componente correspondente da visão.
+		
+		@return A senha do usuário.
+	*/
 	public String obterSenha()
 	{
 		return new String(this.passwordFieldSenha.getPassword());
 	}
 	
+	/**
+		Define a senha no componente correspondente da visão. 
+	
+		@param A senha do usuário.
+	 */
 	public void definirSenha(String senha)
 	{
 		this.passwordFieldSenha.setText(senha);
 	}	
 	
+	/**
+		Obtém o e-mail no componente correspondente da visão.
+		
+		@return O e-mail do usuário.
+	*/
 	public String obterEmail()
 	{
 		return this.textFieldEmail.getText();
 	}
 	
+	/**
+		Define o e-mail no componente correspondente da visão. 
+	
+		@param O e-mail do usuário.
+	 */
 	public void definirEmail(String email)
 	{
 		this.textFieldEmail.setText(email);
 	}
 	
+	/**
+		Obtém a data de nascimento no componente correspondente da visão.
+		
+		@return A data de nascimento do usuário.
+	*/
 	public Date obterDataNascimento()
 	{
 		try
@@ -140,12 +192,22 @@ public class PedidoUtilizadorVisao extends JDialog
 		}
 	}
 	
+	/**
+		Define a data de nascimento no componente correspondente da visão. 
+	
+		@param A data de nascimento do usuário.
+	 */
 	public void definirDataDeNascimento(Date dataNascimento)
 	{
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DAO.FORMATO_DATA);
 		this.textFieldDataNascimento.setText(simpleDateFormat.format(dataNascimento));
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão "OK".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarButtonOK()
 	{
 		return new ActionListener()

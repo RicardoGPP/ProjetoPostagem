@@ -10,6 +10,13 @@ import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle da subscrição em tópicos.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class SubscricaoEmTopicosControle
 {
 	private SubscricaoDAO subscricaoDAO;
@@ -17,6 +24,11 @@ public class SubscricaoEmTopicosControle
 	private SubscricaoEmTopicosVisao subscricaoEmTopicosVisao;
 	private Usuario logado;
 	
+	/**
+		Cria e inicializa o controle de subscrição em tópicos.
+		
+		@param A visão da subscrição em tópicos e o usuário logado na sessão.
+	*/
 	public SubscricaoEmTopicosControle(SubscricaoEmTopicosVisao subscricaoEmTopicosVisao, Usuario logado)
 	{
 		this.subscricaoDAO = new SubscricaoDAO();
@@ -25,6 +37,9 @@ public class SubscricaoEmTopicosControle
 		this.subscricaoEmTopicosVisao = subscricaoEmTopicosVisao;
 	}
 	
+	/**
+		Carrega a lista de tópicos não subscritos do usuário logado na visão.
+	*/
 	public void carregarLista()
 	{
 		List<Topico> topicos = this.obterTopicosNaoSubscritos();		
@@ -39,6 +54,11 @@ public class SubscricaoEmTopicosControle
 		this.subscricaoEmTopicosVisao.definirTopicos(topicos);
 	}
 	
+	/**
+		Obtém a lista de tópicos não subscritos pelo usuário logado.
+		
+		@return Uma lista de tópicos.
+	*/
 	private List<Topico> obterTopicosNaoSubscritos()
 	{
 		List<Topico> topicos = this.topicoDAO.obterLista();		
@@ -57,6 +77,9 @@ public class SubscricaoEmTopicosControle
 		return topicos;
 	}
 	
+	/**
+		Subscreve o usuário no tópico, incluindo a subscrição no arquivo.
+	*/
 	public void subscrever()
 	{
 		Topico topico = this.subscricaoEmTopicosVisao.obterSelecionado();
@@ -71,6 +94,12 @@ public class SubscricaoEmTopicosControle
 		}
 	}
 	
+	/**
+		Verifica se o limite de subscrições do usuário logado é igual ao número de
+		subscrições que ele possui no momento.
+		
+		@return Se o limite foi atingido ou não.
+	*/
 	public boolean limiteSubscricoesAtingido()
 	{
 		return (this.logado.getLimiteSubscricoes() <= this.subscricaoDAO.obterLista(this.logado).size());

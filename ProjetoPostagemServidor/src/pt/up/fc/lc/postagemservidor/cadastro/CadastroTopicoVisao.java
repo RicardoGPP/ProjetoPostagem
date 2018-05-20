@@ -125,6 +125,16 @@ public class CadastroTopicoVisao extends JInternalFrame
 	}
 	
 	/**
+		Inclui um tópico na lista.
+		
+		@param Um tópico.
+	*/
+	public void incluirNaLista(Topico topico)
+	{
+		this.listModelTopicos.addElement(topico);
+	}
+	
+	/**
 		Exclui um tópico da lista.
 		
 		@param Um tópico.

@@ -10,6 +10,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+/**
+	Classe da camada de visão do menu do sistema.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class MenuVisao extends JFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -34,6 +41,9 @@ public class MenuVisao extends JFrame
 	private JMenuItem menuItemRelatorioMensagensPorTopico;
 	private JMenuItem menuItemRelatorioCurtidas;
 	
+	/**
+		Cria e inicializa a visão de menu.
+	*/
 	public MenuVisao()
 	{
 		this.menuControle = new MenuControle(this);
@@ -47,6 +57,10 @@ public class MenuVisao extends JFrame
 		}
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setTitle("Sistema de postagem");
@@ -123,6 +137,9 @@ public class MenuVisao extends JFrame
 		this.menuRelatorios.add(this.menuItemRelatorioCurtidas);
 	}
 
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.menuItemArquivoGerenciarConta.addActionListener(this.aoClicarMenuItemArquivoGerenciarConta());
@@ -139,16 +156,22 @@ public class MenuVisao extends JFrame
 		this.menuItemRelatorioCurtidas.addActionListener(this.aoClicarMenuItemRelatorioCurtidas());		
 	}
 
+	/**
+		Obtém o container geral de todos os frames internos do sistema.
+		
+		@return O container de telas.
+	*/
 	public JDesktopPane obterPainel()
 	{
 		return this.desktopPaneTelas;
 	}
 	
-	public void definirItemMenuArquivoGerenciarContaVisivel(boolean visivel)
-	{
-		this.menuItemArquivoGerenciarConta.setVisible(visivel);
-	}
-	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Arquivo -> Gerenciar conta".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemArquivoGerenciarConta()
 	{
 		return new ActionListener()
@@ -160,6 +183,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Arquivo -> Trocar usuário".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemArquivoTrocarUsuario()
 	{
 		return new ActionListener()
@@ -179,6 +208,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Arquivo -> Sair".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemArquivoSair()
 	{
 		return new ActionListener()
@@ -190,6 +225,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Movimentação -> Ver feed".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemMovimentacaoVerFeed()
 	{
 		return new ActionListener()
@@ -201,6 +242,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Movimentação -> Ver mensagens dos tópicos".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemMovimentacaoVerMensagensDosTopicos()
 	{
 		return new ActionListener()
@@ -212,6 +259,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Movimentação -> Subscrever em tópicos".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemMovimentacaoSubscreverTopicos()
 	{
 		return new ActionListener()
@@ -223,6 +276,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Movimentação -> Publicar em um tópico".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemMovimentacaoPublicarEmUmTopico()
 	{
 		return new ActionListener()
@@ -234,6 +293,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Movimentação -> Gerenciar subscrições".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemMovimentacaoGerenciarSubscricoes()
 	{
 		return new ActionListener()
@@ -245,6 +310,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Relatórios -> Relatório de tópicos mais ativos".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemRelatorioTopicosAtivos()
 	{
 		return new ActionListener()
@@ -256,6 +327,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Relatórios -> Relatório de mensagens recebidas".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemRelatorioMensagensRecebidas()
 	{
 		return new ActionListener()
@@ -267,6 +344,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Relatórios -> Relatório de mensagens por tópico".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemRelatorioMensagensPorTopico()
 	{
 		return new ActionListener()
@@ -278,6 +361,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Relatórios -> Relatório de curtidas".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemRelatorioCurtidas()
 	{
 		return new ActionListener()

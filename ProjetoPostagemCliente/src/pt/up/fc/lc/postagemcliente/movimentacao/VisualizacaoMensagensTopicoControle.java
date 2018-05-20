@@ -10,6 +10,13 @@ import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle da visualização das mensagens por tópico.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class VisualizacaoMensagensTopicoControle
 {
 	private SubscricaoDAO subscricaoDAO;
@@ -17,6 +24,11 @@ public class VisualizacaoMensagensTopicoControle
 	private VisualizacaoMensagensTopicoVisao visualizacaoMensagensTopicoVisao;
 	private Usuario logado;
 	
+	/**
+		Cria e inicializa o controle de visualização de mensagens por tópico.
+		
+		@param A visão da visualização de mensagens por tópico e o usuário logado na sessão.
+	*/
 	public VisualizacaoMensagensTopicoControle(VisualizacaoMensagensTopicoVisao visualizacaoMensagensTopicoVisao, Usuario logado)
 	{
 		this.subscricaoDAO = new SubscricaoDAO();
@@ -25,6 +37,9 @@ public class VisualizacaoMensagensTopicoControle
 		this.visualizacaoMensagensTopicoVisao = visualizacaoMensagensTopicoVisao;
 	}
 	
+	/**
+		Carrega a lista de comentários do tópico selecionado.
+	*/
 	public void carregarLista()
 	{
 		Topico topico = this.visualizacaoMensagensTopicoVisao.obterTopico();
@@ -38,6 +53,9 @@ public class VisualizacaoMensagensTopicoControle
 		}
 	}
 	
+	/**
+		Carrega o combobox de tópicos em que o usuário está subscrito.
+	*/
 	public void carregarTopicos()
 	{
 		List<Topico> topicos = new ArrayList<>();

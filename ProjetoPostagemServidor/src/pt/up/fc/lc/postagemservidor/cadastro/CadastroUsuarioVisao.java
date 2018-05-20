@@ -127,6 +127,16 @@ public class CadastroUsuarioVisao extends JInternalFrame
 	}
 	
 	/**
+		Inclui um usuário na lista.
+		
+		@param Um usuário.
+	 */
+	public void incluirNaLista(Usuario usuario)
+	{
+		this.listModelUsuarios.addElement(usuario);
+	}
+	
+	/**
 		Exclui um usuário da lista.
 		
 		@param Um usuário.

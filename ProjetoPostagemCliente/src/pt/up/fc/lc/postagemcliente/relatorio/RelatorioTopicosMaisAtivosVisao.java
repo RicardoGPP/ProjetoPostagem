@@ -12,6 +12,13 @@ import javax.swing.JTextField;
 import pt.up.fc.lc.postagempersistencia.dao.DAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de visão do relatório de tópicos mais ativos.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class RelatorioTopicosMaisAtivosVisao extends RelatorioVisao
 {
 	private static final long serialVersionUID = 1L;
@@ -22,6 +29,11 @@ public class RelatorioTopicosMaisAtivosVisao extends RelatorioVisao
 	private JLabel labelAte;
 	private JTextField textFieldDataFim;
 	
+	/**
+		Cria e inicializa a visão do relatório de tópicos mais ativos.
+		
+		@param O usuário logado.
+	*/
 	public RelatorioTopicosMaisAtivosVisao(Usuario logado)
 	{
 		super("Relatório de tópicos mais ativos");
@@ -33,6 +45,10 @@ public class RelatorioTopicosMaisAtivosVisao extends RelatorioVisao
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.labelPeriodo = new JLabel();
@@ -63,21 +79,37 @@ public class RelatorioTopicosMaisAtivosVisao extends RelatorioVisao
 		this.add(this.textFieldDataFim);
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.comboBoxPeriodo.addItemListener(this.aoMudarOpcaoComboBoxPeriodo());
 	}
 	
+	/**
+		Inicializa a tabela, definido colunas, tamanhos e ordenação.
+	*/
 	protected void inicializarTabela()
 	{	
 		this.adicionarColunas("Tópico", "Subscrito", "Mensagens");
 	}
 	
+	/**
+		Obtém a opção selecionada na combobox de opções de período.
+		
+		@return A opção selecionada.
+	*/
 	public String obterSelecionado()
 	{
 		return (String) this.comboBoxPeriodo.getSelectedItem();
 	}
 	
+	/**
+		Obtém a data de início no componente correspondente da visão.
+		
+		@return A descrição do tópico.
+	*/
 	public Date obterDataInicio()
 	{
 		try
@@ -89,6 +121,11 @@ public class RelatorioTopicosMaisAtivosVisao extends RelatorioVisao
 		}
 	}
 	
+	/**
+		Obtém a data de fim no componente correspondente da visão.
+		
+		@return A data de fim do tópico.
+	*/
 	public Date obterDataFim()
 	{
 		try
@@ -100,6 +137,11 @@ public class RelatorioTopicosMaisAtivosVisao extends RelatorioVisao
 		}
 	}
 	
+	/**
+		Define se o componente do titulo será visível. 
+	
+		@param Se o componente será vísivel ou não.
+	*/
 	public void definirVisibilidadePeriodo(boolean visivel)
 	{
 		this.textFieldDataInicio.setVisible(visivel);
@@ -112,6 +154,12 @@ public class RelatorioTopicosMaisAtivosVisao extends RelatorioVisao
 		}
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento da alteração na seleção do combobox
+		de "Período".
+		
+		@return Um handler ao evento.
+	*/
 	private ItemListener aoMudarOpcaoComboBoxPeriodo()
 	{
 		return new ItemListener()

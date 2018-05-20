@@ -2,7 +2,6 @@ package pt.up.fc.lc.postagemcliente.movimentacao;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -15,6 +14,13 @@ import javax.swing.event.ListSelectionListener;
 import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de visão do gerenciamento de subscrições.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class GerenciarSubscricoesVisao extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -32,6 +38,11 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 	private JButton buttonDesinscrever;
 	private JButton buttonFavoritarDesfavoritar;
 	
+	/**
+		Cria e inicializa a visão de gerenciamento de conta.
+		
+		@param O usuário logado.
+	*/
 	public GerenciarSubscricoesVisao(Usuario logado)
 	{
 		this.gerenciarSubscricoesControle = new GerenciarSubscricoesControle(this, logado);
@@ -41,6 +52,10 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setTitle("Gerenciamento de subscrições");
@@ -74,6 +89,9 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		this.add(this.buttonFavoritarDesfavoritar);
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonAtualizar.addActionListener(this.aoClicarButtonAtualizar());
@@ -82,14 +100,11 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		this.listSubscricoes.addListSelectionListener(this.aoSelecionarItemNaLista());
 	}
 	
-	public List<Subscricao> obterSubscricoes()
-	{
-		List<Subscricao> subscricoes = new ArrayList<>();
-		for (int i = 0; i < this.listModelSubscricoes.size(); i++)
-			subscricoes.add(this.listModelSubscricoes.get(i));
-		return subscricoes;
-	}
-	
+	/**
+		Define as subscrições na lista da visão.
+		
+		@param Uma lista de subscrições.
+	*/
 	public void definirSubscricoes(List<Subscricao> subscricoes)
 	{
 		this.listModelSubscricoes.clear();
@@ -97,21 +112,42 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 			this.listModelSubscricoes.addElement(subscricao);
 	}
 	
+	/**
+		Obtém a subscrição selecionada na lista.
+		
+		@return Uma subscrição.
+	*/
 	public Subscricao obterSelecionado()
 	{
 		return this.listSubscricoes.getSelectedValue();
 	}
 	
+	/**
+		Exclui uma subscrição da lista.
+		
+		@param Uma subscrição.
+	*/
 	public void excluirDaLista(Subscricao subscricao)
 	{
 		this.listModelSubscricoes.removeElement(subscricao);
 	}
 	
+	/**
+		Define o texto do botão.
+		
+		@param O texto a ser definido no botão.
+	*/
 	public void definirTextoBotaoFavorito(String texto)
 	{
 		this.buttonFavoritarDesfavoritar.setText(texto);
 	}
 
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Atualizar".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
@@ -123,6 +159,12 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Inscrever".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonDesinscrever()
 	{
 		return new ActionListener()
@@ -134,6 +176,12 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Favoritar/Desfavoritar".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonFavoritarDesfavoritar()
 	{
 		return new ActionListener()
@@ -146,6 +194,12 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento da alterção da seleção
+		do item na lista.
+		
+		@return Um handler ao evento.
+	*/
 	public ListSelectionListener aoSelecionarItemNaLista()
 	{
 		return new ListSelectionListener()

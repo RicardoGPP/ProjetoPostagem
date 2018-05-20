@@ -18,13 +18,25 @@ import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle do relatório de tópicos mais ativos.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 {	
 	private TopicoDAO topicoDAO;
 	private SubscricaoDAO subscricaoDAO;
 	private ComentarioDAO comentarioDAO;
 	
-	public RelatorioTopicosMaisAtivosControle(RelatorioVisao relatorioVisao, Usuario logado)
+	/**
+		Cria e inicializa o controle do relatório de tópicos mais ativos.
+		
+		@param A visão do relatório de tópicos mais ativos e o usuário logado.
+	*/
+	public RelatorioTopicosMaisAtivosControle(RelatorioTopicosMaisAtivosVisao relatorioVisao, Usuario logado)
 	{
 		super(relatorioVisao, logado);
 		this.topicoDAO = new TopicoDAO();
@@ -32,6 +44,9 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 		this.comentarioDAO = new ComentarioDAO();
 	}
 	
+	/**
+		Carrega a tabela do relatório com os dados recuperados na pesquisa.
+	*/
 	public void carregarTabela()
 	{
 		Periodo periodo = this.obterPeriodo();
@@ -51,6 +66,13 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 		}
 	}
 	
+	/**
+		Recupera a quantidade de comentários feitos em um tópico dentro
+		de um determinado período.
+		
+		@param O período de apuração
+		@return Um HashMap com a quantidade de comentários por tópico
+	*/
 	private Map<Topico, Integer> obterComentariosNoPeriodo(Periodo periodo)
 	{
 		Map<Topico, Integer> comentarios = new HashMap<>();
@@ -62,6 +84,13 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 		return comentarios;
 	}
 	
+	/**
+		Verifica se o usuário logado está subscrito no tópico passado
+		por parâmetro.
+		
+		@param O tópico a ser verificado.
+		@return Se está subscrito ou não.
+	*/
 	private boolean estaSubscritoNoTopico(Topico topico)
 	{
 		for (Subscricao subscricao : this.subscricaoDAO.obterLista(topico))
@@ -70,6 +99,12 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 		return false;
 	}
 	
+	/**
+		Obtém o período de pesquisa de acordo com a opção e as informações
+		nos campos da visão.
+		
+		@return O período de apuração.
+	*/
 	private Periodo obterPeriodo()
 	{		
 		RelatorioTopicosMaisAtivosVisao relatorioVisao = (RelatorioTopicosMaisAtivosVisao) this.relatorioVisao;
@@ -88,18 +123,33 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 		return periodo;
 	}
 	
+	/**
+		Define visibilidade do período a depender da opção na visão. Se a opção
+		for diferente de "Período específico", os campos de data ficarão visíveis.
+		Caso contrário, eles ficarão invisíveis.
+	*/
 	public void definirVisibilidadePeriodo()
 	{
 		RelatorioTopicosMaisAtivosVisao relatorioVisao = (RelatorioTopicosMaisAtivosVisao) this.relatorioVisao;
 		relatorioVisao.definirVisibilidadePeriodo(relatorioVisao.obterSelecionado().equals("Período específico"));
 	}
 	
+	/**
+		Obtém o período para o caso de a opção selecionada ser "Período específico".
+		
+		@return O período de apuração.
+	*/
 	private Periodo obterPeriodoEspecifico()
 	{
 		RelatorioTopicosMaisAtivosVisao relatorioVisao = (RelatorioTopicosMaisAtivosVisao) this.relatorioVisao;
 		return new Periodo(relatorioVisao.obterDataInicio(), relatorioVisao.obterDataFim());
 	}
 	
+	/**
+		Obtém o período para o caso de a opção selecionada ser "Última hora".
+		
+		@return O período de apuração.
+	*/
 	private Periodo obterPeriodoUltimaHora()
 	{
 		Calendar calendar = Calendar.getInstance();
@@ -108,6 +158,11 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 		return new Periodo(calendar.getTime(), new Date());
 	}
 	
+	/**
+		Obtém o período para o caso de a opção selecionada ser "Hoje".
+		
+		@return O período de apuração.
+	*/
 	private Periodo obterPeriodoHoje()
 	{
 		try
@@ -120,6 +175,11 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 		}
 	}
 	
+	/**
+		Obtém o período para o caso de a opção selecionada ser "Esta semana".
+		
+		@return O período de apuração.
+	*/
 	private Periodo obterPeriodoEstaSemana()
 	{
 		Calendar calendar = Calendar.getInstance();
@@ -128,6 +188,12 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 		return new Periodo(calendar.getTime(), new Date());
 	}
 	
+	/**
+		Obtém o período que compreende todos os registros de comentário do
+		sistema.
+		
+		@return O período de apuração.
+	*/
 	private Periodo obterPeriodoCompleto()
 	{
 		Date maisAntiga = new Date();
@@ -136,12 +202,25 @@ public class RelatorioTopicosMaisAtivosControle extends RelatorioControle
 				maisAntiga = comentario.getData();
 		return new Periodo(maisAntiga, new Date());
 	}
+	
+	/**
+		Classe interna responsável por permitir a geração de objetos contendo
+		duas datas: uma de início e outra de fim.
 		
+		@version 1.0
+		@author  Ricardo Giovani Piantavinha Perandré,
+		         Pedro
+	*/
 	private class Periodo
 	{
 		private Date dataInicio;
 		private Date dataFim;
 		
+		/**
+			Cria o período com as datas de início e fim passadas por parâmetro
+			
+			@param Data de início e data de fim.
+		*/
 		private Periodo(Date dataInicio, Date dataFim)
 		{
 			this.dataInicio = dataInicio;

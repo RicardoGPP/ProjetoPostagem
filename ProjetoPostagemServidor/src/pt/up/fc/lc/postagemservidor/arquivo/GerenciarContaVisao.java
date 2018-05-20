@@ -141,7 +141,7 @@ public class GerenciarContaVisao extends JInternalFrame
 	/**
 		Define a senha no componente correspondente da visão. 
 	
-		@param A senha de usuário.
+		@param A senha do usuário.
 	 */
 	public void definirSenha(String senha)
 	{

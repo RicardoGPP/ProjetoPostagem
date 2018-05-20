@@ -5,18 +5,33 @@ import pt.up.fc.lc.postagempersistencia.dao.SubscricaoDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle do relatório de mensagens recebidas.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class RelatorioMensagensRecebidasControle extends RelatorioControle
 {
 	private ComentarioDAO comentarioDAO;
 	private SubscricaoDAO subscricaoDAO;
 	
-	public RelatorioMensagensRecebidasControle(RelatorioVisao relatorioVisao, Usuario logado)
+	/**
+		Cria e inicializa o controle do relatório de mensagens recebidas.
+		
+		@param A visão do relatório de mensagens recebidas.
+	*/
+	public RelatorioMensagensRecebidasControle(RelatorioMensagensRecebidasVisao relatorioVisao, Usuario logado)
 	{
 		super(relatorioVisao, logado);
 		this.comentarioDAO = new ComentarioDAO();
 		this.subscricaoDAO = new SubscricaoDAO();
 	}
 	
+	/**
+		Carrega a tabela do relatório com os dados recuperados na pesquisa.
+	*/
 	public void carregarTabela()
 	{	
 		this.relatorioVisao.limparTabela();		

@@ -10,6 +10,13 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+	Classe da camada de visão do login do sistema.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class LoginVisao extends JDialog
 {
 	private static final long serialVersionUID = 1L;
@@ -28,9 +35,17 @@ public class LoginVisao extends JDialog
 	private JButton buttonOK;
 	private JButton buttonPedirUtilizador;
 	
+	/**
+		Cria e inicializa a visão de login do sistema no modo de
+		inserção completa, isto é, o usuário terá de fornecer um nome
+		e uma senha para se autenticar. No fim do processo de
+		autenticação, o usuário é definido no objeto autenticável. 
+		
+		@param Um objeto que pode requisitar autenticação.
+	*/
 	public LoginVisao(Autenticavel autenticavel)
 	{		
-		this.loginControle = new LoginControle(this);
+		this.loginControle = new LoginControle(this, autenticavel);
 		this.autenticavel = autenticavel;		
 		this.construirTela(null);
 		this.vincularEventos();		
@@ -38,9 +53,18 @@ public class LoginVisao extends JDialog
 		this.textFieldNomeUsuario.requestFocus();
 	}
 	
+	/**
+		Cria e inicializa a visão de login do sistema no modo de
+		inserção parcial, isto é, o usuário terá de fornecer somente
+		a senha, pois o nome de usuário será carregado através do usuário
+		fornecido no parâmetro. No fim do processo de autenticação, o usuário
+		é definido no objeto autenticável. 
+		
+		@param Um objeto que pode requisitar autenticação.
+	*/
 	public LoginVisao(Autenticavel autenticavel, Usuario usuario)
 	{
-		this.loginControle = new LoginControle(this);
+		this.loginControle = new LoginControle(this, autenticavel);
 		this.autenticavel = autenticavel;		
 		this.construirTela(usuario);
 		this.vincularEventos();
@@ -49,6 +73,10 @@ public class LoginVisao extends JDialog
 		this.passwordFieldSenha.requestFocus();
 	}
 
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela(Usuario usuario)
 	{
 		this.setTitle("Autenticação");
@@ -93,32 +121,60 @@ public class LoginVisao extends JDialog
 		this.add(this.buttonPedirUtilizador);
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonOK.addActionListener(this.aoClicarButtonOK());
 		this.buttonPedirUtilizador.addActionListener(this.aoClicarButtonPedirUtilizador());
 	}
 
+	/**
+		Define o nome de usuário no componente correspondente da visão. 
+		
+		@param O nome de usuário.
+	*/
 	public void definirNomeUsuario(String nomeUsuario)
 	{
 		this.textFieldNomeUsuario.setText(nomeUsuario);
 	}
 	
+	/**
+		Obtém o nome de usuário no componente correspondente da visão.
+		
+		@return O nome de usuário.
+	*/
 	public String obterNomeUsuario()
 	{
 		return this.textFieldNomeUsuario.getText();
 	}
 	
+	/**
+		Define a senha no componente correspondente da visão. 
+	
+		@param O nome de usuário.
+	 */
 	public void definirSenha(String senha)
 	{
 		this.passwordFieldSenha.setText(senha);
 	}
-	
+
+	/**
+		Obtém a senha no componente correspondente da visão.
+		
+		@return A senha do usuário.
+	*/
 	public String obterSenha()
 	{
 		return new String(this.passwordFieldSenha.getPassword());
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão "OK".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarButtonOK()
 	{
 		return new ActionListener()
@@ -129,7 +185,7 @@ public class LoginVisao extends JDialog
 				{
 					JOptionPane.showMessageDialog(null, "Há campo(s) obrigatório(s) sem preenchimento.");
 					textFieldNomeUsuario.requestFocus();
-				} else if (!loginControle.entradaPermitida())
+				} else if (!loginControle.usuarioFoiAutenticado())
 				{
 					JOptionPane.showMessageDialog(null, "Nome de usuário e/ou senha inválidos.");
 					passwordFieldSenha.setText("");
@@ -143,6 +199,12 @@ public class LoginVisao extends JDialog
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Pedir utilizador".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarButtonPedirUtilizador()
 	{
 		return new ActionListener()

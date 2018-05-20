@@ -12,6 +12,13 @@ import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle da publicação em um tópico.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class PublicarEmUmTopicoControle
 {
 	private SubscricaoDAO subscricaoDAO;
@@ -19,6 +26,12 @@ public class PublicarEmUmTopicoControle
 	private PublicarEmUmTopicoVisao publicarEmUmTopicoVisao;
 	private Usuario logado;
 	
+	/**
+		Cria e inicializa o controle de publicação em um tópico.
+		
+		@param A visão do gerenciamento de publicação em um tópico e o
+		       usuário logado na sessão.
+	*/
 	public PublicarEmUmTopicoControle(PublicarEmUmTopicoVisao publicarEmUmTopicoVisao, Usuario logado)
 	{		
 		this.publicarEmUmTopicoVisao = publicarEmUmTopicoVisao;
@@ -27,6 +40,10 @@ public class PublicarEmUmTopicoControle
 		this.logado = logado;
 	}
 	
+	/**
+		Carrega a combobox de tópicos com os tópicos subscritos pelo usuário
+		logado.
+	*/
 	public void carregarTopicos()
 	{
 		List<Topico> topicos = new ArrayList<>();
@@ -36,6 +53,12 @@ public class PublicarEmUmTopicoControle
 		this.publicarEmUmTopicoVisao.definirTopicos(topicos);
 	}
 	
+	/**
+		Verifica se todos os campos obrigatórios da visão foram
+		preenchidos.
+	
+		@return Se todos os campos foram preenchidos ou não.
+	*/
 	public boolean tudoPreenchido()
 	{
 		Topico topico = this.publicarEmUmTopicoVisao.obterTopico();
@@ -43,15 +66,12 @@ public class PublicarEmUmTopicoControle
 		return ((topico != null) && (!mensagem.equals("")));
 	}
 	
-	public boolean aindaEstaSubscrito()
-	{
-		Topico topico = this.publicarEmUmTopicoVisao.obterTopico();
-		for (Subscricao subscricao : this.subscricaoDAO.obterLista(topico))
-			if (subscricao.getUsuario().comparar(this.logado))
-				return true;
-		return false;
-	}
-	
+	/**
+		Cria um objeto de comentário, define os dados nos campos da visão e inclui
+		no arquivo de comentários.
+		
+		@return Se inclui o comentário ou não.
+	*/
 	public boolean publicar()
 	{
 		Comentario comentario = new Comentario();

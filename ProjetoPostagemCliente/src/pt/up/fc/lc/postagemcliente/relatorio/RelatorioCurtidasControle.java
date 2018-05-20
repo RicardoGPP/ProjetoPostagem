@@ -9,18 +9,33 @@ import pt.up.fc.lc.postagempersistencia.dao.CurtidaDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle do relatório de curtidass.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class RelatorioCurtidasControle extends RelatorioControle
 {
 	private ComentarioDAO comentarioDAO;
 	private CurtidaDAO curtidaDAO;
 	
-	public RelatorioCurtidasControle(RelatorioVisao relatorioVisao, Usuario logado)
+	/**
+		Cria e inicializa o controle do relatório de curtidas.
+		
+		@param A visão do relatório de curtidas e o usuário logado.
+	*/
+	public RelatorioCurtidasControle(RelatorioCurtidasVisao relatorioVisao, Usuario logado)
 	{
 		super(relatorioVisao, logado);
 		this.comentarioDAO = new ComentarioDAO();
 		this.curtidaDAO = new CurtidaDAO();
 	}
 	
+	/**
+		Carrega a tabela do relatório com os dados recuperados na pesquisa.
+	*/
 	public void carregarTabela()
 	{	
 		Map<Comentario, Integer> curtidas = new HashMap<>();

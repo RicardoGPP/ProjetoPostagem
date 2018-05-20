@@ -16,6 +16,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 */
 public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
 {	
+	private UsuarioDAO usuarioDAO;
 	private SubscricaoDAO subscricaoDAO;
 	private ComentarioDAO comentarioDAO;
 	
@@ -27,6 +28,7 @@ public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
 	public RelatorioSubscricoesUsuarioControle(RelatorioSubscricoesUsuarioVisao relatorioVisao)
 	{
 		super(relatorioVisao);
+		this.usuarioDAO = new UsuarioDAO();
 		this.subscricaoDAO = new SubscricaoDAO();
 		this.comentarioDAO = new ComentarioDAO();
 	}
@@ -58,7 +60,6 @@ public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
 	*/
 	public void carregarUsuarios()
 	{
-		for (Usuario usuario : (new UsuarioDAO()).obterLista())
-			((RelatorioSubscricoesUsuarioVisao) this.relatorioVisao).definirUsuarios(usuario); 
+		((RelatorioSubscricoesUsuarioVisao) this.relatorioVisao).definirUsuarios(this.usuarioDAO.obterLista()); 
 	}
 }
