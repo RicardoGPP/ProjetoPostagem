@@ -29,7 +29,7 @@ public class MenuVisao extends JFrame
 	private JMenu menuMovimentacao;
 	private JMenu menuRelatorios;
 	private JMenuItem menuItemArquivoGerenciarConta;
-	private JMenuItem menuItemArquivoTrocarUsuario;
+	private JMenuItem menuItemArquivoFazerLogoff;
 	private JMenuItem menuItemArquivoSair;
 	private JMenuItem menuItemMovimentacaoVerFeed;
 	private JMenuItem menuItemMovimentacaoVerMensagensDosTopicos;
@@ -63,7 +63,6 @@ public class MenuVisao extends JFrame
 	*/
 	private void construirTela()
 	{
-		this.setTitle("Sistema de postagem");
 		this.setSize(800, 600);
 		this.setLocationRelativeTo(null);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -92,9 +91,9 @@ public class MenuVisao extends JFrame
 		this.menuItemArquivoGerenciarConta.setText("Gerenciar conta");
 		this.menuArquivo.add(this.menuItemArquivoGerenciarConta);
 		
-		this.menuItemArquivoTrocarUsuario = new JMenuItem();
-		this.menuItemArquivoTrocarUsuario.setText("Trocar usuário");
-		this.menuArquivo.add(this.menuItemArquivoTrocarUsuario);
+		this.menuItemArquivoFazerLogoff = new JMenuItem();
+		this.menuItemArquivoFazerLogoff.setText("Fazer logoff");
+		this.menuArquivo.add(this.menuItemArquivoFazerLogoff);
 		
 		this.menuItemArquivoSair = new JMenuItem();
 		this.menuItemArquivoSair.setText("Sair");
@@ -143,7 +142,7 @@ public class MenuVisao extends JFrame
 	private void vincularEventos()
 	{
 		this.menuItemArquivoGerenciarConta.addActionListener(this.aoClicarMenuItemArquivoGerenciarConta());
-		this.menuItemArquivoTrocarUsuario.addActionListener(this.aoClicarMenuItemArquivoTrocarUsuario());
+		this.menuItemArquivoFazerLogoff.addActionListener(this.aoClicarMenuItemArquivoFazerLogoff());
 		this.menuItemArquivoSair.addActionListener(this.aoClicarMenuItemArquivoSair());				
 		this.menuItemMovimentacaoVerFeed.addActionListener(this.aoClicarMenuItemMovimentacaoVerFeed());
 		this.menuItemMovimentacaoVerMensagensDosTopicos.addActionListener(this.aoClicarMenuItemMovimentacaoVerMensagensDosTopicos());
@@ -189,7 +188,7 @@ public class MenuVisao extends JFrame
 		
 		@return Um handler ao evento.
 	*/
-	private ActionListener aoClicarMenuItemArquivoTrocarUsuario()
+	private ActionListener aoClicarMenuItemArquivoFazerLogoff()
 	{
 		return new ActionListener()
 		{	
