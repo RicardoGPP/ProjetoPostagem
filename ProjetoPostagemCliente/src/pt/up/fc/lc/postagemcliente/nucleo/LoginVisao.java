@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class LoginVisao extends JDialog
 {
@@ -192,7 +192,7 @@ public class LoginVisao extends JDialog
 					textFieldNomeUsuario.requestFocus();
 				} else
 				{
-					loginControle.definirUsuario(autenticavel);
+					loginControle.definirUsuario();
 					dispose();
 				}
 			}

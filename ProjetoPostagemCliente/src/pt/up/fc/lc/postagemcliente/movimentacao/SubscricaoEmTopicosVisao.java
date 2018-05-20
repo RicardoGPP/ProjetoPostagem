@@ -20,7 +20,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class SubscricaoEmTopicosVisao extends JInternalFrame
 {
@@ -154,7 +154,7 @@ public class SubscricaoEmTopicosVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/	
-	public ActionListener aoClicarButtonAtualizar()
+	private ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
 		{	
@@ -171,7 +171,7 @@ public class SubscricaoEmTopicosVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/	
-	public ActionListener aoClicarButtonSubscrever()
+	private ActionListener aoClicarButtonSubscrever()
 	{
 		return new ActionListener()
 		{

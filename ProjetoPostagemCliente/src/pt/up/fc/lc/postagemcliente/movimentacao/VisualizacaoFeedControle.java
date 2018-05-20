@@ -16,7 +16,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class VisualizacaoFeedControle
 {
@@ -98,7 +98,7 @@ public class VisualizacaoFeedControle
 		
 		@version 1.0
 		@author  Ricardo Giovani Piantavinha Perandré,
-	             Pedro	
+	             Pedro Sobral da Costa	
 	*/
 	public class ComentarioFavorito
 	{

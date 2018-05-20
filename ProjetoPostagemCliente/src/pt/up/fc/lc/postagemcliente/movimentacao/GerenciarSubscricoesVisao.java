@@ -148,7 +148,7 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/
-	public ActionListener aoClicarButtonAtualizar()
+	private ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
 		{	
@@ -165,7 +165,7 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/
-	public ActionListener aoClicarButtonDesinscrever()
+	private ActionListener aoClicarButtonDesinscrever()
 	{
 		return new ActionListener()
 		{
@@ -182,7 +182,7 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/
-	public ActionListener aoClicarButtonFavoritarDesfavoritar()
+	private ActionListener aoClicarButtonFavoritarDesfavoritar()
 	{
 		return new ActionListener()
 		{
@@ -200,7 +200,7 @@ public class GerenciarSubscricoesVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/
-	public ListSelectionListener aoSelecionarItemNaLista()
+	private ListSelectionListener aoSelecionarItemNaLista()
 	{
 		return new ListSelectionListener()
 		{	

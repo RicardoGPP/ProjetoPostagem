@@ -18,7 +18,7 @@ import pt.up.fc.lc.postagempersistencia.dao.DAO;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class PedidoUtilizadorVisao extends JDialog
 {

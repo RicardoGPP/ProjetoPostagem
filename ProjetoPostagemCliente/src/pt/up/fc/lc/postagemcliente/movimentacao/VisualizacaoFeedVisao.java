@@ -19,7 +19,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class VisualizacaoFeedVisao extends JInternalFrame
 {
@@ -131,7 +131,7 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/
-	public ActionListener aoClicarButtonAtualizar()
+	private ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
 		{	
@@ -148,7 +148,7 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/
-	public ActionListener aoClicarButtonCurtirDescurtir()
+	private ActionListener aoClicarButtonCurtirDescurtir()
 	{
 		return new ActionListener()
 		{
@@ -166,7 +166,7 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/
-	public ListSelectionListener aoSelecionarItemNaLista()
+	private ListSelectionListener aoSelecionarItemNaLista()
 	{
 		return new ListSelectionListener()
 		{
