@@ -9,13 +9,25 @@ import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
 import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 
+/**
+	Classe da camada de controle do relatório de interação por tópico.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class RelatorioInteracaoPorTopicoControle extends RelatorioControle
 {
 	private TopicoDAO topicoDAO;
 	private ComentarioDAO comentarioDAO;
 	private SubscricaoDAO subscricaoDAO;
 	
-	public RelatorioInteracaoPorTopicoControle(RelatorioVisao relatorioVisao)
+	/**
+		Cria e inicializa o controle do relatório de interação por tópico.
+		
+		@param A visão do relatório de interação por tópico.
+	*/
+	public RelatorioInteracaoPorTopicoControle(RelatorioInteracaoPorTopicoVisao relatorioVisao)
 	{
 		super(relatorioVisao);
 		this.topicoDAO = new TopicoDAO();
@@ -23,6 +35,9 @@ public class RelatorioInteracaoPorTopicoControle extends RelatorioControle
 		this.subscricaoDAO = new SubscricaoDAO();
 	}
 	
+	/**
+		Carrega a tabela do relatório com os dados recuperados na pesquisa.
+	*/
 	public void carregarTabela()
 	{	
 		this.relatorioVisao.limparTabela();

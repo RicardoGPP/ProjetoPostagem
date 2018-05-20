@@ -9,11 +9,23 @@ import pt.up.fc.lc.postagempersistencia.dao.TopicoDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 
+/**
+	Classe da camada de controle do relatório de mensagens por tópico.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class RelatorioMensagensPorTopicoControle extends RelatorioControle
 {
 	private TopicoDAO topicoDAO;
 	private ComentarioDAO comentarioDAO;
 	
+	/**
+		Cria e inicializa o controle do relatório de mensagens por tópico.
+		
+		@param A visão do relatório de mensagens por tópico.
+	*/
 	public RelatorioMensagensPorTopicoControle(RelatorioVisao relatorioVisao)
 	{
 		super(relatorioVisao);
@@ -21,6 +33,9 @@ public class RelatorioMensagensPorTopicoControle extends RelatorioControle
 		this.comentarioDAO = new ComentarioDAO();
 	}
 	
+	/**
+		Carrega a tabela do relatório com os dados recuperados na pesquisa.
+	*/
 	public void carregarTabela()
 	{	
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DAO.FORMATO_DATA_HORA);		

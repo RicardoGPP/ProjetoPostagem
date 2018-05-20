@@ -10,11 +10,18 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+/**
+	Classe da camada de visão do menu do sistema.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class MenuVisao extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	
-	private MenuControle menuControle;
+	private MenuControle controle;
 	
 	private JDesktopPane desktopPaneTelas;
 	private JMenuBar menuBarGeral;
@@ -34,10 +41,13 @@ public class MenuVisao extends JFrame
 	private JMenuItem menuItemRelatorioInteracaoPorTopico;
 	private JMenuItem menuItemRelatorioSubscricoesUsuario;
 	
+	/**
+		Cria e inicializa a visão de menu.
+	*/
 	public MenuVisao()
 	{
-		this.menuControle = new MenuControle(this);
-		if (!this.menuControle.fazerLogin())
+		this.controle = new MenuControle(this);
+		if (!this.controle.fazerLogin())
 			dispose();
 		else
 		{
@@ -47,6 +57,10 @@ public class MenuVisao extends JFrame
 		}
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setSize(800, 600);
@@ -79,7 +93,7 @@ public class MenuVisao extends JFrame
 		
 		this.menuItemArquivoGerenciarConta = new JMenuItem();
 		this.menuItemArquivoGerenciarConta.setText("Gerenciar conta");
-		this.menuItemArquivoGerenciarConta.setVisible(!this.menuControle.usuarioLogadoEMaster());
+		this.menuItemArquivoGerenciarConta.setVisible(!this.controle.usuarioLogadoEMaster());
 		this.menuArquivo.add(this.menuItemArquivoGerenciarConta);
 		
 		this.menuItemArquivoFazerLogoff = new JMenuItem();
@@ -123,6 +137,9 @@ public class MenuVisao extends JFrame
 		this.menuRelatorios.add(this.menuItemRelatorioSubscricoesUsuario);		
 	}
 
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.menuItemArquivoGerenciarConta.addActionListener(this.aoClicarMenuItemArquivoGerenciarConta());
@@ -138,27 +155,49 @@ public class MenuVisao extends JFrame
 		this.menuItemRelatorioSubscricoesUsuario.addActionListener(this.aoClicarMenuItemRelatorioSubscricoesUsuario());
 	}
 
+	/**
+		Obtém o container geral de todos os frames internos do sistema.
+		
+		@return O container de telas.
+	*/
 	public JDesktopPane obterPainel()
 	{
 		return this.desktopPaneTelas;
 	}
 	
+	/**
+		Define a visibilidade do item de menu "Gerenciar conta".
+	
+		@param Se o item é visível ou não.
+	*/
 	public void definirItemMenuArquivoGerenciarContaVisivel(boolean visivel)
 	{
 		this.menuItemArquivoGerenciarConta.setVisible(visivel);
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Arquivo -> Gerenciar conta".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemArquivoGerenciarConta()
 	{
 		return new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				menuControle.abrirGerenciamentoDeConta();
+				controle.abrirGerenciamentoDeConta();
 			}
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Arquivo -> Fazer logoff".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemArquivoFazerLogoff()
 	{
 		return new ActionListener()
@@ -166,7 +205,7 @@ public class MenuVisao extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				setVisible(false);
-				if (!menuControle.fazerLogoff())
+				if (!controle.fazerLogoff())
 					dispose();
 				else
 				{
@@ -178,6 +217,12 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Arquivo -> Sair".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemArquivoSair()
 	{
 		return new ActionListener()
@@ -189,90 +234,138 @@ public class MenuVisao extends JFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Cadastro -> Usuários".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemCadastroUsuarios()
 	{
 		return new ActionListener()
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				menuControle.abrirCadastroUsuarios();				
+				controle.abrirCadastroUsuarios();				
 			}
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Cadastro -> Topicos".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemCadastroTopicos()
 	{
 		return new ActionListener()
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				menuControle.abrirCadastroTopicos();
+				controle.abrirCadastroTopicos();
 			}
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Movimentação -> Gerenciar pedidos de utilizador".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemMovimentacaoGerenciarPedidosUtilizador()
 	{
 		return new ActionListener()
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				menuControle.abrirGerenciamentoPedidosUtilizador();
+				controle.abrirGerenciamentoPedidosUtilizador();
 			}
 		};
 	}
 
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Relatórios -> Relatório de tópicos mais ativos".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemRelatorioTopicosAtivos()
 	{
 		return new ActionListener()
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				menuControle.abrirRelatorioTopicosAtivos();
+				controle.abrirRelatorioTopicosAtivos();
 			}
 		};
 	}
 
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Relatórios -> Relatório de tópicos mais utilizados".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemRelatorioTopicosMaisUtilizados()
 	{
 		return new ActionListener()
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				menuControle.abrirRelatorioTopicosMaisUtilizados();
+				controle.abrirRelatorioTopicosMaisUtilizados();
 			}
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Relatórios -> Relatório de mensagens por tópico".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemRelatorioMensagensPorTopico()
 	{
 		return new ActionListener()
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				menuControle.abrirRelatorioMensagensPorTopico();
+				controle.abrirRelatorioMensagensPorTopico();
 			}
 		};
 	}
 
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Relatórios -> Relatório de interação por tópico".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemRelatorioInteracaoPorTopico()
 	{
 		return new ActionListener()
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				menuControle.abrirRelatorioInteracaoPorTopico();
+				controle.abrirRelatorioInteracaoPorTopico();
 			}
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no item de
+		menu "Relatórios -> Relatório de subscrições de usuários".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarMenuItemRelatorioSubscricoesUsuario()
 	{
 		return new ActionListener()
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				menuControle.abrirRelatorioSubscricoesUsuario();
+				controle.abrirRelatorioSubscricoesUsuario();
 			}
 		};
 	}

@@ -4,11 +4,23 @@ import pt.up.fc.lc.postagempersistencia.dao.ComentarioDAO;
 import pt.up.fc.lc.postagempersistencia.dao.TopicoDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 
+/**
+	Classe da camada de controle do relatório de tópicos ativos.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class RelatorioTopicosAtivosControle extends RelatorioControle
 {
 	private TopicoDAO topicoDAO;
 	private ComentarioDAO comentarioDAO;
 	
+	/**
+		Cria e inicializa o controle do relatório de tópicos ativos.
+		
+		@param A visão do relatório de tópicos ativos.
+	*/
 	public RelatorioTopicosAtivosControle(RelatorioVisao relatorioVisao)
 	{
 		super(relatorioVisao);
@@ -16,6 +28,9 @@ public class RelatorioTopicosAtivosControle extends RelatorioControle
 		this.comentarioDAO = new ComentarioDAO();
 	}
 	
+	/**
+		Carrega a tabela do relatório com os dados recuperados na pesquisa.
+	*/
 	public void carregarTabela()
 	{	
 		this.relatorioVisao.limparTabela();

@@ -1,9 +1,19 @@
 package pt.up.fc.lc.postagemservidor.relatorio;
 
+/**
+	Classe da camada de visão do relatório de interação por tópico.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class RelatorioInteracaoPorTopicoVisao extends RelatorioVisao
 {
 	private static final long serialVersionUID = 1L;
 	
+	/**
+		Cria e inicializa a visão do relatório de interação por tópico.
+	*/
 	public RelatorioInteracaoPorTopicoVisao()
 	{
 		super("Relatório de interação por tópico");
@@ -12,6 +22,9 @@ public class RelatorioInteracaoPorTopicoVisao extends RelatorioVisao
 		this.setVisible(true);
 	}
 	
+	/**
+		Inicializa a tabela, definido colunas, tamanhos e ordenação.
+	*/
 	protected void inicializarTabela()
 	{	
 		this.adicionarColunas("Tópico", "Mensagens", "Subscritos", "Interação");

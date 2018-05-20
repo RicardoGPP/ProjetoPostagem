@@ -7,11 +7,23 @@ import pt.up.fc.lc.postagempersistencia.entidades.Comentario;
 import pt.up.fc.lc.postagempersistencia.entidades.Subscricao;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle do relatório de subscrições dos usuários.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
 {	
 	private SubscricaoDAO subscricaoDAO;
 	private ComentarioDAO comentarioDAO;
 	
+	/**
+		Cria e inicializa o controle do relatório de subscrições dos usuários.
+		
+		@param A visão do relatório de subscrições dos usuários.
+	*/
 	public RelatorioSubscricoesUsuarioControle(RelatorioVisao relatorioVisao)
 	{
 		super(relatorioVisao);
@@ -19,6 +31,9 @@ public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
 		this.comentarioDAO = new ComentarioDAO();
 	}
 	
+	/**
+		Carrega a tabela do relatório com os dados recuperados na pesquisa.
+	*/
 	public void carregarTabela()
 	{	
 		Usuario usuario = ((RelatorioSubscricoesUsuarioVisao) this.relatorioVisao).obterSelecionado();
@@ -38,9 +53,12 @@ public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
 		}
 	}
 	
+	/**
+		Carrega os usuários do sistema no componente da visão.
+	*/
 	public void carregarUsuarios()
 	{
 		for (Usuario usuario : (new UsuarioDAO()).obterLista())
-			((RelatorioSubscricoesUsuarioVisao) this.relatorioVisao).adicionarUsuario(usuario); 
+			((RelatorioSubscricoesUsuarioVisao) this.relatorioVisao).definirUsuarios(usuario); 
 	}
 }

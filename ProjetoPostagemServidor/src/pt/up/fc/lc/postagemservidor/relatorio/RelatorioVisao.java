@@ -8,6 +8,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+/**
+	Classe abstrata padrão para todos as visões de relatório.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public abstract class RelatorioVisao extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -23,6 +30,9 @@ public abstract class RelatorioVisao extends JInternalFrame
 	private DefaultTableModel tableModelTabela;
 	private JTable tableTabela;
 	
+	/**
+		Cria e inicializa a visão de relatório.
+	*/
 	public RelatorioVisao(String titulo)
 	{
 		this.construirTela(titulo);
@@ -30,6 +40,13 @@ public abstract class RelatorioVisao extends JInternalFrame
 		this.vincularEventos();
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite. Define o título passado
+		no parâmetro.
+		
+		@param O título do relatório.
+	*/
 	private void construirTela(String titulo)
 	{
 		this.setTitle(titulo);
@@ -52,27 +69,49 @@ public abstract class RelatorioVisao extends JInternalFrame
 		this.scrollPaneTabela.setViewportView(this.tableTabela);
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonAtualizar.addActionListener(aoClicarButtonAtualizar());
 	}
 	
+	/**
+		Adiciona colunas na tabela da visão.
+		
+		@param Um array de nomes de coluna.
+	*/
 	public void adicionarColunas(String ... colunas)
 	{
 		for (String coluna : colunas)
 			this.tableModelTabela.addColumn(coluna);
 	}
 	
+	/**
+		Adiciona uma linha na tabela da visão.
+	
+		@param Um array de objetos de valor.
+	*/
 	public void adicionarLinha(Object ... linha)
 	{
 		this.tableModelTabela.addRow(linha);
 	}
 	
+	/**
+		Remove todas as linhas da tabela da visão.
+	*/
 	public void limparTabela()
 	{
 		this.tableModelTabela.setRowCount(0);
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Atualizar".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
@@ -84,5 +123,8 @@ public abstract class RelatorioVisao extends JInternalFrame
 		};
 	}
 	
+	/**
+		Inicializa a tabela, definido colunas, tamanhos e ordenação.
+	*/
 	protected abstract void inicializarTabela();
 }
