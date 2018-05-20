@@ -136,7 +136,7 @@ public class VisualizacaoFeedVisao extends JInternalFrame
 		return new ActionListener()
 		{	
 			public void actionPerformed(ActionEvent e)
-			{
+			{				
 				visualizacaoFeedControle.carregarLista();
 			}
 		};

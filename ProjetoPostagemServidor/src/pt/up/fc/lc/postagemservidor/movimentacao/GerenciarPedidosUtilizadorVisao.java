@@ -17,7 +17,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.PedidoUtilizador;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 {
@@ -133,7 +133,7 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/
-	public ActionListener aoClicarButtonAtualizar()
+	private ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
 		{	
@@ -150,7 +150,7 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/
-	public ActionListener aoClicarButtonAceitar()
+	private ActionListener aoClicarButtonAceitar()
 	{
 		return new ActionListener()
 		{
@@ -167,7 +167,7 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/
-	public ActionListener aoClicarButtonRejeitar()
+	private ActionListener aoClicarButtonRejeitar()
 	{
 		return new ActionListener()
 		{

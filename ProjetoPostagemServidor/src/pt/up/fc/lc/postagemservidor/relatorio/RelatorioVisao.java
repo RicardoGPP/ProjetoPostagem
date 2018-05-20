@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public abstract class RelatorioVisao extends JInternalFrame
 {

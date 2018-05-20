@@ -5,7 +5,7 @@ package pt.up.fc.lc.postagemservidor.cadastro;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class CadastroInternoControle
 {
@@ -16,7 +16,7 @@ public class CadastroInternoControle
 		
 		@version 1.0
 		@author  Ricardo Giovani Piantavinha Perandré,
-		         Pedro
+		         Pedro Sobral da Costa
 	*/
 	public enum Modo
 	{

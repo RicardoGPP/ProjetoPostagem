@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class MenuVisao extends JFrame
 {

@@ -7,7 +7,7 @@ import pt.up.fc.lc.postagempersistencia.util.Formatador;
 		
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class Topico implements Entidade<Topico>
 {

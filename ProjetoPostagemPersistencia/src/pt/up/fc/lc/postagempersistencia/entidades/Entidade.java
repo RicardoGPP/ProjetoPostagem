@@ -5,7 +5,7 @@ package pt.up.fc.lc.postagempersistencia.entidades;
 		
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public interface Entidade<T>
 {

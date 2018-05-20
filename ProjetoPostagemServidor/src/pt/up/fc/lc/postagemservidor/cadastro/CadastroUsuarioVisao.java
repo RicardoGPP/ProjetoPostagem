@@ -17,7 +17,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class CadastroUsuarioVisao extends JInternalFrame
 {
@@ -152,7 +152,7 @@ public class CadastroUsuarioVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/	
-	public ActionListener aoClicarButtonAtualizar()
+	private ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
 		{	
@@ -169,7 +169,7 @@ public class CadastroUsuarioVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/	
-	public ActionListener aoClicarButtonIncluir()
+	private ActionListener aoClicarButtonIncluir()
 	{
 		return new ActionListener()
 		{
@@ -186,7 +186,7 @@ public class CadastroUsuarioVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/	
-	public ActionListener aoClicarButtonEditar()
+	private ActionListener aoClicarButtonEditar()
 	{
 		return new ActionListener()
 		{
@@ -203,7 +203,7 @@ public class CadastroUsuarioVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/	
-	public ActionListener aoClicarButtonExcluir()
+	private ActionListener aoClicarButtonExcluir()
 	{
 		return new ActionListener()
 		{

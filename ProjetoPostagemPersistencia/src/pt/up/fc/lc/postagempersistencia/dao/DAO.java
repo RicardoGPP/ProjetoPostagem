@@ -16,7 +16,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Entidade;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public abstract class DAO<T extends Entidade<T>>
 {
@@ -47,10 +47,10 @@ public abstract class DAO<T extends Entidade<T>>
 		List<String> linhas = new ArrayList<>();		
 		try (FileReader stream = new FileReader(arquivo);
 			 BufferedReader leitor = new BufferedReader(stream))
-		{			
+		{
 			String linha = "";
 			while ((linha = leitor.readLine()) != null)
-				linhas.add(linha);			
+				linhas.add(linha);	
 		} catch (IOException e)
 		{
 			throw e;

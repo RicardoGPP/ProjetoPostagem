@@ -12,7 +12,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
 {	

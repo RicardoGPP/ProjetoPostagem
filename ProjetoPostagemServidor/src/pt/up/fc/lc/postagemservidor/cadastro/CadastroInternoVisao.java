@@ -8,7 +8,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Entidade;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public abstract class CadastroInternoVisao<T extends Entidade<T>> extends JDialog
 {

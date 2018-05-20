@@ -5,7 +5,7 @@ package pt.up.fc.lc.postagemservidor.relatorio;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class RelatorioInteracaoPorTopicoVisao extends RelatorioVisao
 {

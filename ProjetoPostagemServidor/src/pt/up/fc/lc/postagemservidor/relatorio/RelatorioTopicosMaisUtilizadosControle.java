@@ -13,7 +13,7 @@ Classe da camada de controle do relatório de tópicos mais utilizados.
 
 @version 1.0
 @author  Ricardo Giovani Piantavinha Perandré,
-         Pedro
+         Pedro Sobral da Costa
 */
 public class RelatorioTopicosMaisUtilizadosControle extends RelatorioControle
 {

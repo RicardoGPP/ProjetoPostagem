@@ -14,7 +14,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class RelatorioInteracaoPorTopicoControle extends RelatorioControle
 {

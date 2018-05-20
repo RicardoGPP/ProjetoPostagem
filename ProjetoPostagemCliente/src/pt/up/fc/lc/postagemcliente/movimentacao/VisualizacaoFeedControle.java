@@ -84,8 +84,8 @@ public class VisualizacaoFeedControle
 	*/
 	public void atualizarTextoBotaoCurtir()
 	{
-		Comentario comentario = this.visualizacaoFeedVisao.obterSelecionado().comentario;
-		if ((comentario == null) || (!this.curtidaDAO.curtiu(this.logado, comentario)))
+		ComentarioFavorito comentarioFavorito = this.visualizacaoFeedVisao.obterSelecionado();
+		if ((comentarioFavorito == null) || (!this.curtidaDAO.curtiu(this.logado, comentarioFavorito.comentario)))
 			this.visualizacaoFeedVisao.definirTextoBotaoCurtir("Curtir");
 		else
 			this.visualizacaoFeedVisao.definirTextoBotaoCurtir("Descurtir");
@@ -104,7 +104,7 @@ public class VisualizacaoFeedControle
 	{
 		private Comentario comentario;
 		private boolean favorito;
-		
+	
 		/**
 			Cria um comentário favorito e define os dados nos atributos
 			com os passados por parâmetro.

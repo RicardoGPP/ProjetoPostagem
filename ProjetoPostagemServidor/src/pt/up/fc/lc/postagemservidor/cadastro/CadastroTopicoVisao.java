@@ -17,7 +17,7 @@ import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 	
 	@version 1.0
 	@author  Ricardo Giovani Piantavinha Perandré,
-	         Pedro
+	         Pedro Sobral da Costa
 */
 public class CadastroTopicoVisao extends JInternalFrame
 {
@@ -150,7 +150,7 @@ public class CadastroTopicoVisao extends JInternalFrame
 		
 		@return Um handler ao evento.
 	*/	
-	public ActionListener aoClicarButtonAtualizar()
+	private ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
 		{	
@@ -161,15 +161,13 @@ public class CadastroTopicoVisao extends JInternalFrame
 		};
 	}
 	
-	
 	/**
 		Define e retorna a ação aplicada sobre o evento do clique no botão
 		"Incluir".
 		
 		@return Um handler ao evento.
-	*/
-	
-	public ActionListener aoClicarButtonIncluir()
+	*/	
+	private ActionListener aoClicarButtonIncluir()
 	{
 		return new ActionListener()
 		{
@@ -180,14 +178,13 @@ public class CadastroTopicoVisao extends JInternalFrame
 		};
 	}
 	
-	
 	/**
 		Define e retorna a ação aplicada sobre o evento do clique no botão
 		"Editar".
 		
 		@return Um handler ao evento.
 	*/
-	public ActionListener aoClicarButtonEditar()
+	private ActionListener aoClicarButtonEditar()
 	{
 		return new ActionListener()
 		{
@@ -198,14 +195,13 @@ public class CadastroTopicoVisao extends JInternalFrame
 		};
 	}
 	
-	
 	/**
 		Define e retorna a ação aplicada sobre o evento do clique no botão
 		"Excluir".
 		
 		@return Um handler ao evento.
 	*/
-	public ActionListener aoClicarButtonExcluir()
+	private ActionListener aoClicarButtonExcluir()
 	{
 		return new ActionListener()
 		{

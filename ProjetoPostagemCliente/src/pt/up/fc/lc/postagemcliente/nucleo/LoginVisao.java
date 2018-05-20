@@ -26,7 +26,6 @@ public class LoginVisao extends JDialog
 	private static final int BORDA = 15;	
 	
 	private LoginControle loginControle;
-	private Autenticavel autenticavel;
 	
 	private JLabel labelUsuario;
 	private JLabel labelSenha;
@@ -45,8 +44,7 @@ public class LoginVisao extends JDialog
 	*/
 	public LoginVisao(Autenticavel autenticavel)
 	{		
-		this.loginControle = new LoginControle(this, autenticavel);
-		this.autenticavel = autenticavel;		
+		this.loginControle = new LoginControle(this, autenticavel);		
 		this.construirTela(null);
 		this.vincularEventos();		
 		this.setVisible(true);
@@ -65,7 +63,6 @@ public class LoginVisao extends JDialog
 	public LoginVisao(Autenticavel autenticavel, Usuario usuario)
 	{
 		this.loginControle = new LoginControle(this, autenticavel);
-		this.autenticavel = autenticavel;		
 		this.construirTela(usuario);
 		this.vincularEventos();
 		this.buttonPedirUtilizador.setVisible(false);
