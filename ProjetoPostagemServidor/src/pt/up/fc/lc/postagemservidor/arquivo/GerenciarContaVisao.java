@@ -15,6 +15,13 @@ import javax.swing.JTextField;
 import pt.up.fc.lc.postagempersistencia.dao.DAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de visão do gerenciamento de conta do sistema.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class GerenciarContaVisao extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -37,6 +44,9 @@ public class GerenciarContaVisao extends JInternalFrame
 	private JTextField textFieldDataNascimento;
 	private JButton buttonSalvar;
 	
+	/**
+		Cria e inicializa a visão de gerenciamento de conta.
+	*/
 	public GerenciarContaVisao(Usuario usuario)
 	{
 		this.gerenciarContaControle = new GerenciarContaControle(this, usuario);
@@ -46,6 +56,10 @@ public class GerenciarContaVisao extends JInternalFrame
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setTitle("Gerenciamento de conta");
@@ -106,51 +120,99 @@ public class GerenciarContaVisao extends JInternalFrame
 		this.add(this.buttonSalvar);	
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonSalvar.addActionListener(this.aoClicarButtonSalvar());
 	}
 	
+	/**
+		Obtém a senha no componente correspondente da visão.
+		
+		@return A senha do usuário.
+	*/
 	public String obterSenha()
 	{
 		return new String(this.passwordFieldSenha.getPassword());
 	}
 	
+	/**
+		Define a senha no componente correspondente da visão. 
+	
+		@param A senha de usuário.
+	 */
 	public void definirSenha(String senha)
 	{
 		this.passwordFieldSenha.setText(senha);
 	}
 	
+	/**
+		Obtém o nome completo no componente correspondente da visão.
+		
+		@return O nome completo do usuário.
+	*/
 	public String obterNomeCompleto()
 	{
 		return this.textFieldNomeCompleto.getText();
 	}
 	
+	/**
+		Define o nome completo no componente correspondente da visão. 
+	
+		@param O nome completo do usuário.
+	 */
 	public void definirNomeCompleto(String nomeCompleto)
 	{
 		this.textFieldNomeCompleto.setText(nomeCompleto);
 	}
 	
+	/**
+		Obtém o e-mail no componente correspondente da visão.
+		
+		@return O e-mail do usuário.
+	*/
 	public String obterEmail()
 	{
 		return this.textFieldEmail.getText();
 	}
 	
+	/**
+		Define o e-mail no componente correspondente da visão. 
+	
+		@param O e-mail do usuário.
+	 */
 	public void definirEmail(String email)
 	{
 		this.textFieldEmail.setText(email);
 	}
 	
+	/**
+		Obtém o telefone no componente correspondente da visão.
+		
+		@return O telefone do usuário.
+	*/
 	public String obterTelefone()
 	{
 		return this.textFieldTelefone.getText();
 	}
 	
+	/**
+		Define o telefone no componente correspondente da visão. 
+	
+		@param O telefone de usuário.
+	 */
 	public void definirTelefone(String telefone)
 	{
 		this.textFieldTelefone.setText(telefone);
 	}
 	
+	/**
+		Obtém a data de nascimento no componente correspondente da visão.
+		
+		@return A data de nascimento do usuário.
+	*/
 	public Date obterDataNascimento()
 	{
 		try
@@ -163,12 +225,22 @@ public class GerenciarContaVisao extends JInternalFrame
 		}
 	}
 	
+	/**
+		Define a data de nascimento no componente correspondente da visão. 
+	
+		@param A data de nascimento de usuário.
+	 */
 	public void definirDataDeNascimento(Date dataNascimento)
 	{
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DAO.FORMATO_DATA);
 		this.textFieldDataNascimento.setText(simpleDateFormat.format(dataNascimento));
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão "Salvar".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarButtonSalvar()
 	{
 		return new ActionListener()

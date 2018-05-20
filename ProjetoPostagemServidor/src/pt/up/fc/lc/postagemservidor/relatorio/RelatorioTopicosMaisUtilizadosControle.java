@@ -23,9 +23,9 @@ public class RelatorioTopicosMaisUtilizadosControle extends RelatorioControle
 	/**
 		Cria e inicializa o controle do relatório de tópicos mais utilizados.
 		
-		@param A visão do relatório de interação por tópico.
+		@param A visão do relatório de tópicos mais utilizados.
 	*/
-	public RelatorioTopicosMaisUtilizadosControle(RelatorioVisao relatorioVisao)
+	public RelatorioTopicosMaisUtilizadosControle(RelatorioTopicosMaisUtilizadosVisao relatorioVisao)
 	{
 		super(relatorioVisao);
 		this.topicoDAO = new TopicoDAO();

@@ -11,6 +11,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 
+/**
+	Classe da camada de visão do cadastro de tópico interno.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 {
 	private static final long serialVersionUID = 1L;
@@ -31,6 +38,10 @@ public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 	private JButton buttonOK;
 	private JButton buttonCancelar;
 	
+	/**
+		Cria e inicializa a visão de cadastro de tópico interno no modo
+		de inclusão.
+	*/
 	public CadastroTopicoInternoVisao()
 	{
 		this.cadastroTopicoInternoControle = new CadastroTopicoInternoControle(this);
@@ -40,6 +51,10 @@ public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria e inicializa a visão de cadastro de tópico interno no modo
+		de edição.
+	*/
 	public CadastroTopicoInternoVisao(Topico topico)
 	{
 		this.cadastroTopicoInternoControle = new CadastroTopicoInternoControle(this, topico);
@@ -49,6 +64,10 @@ public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setResizable(false);
@@ -101,57 +120,106 @@ public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 		this.add(this.buttonOK);		
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonOK.addActionListener(this.aoClicarBotaoOK());
 		this.buttonCancelar.addActionListener(this.aoClicarBotaoCancelar());
 	}
 	
+	/**
+		Obtém o título no componente correspondente da visão.
+		
+		@return O título do tópico.
+	*/
 	public String obterTitulo()
 	{
 		return this.textFieldTitulo.getText();
 	}
 	
+	/**
+		Define o título no componente correspondente da visão. 
+	
+		@param O título do tópico.
+	 */
 	public void definirTitulo(String titulo)
 	{
 		this.textFieldTitulo.setText(titulo);
 	}
 	
+	/**
+		Define se o componente do titulo será editavel. 
+	
+		@param Se o componente será editável ou não.
+	*/
 	public void definirTituloEditavel(boolean editavel)
 	{
 		this.textFieldTitulo.setEditable(editavel);
 	}
 	
+	/**
+		Obtém a descrição no componente correspondente da visão.
+		
+		@return A descrição do tópico.
+	*/
 	public String obterDescricao()
 	{
 		return this.textAreaDescricao.getText();
 	}
 	
+	/**
+		Define a descrição no componente correspondente da visão. 
+	
+		@param A descrição do tópico.
+	 */
 	public void definirDescricao(String descricao)
 	{
 		this.textAreaDescricao.setText(descricao);
 	}
 	
+	/**
+		Obtém o limite de mensagens no componente correspondente da visão.
+		
+		@return O limite de mensagens do tópico.
+	*/
 	public int obterLimiteMensagens()
 	{
-		return Integer.parseInt(this.textFieldLimiteMensagens.getText());
+		try
+		{
+			return Integer.parseInt(this.textFieldLimiteMensagens.getText());
+		} catch (Exception e)
+		{
+			return 0;
+		}
 	}
 	
+	/**
+		Define o limite de mensagens no componente correspondente da visão. 
+	
+		@param O limite de mensagens do tópico.
+	 */
 	public void definirLimiteMensagens(int limiteMensagens)
 	{
 		this.textFieldLimiteMensagens.setText(Integer.toString(limiteMensagens));
 	}
 	
+	/**
+		Obtém o registro gerado pelo cadastro.
+		
+		@return Um tópico.
+	*/
 	public Topico obterRegistro()
 	{
 		return this.cadastroTopicoInternoControle.getTopico();
 	}
 	
-	public boolean foiProcessado()
-	{
-		return this.processado;
-	}
-	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão "OK".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarBotaoOK()
 	{
 		return new ActionListener()
@@ -180,6 +248,11 @@ public class CadastroTopicoInternoVisao extends CadastroInternoVisao<Topico>
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão "Cancelar".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarBotaoCancelar()
 	{
 		return new ActionListener()

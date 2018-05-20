@@ -7,12 +7,25 @@ import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.PedidoUtilizador;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle do gerenciamento de pedidos de utilizador
+	do sistema.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class GerenciarPedidosUtilizadorControle
 {
 	private PedidoUtilizadorDAO pedidoUtilizadorDAO;
 	private UsuarioDAO usuarioDAO;
 	private GerenciarPedidosUtilizadorVisao gerenciarPedidosUtilizadorVisao;
 	
+	/**
+		Cria e inicializa o controle de gerenciamento de pedidos de utilizador.
+		
+		@param A visão do gerenciamento de pedidos de utilizador.
+	*/
 	public GerenciarPedidosUtilizadorControle(GerenciarPedidosUtilizadorVisao gerenciarPedidosUtilizadorVisao)
 	{
 		this.pedidoUtilizadorDAO = new PedidoUtilizadorDAO();
@@ -20,12 +33,20 @@ public class GerenciarPedidosUtilizadorControle
 		this.gerenciarPedidosUtilizadorVisao = gerenciarPedidosUtilizadorVisao;
 	}
 	
+	/**
+		Verifica se o usuário a ser criado pelo pedido de utilizador já existe.
+		
+		@return Se o usuário existe ou não.
+	*/
 	public boolean usuarioJaExiste()
 	{
 		PedidoUtilizador pedidoUtilizador = this.gerenciarPedidosUtilizadorVisao.obterSelecionado();
-		return ((pedidoUtilizador != null) && (this.usuarioDAO.obterRegistro(pedidoUtilizador.getNomeUsuario()) != null));
+		return ((pedidoUtilizador != null) && (this.usuarioDAO.existe(new Usuario(pedidoUtilizador))));
 	}
 	
+	/**
+		Carrega a lista de pedidos de utilizador.
+	*/
 	public void carregarLista()
 	{
 		List<PedidoUtilizador> pedidosUtilizador = this.pedidoUtilizadorDAO.obterLista();		
@@ -33,6 +54,10 @@ public class GerenciarPedidosUtilizadorControle
 		this.gerenciarPedidosUtilizadorVisao.definirPedidosUtilizador(pedidosUtilizador);
 	}
 	
+	/**
+		Aceita um pedido de utilizador, removendo o pedido do arquivo
+		e adicionando um usuário com as informações referentes.
+	*/
 	public void aceitar()
 	{
 		PedidoUtilizador pedidoUtilizador = this.gerenciarPedidosUtilizadorVisao.obterSelecionado();
@@ -46,6 +71,9 @@ public class GerenciarPedidosUtilizadorControle
 		}
 	}
 	
+	/**
+		Rejeita um pedido de utilizador, removendo o pedido do arquivo.
+	*/
 	public void rejeitar()
 	{
 		PedidoUtilizador pedidoUtilizador = this.gerenciarPedidosUtilizadorVisao.obterSelecionado();

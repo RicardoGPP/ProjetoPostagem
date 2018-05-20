@@ -21,7 +21,7 @@ public class MenuVisao extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	
-	private MenuControle controle;
+	private MenuControle menuControle;
 	
 	private JDesktopPane desktopPaneTelas;
 	private JMenuBar menuBarGeral;
@@ -46,8 +46,8 @@ public class MenuVisao extends JFrame
 	*/
 	public MenuVisao()
 	{
-		this.controle = new MenuControle(this);
-		if (!this.controle.fazerLogin())
+		this.menuControle = new MenuControle(this);
+		if (!this.menuControle.fazerLogin())
 			dispose();
 		else
 		{
@@ -93,7 +93,7 @@ public class MenuVisao extends JFrame
 		
 		this.menuItemArquivoGerenciarConta = new JMenuItem();
 		this.menuItemArquivoGerenciarConta.setText("Gerenciar conta");
-		this.menuItemArquivoGerenciarConta.setVisible(!this.controle.usuarioLogadoEMaster());
+		this.menuItemArquivoGerenciarConta.setVisible(!this.menuControle.usuarioLogadoEMaster());
 		this.menuArquivo.add(this.menuItemArquivoGerenciarConta);
 		
 		this.menuItemArquivoFazerLogoff = new JMenuItem();
@@ -187,7 +187,7 @@ public class MenuVisao extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				controle.abrirGerenciamentoDeConta();
+				menuControle.abrirGerenciamentoDeConta();
 			}
 		};
 	}
@@ -205,7 +205,7 @@ public class MenuVisao extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				setVisible(false);
-				if (!controle.fazerLogoff())
+				if (!menuControle.fazerLogoff())
 					dispose();
 				else
 				{
@@ -246,7 +246,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				controle.abrirCadastroUsuarios();				
+				menuControle.abrirCadastroUsuarios();				
 			}
 		};
 	}
@@ -263,7 +263,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				controle.abrirCadastroTopicos();
+				menuControle.abrirCadastroTopicos();
 			}
 		};
 	}
@@ -280,7 +280,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				controle.abrirGerenciamentoPedidosUtilizador();
+				menuControle.abrirGerenciamentoPedidosUtilizador();
 			}
 		};
 	}
@@ -297,7 +297,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				controle.abrirRelatorioTopicosAtivos();
+				menuControle.abrirRelatorioTopicosAtivos();
 			}
 		};
 	}
@@ -314,7 +314,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				controle.abrirRelatorioTopicosMaisUtilizados();
+				menuControle.abrirRelatorioTopicosMaisUtilizados();
 			}
 		};
 	}
@@ -331,7 +331,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				controle.abrirRelatorioMensagensPorTopico();
+				menuControle.abrirRelatorioMensagensPorTopico();
 			}
 		};
 	}
@@ -348,7 +348,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				controle.abrirRelatorioInteracaoPorTopico();
+				menuControle.abrirRelatorioInteracaoPorTopico();
 			}
 		};
 	}
@@ -365,7 +365,7 @@ public class MenuVisao extends JFrame
 		{	
 			public void actionPerformed(ActionEvent e)
 			{
-				controle.abrirRelatorioSubscricoesUsuario();
+				menuControle.abrirRelatorioSubscricoesUsuario();
 			}
 		};
 	}

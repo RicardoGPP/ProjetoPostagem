@@ -16,6 +16,13 @@ import javax.swing.JTextField;
 import pt.up.fc.lc.postagempersistencia.dao.DAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle do cadastro de usuário interno.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 {
 	private static final long serialVersionUID = 1L;
@@ -46,6 +53,10 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 	private JButton buttonOK;
 	private JButton buttonCancelar;
 	
+	/**
+		Cria e inicializa a visão de cadastro de usuário interno no modo
+		de inclusão.
+	*/
 	public CadastroUsuarioInternoVisao()
 	{
 		this.cadastroUsuarioInternoControle = new CadastroUsuarioInternoControle(this);
@@ -55,6 +66,10 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria e inicializa a visão de cadastro de usuário interno no modo
+		de edição.
+	*/
 	public CadastroUsuarioInternoVisao(Usuario usuario)
 	{
 		this.cadastroUsuarioInternoControle = new CadastroUsuarioInternoControle(this, usuario);
@@ -64,6 +79,10 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setResizable(false);
@@ -163,77 +182,150 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 		this.add(this.buttonOK);		
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonOK.addActionListener(this.aoClicarBotaoOK());
 		this.buttonCancelar.addActionListener(this.aoClicarBotaoCancelar());
 	}
 	
+	/**
+		Obtém o nome de usuário no componente correspondente da visão.
+		
+		@return O nome de usuário.
+	*/
 	public String obterNomeUsuario()
 	{
 		return this.textFieldNomeUsuario.getText();
 	}
 	
+	/**
+		Define o nome de usuário no componente correspondente da visão. 
+	
+		@param O nome de usuário.
+	 */
 	public void definirNomeUsuario(String nomeUsuario)
 	{
 		this.textFieldNomeUsuario.setText(nomeUsuario);
 	}
 	
+	/**
+		Define se o componente do nome de usuário será editavel. 
+	
+		@param Se o componente será editável ou não.
+	*/
 	public void definirNomeUsuarioEditavel(boolean editavel)
 	{
 		this.textFieldNomeUsuario.setEditable(editavel);
 	}
 	
+	/**
+		Obtém a senha no componente correspondente da visão.
+		
+		@return A senha do usuário.
+	*/
 	public String obterSenha()
 	{
 		return new String(this.passwordFieldSenha.getPassword());
 	}
 	
+	/**
+		Define a senha no componente correspondente da visão. 
+	
+		@param A senha do usuário.
+	 */
 	public void definirSenha(String senha)
 	{
 		this.passwordFieldSenha.setText(senha);
 	}
 	
+	/**
+		Obtém o grupo no componente correspondente da visão.
+		
+		@return O grupo do usuário.
+	*/
 	public Usuario.Grupo obterGrupo()
 	{
 		return (Usuario.Grupo) this.comboBoxGrupo.getSelectedItem();
 	}
 	
+	/**
+		Define o grupo no componente correspondente da visão. 
+	
+		@param O grupo do usuário.
+	 */
 	public void definirGrupo(Usuario.Grupo grupo)
 	{
 		this.comboBoxGrupo.setSelectedItem(grupo);
 	}
 	
+	/**
+		Obtém o nome completo no componente correspondente da visão.
+		
+		@return O nome completo do usuário.
+	*/
 	public String obterNomeCompleto()
 	{
 		return this.textFieldNomeCompleto.getText();
 	}
 	
+	/**
+		Define o nome completo no componente correspondente da visão. 
+	
+		@param O nome completo do usuário.
+	 */
 	public void definirNomeCompleto(String nomeCompleto)
 	{
 		this.textFieldNomeCompleto.setText(nomeCompleto);
 	}
 	
+	/**
+		Obtém o e-mail no componente correspondente da visão.
+		
+		@return O e-mail do usuário.
+	*/
 	public String obterEmail()
 	{
 		return this.textFieldEmail.getText();
 	}
 	
+	/**
+		Define o e-mail no componente correspondente da visão. 
+	
+		@param O e-mail do usuário.
+	 */
 	public void definirEmail(String email)
 	{
 		this.textFieldEmail.setText(email);
 	}
 	
+	/**
+		Obtém o telefone no componente correspondente da visão.
+		
+		@return O telefone do usuário.
+	*/
 	public String obterTelefone()
 	{
 		return this.textFieldTelefone.getText();
 	}
 	
+	/**
+		Define o telefone no componente correspondente da visão. 
+	
+		@param O telefone do usuário.
+	 */
 	public void definirTelefone(String telefone)
 	{
 		this.textFieldTelefone.setText(telefone);
 	}
 	
+	/**
+		Obtém a data de nascimento no componente correspondente da visão.
+		
+		@return A data de nascimento do usuário.
+	*/
 	public Date obterDataNascimento()
 	{
 		try
@@ -246,42 +338,72 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 		}
 	}
 	
+	/**
+		Define a data de nascimento no componente correspondente da visão. 
+	
+		@param A data de nascimento do usuário.
+	 */
 	public void definirDataNascimento(Date dataNascimento)
 	{
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DAO.FORMATO_DATA);
 		this.textFieldDataNascimento.setText(simpleDateFormat.format(dataNascimento));
 	}
 	
+	/**
+		Obtém o limite de subscrições no componente correspondente da visão.
+		
+		@return O limite de subscrições do usuário.
+	*/
 	public int obterLimiteSubscricoes()
 	{
 		return Integer.parseInt(this.textFieldLimiteSubscricoes.getText());
 	}
 	
+	/**
+		Define o limite de subscrições no componente correspondente da visão. 
+	
+		@param O limite de subscrições do usuário.
+	 */
 	public void definirLimiteSubscricoes(int limiteSubscricoes)
 	{
 		this.textFieldLimiteSubscricoes.setText(Integer.toString(limiteSubscricoes));
 	}
 	
+	/**
+		Obtém a flag de ativo no componente correspondente da visão.
+		
+		@return Se o usuário está ativo ou não.
+	*/
 	public boolean obterAtivo()
 	{
 		return this.checkBoxAtivo.isSelected();
 	}
 	
+	/**
+		Define a flag de ativo no componente correspondente da visão. 
+	
+		@param Se o usuário está ativo ou não.
+	 */
 	public void definirAtivo(boolean ativo)
 	{
 		this.checkBoxAtivo.setSelected(ativo);
 	}
 	
+	/**
+		Obtém o registro gerado pelo cadastro.
+		
+		@return Um usuário.
+	*/
 	public Usuario obterRegistro()
 	{
 		return this.cadastroUsuarioInternoControle.getUsuario();
 	}
 	
-	public boolean foiProcessado()
-	{
-		return this.processado;
-	}
-	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão "OK".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarBotaoOK()
 	{
 		return new ActionListener()
@@ -310,6 +432,11 @@ public class CadastroUsuarioInternoVisao extends CadastroInternoVisao<Usuario>
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão "Cancelar".
+		
+		@return Um handler ao evento.
+	*/
 	private ActionListener aoClicarBotaoCancelar()
 	{
 		return new ActionListener()

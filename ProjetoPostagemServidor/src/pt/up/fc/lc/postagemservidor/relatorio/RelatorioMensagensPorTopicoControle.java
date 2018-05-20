@@ -26,7 +26,7 @@ public class RelatorioMensagensPorTopicoControle extends RelatorioControle
 		
 		@param A visão do relatório de mensagens por tópico.
 	*/
-	public RelatorioMensagensPorTopicoControle(RelatorioVisao relatorioVisao)
+	public RelatorioMensagensPorTopicoControle(RelatorioMensagensPorTopicoVisao relatorioVisao)
 	{
 		super(relatorioVisao);
 		this.topicoDAO = new TopicoDAO();

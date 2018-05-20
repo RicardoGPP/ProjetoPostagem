@@ -2,7 +2,6 @@ package pt.up.fc.lc.postagemservidor.cadastro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -13,6 +12,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import pt.up.fc.lc.postagempersistencia.entidades.Topico;
 
+/**
+	Classe da camada de visão do cadastro de tópicos.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class CadastroTopicoVisao extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -31,6 +37,9 @@ public class CadastroTopicoVisao extends JInternalFrame
 	private JButton buttonEditar;
 	private JButton buttonExcluir;
 	
+	/**
+		Cria e inicializa a visão de cadastro de tópicos.
+	*/
 	public CadastroTopicoVisao()
 	{
 		this.cadastroTopicoControle = new CadastroTopicoControle(this);
@@ -40,6 +49,10 @@ public class CadastroTopicoVisao extends JInternalFrame
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setTitle("Cadastro de tópicos");
@@ -78,6 +91,9 @@ public class CadastroTopicoVisao extends JInternalFrame
 		this.add(this.buttonExcluir);
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonAtualizar.addActionListener(this.aoClicarButtonAtualizar());
@@ -86,14 +102,11 @@ public class CadastroTopicoVisao extends JInternalFrame
 		this.buttonExcluir.addActionListener(this.aoClicarButtonExcluir());
 	}
 	
-	public List<Topico> obterTopicos()
-	{
-		List<Topico> topicos = new ArrayList<>();
-		for (int i = 0; i < this.listModelTopicos.size(); i++)
-			topicos.add(this.listModelTopicos.get(i));
-		return topicos;
-	}
-	
+	/**
+		Define os tópicos na lista da visão.
+		
+		@param Uma lista de tópicos.
+	*/
 	public void definirTopicos(List<Topico> topicos)
 	{
 		this.listModelTopicos.clear();
@@ -101,21 +114,32 @@ public class CadastroTopicoVisao extends JInternalFrame
 			this.listModelTopicos.addElement(topico);
 	}
 	
+	/**
+		Obtém o tópico selecionado na lista da visão.
+		
+		@return O tópico selecionado ou null se não houver seleção.
+	*/
 	public Topico obterSelecionado()
 	{
 		return this.listTopicos.getSelectedValue();
 	}
 	
-	public void incluirNaLista(Topico topico)
-	{
-		this.listModelTopicos.addElement(topico);
-	}
-	
+	/**
+		Exclui um tópico da lista.
+		
+		@param Um tópico.
+	*/
 	public void excluirDaLista(Topico topico)
 	{
 		this.listModelTopicos.removeElement(topico);
 	}
 
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Atualizar".
+		
+		@return Um handler ao evento.
+	*/	
 	public ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
@@ -126,6 +150,14 @@ public class CadastroTopicoVisao extends JInternalFrame
 			}
 		};
 	}
+	
+	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Incluir".
+		
+		@return Um handler ao evento.
+	*/
 	
 	public ActionListener aoClicarButtonIncluir()
 	{
@@ -138,6 +170,13 @@ public class CadastroTopicoVisao extends JInternalFrame
 		};
 	}
 	
+	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Editar".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonEditar()
 	{
 		return new ActionListener()
@@ -149,6 +188,13 @@ public class CadastroTopicoVisao extends JInternalFrame
 		};
 	}
 	
+	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Excluir".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonExcluir()
 	{
 		return new ActionListener()

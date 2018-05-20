@@ -24,7 +24,7 @@ public class RelatorioSubscricoesUsuarioControle extends RelatorioControle
 		
 		@param A visão do relatório de subscrições dos usuários.
 	*/
-	public RelatorioSubscricoesUsuarioControle(RelatorioVisao relatorioVisao)
+	public RelatorioSubscricoesUsuarioControle(RelatorioSubscricoesUsuarioVisao relatorioVisao)
 	{
 		super(relatorioVisao);
 		this.subscricaoDAO = new SubscricaoDAO();

@@ -6,12 +6,24 @@ import java.util.List;
 import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle do cadastro de usuários do sistema.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class CadastroUsuarioControle
 {
 	private UsuarioDAO usuarioDAO;
 	private CadastroUsuarioVisao cadastroUsuarioVisao;
 	private Usuario logado;
 	
+	/**
+		Cria e inicializa o controle de cadastro de usuários.
+		
+		@param A visão do cadastro de usuários.
+	*/
 	public CadastroUsuarioControle(CadastroUsuarioVisao cadastroUsuarioVisao, Usuario logado)
 	{
 		this.usuarioDAO = new UsuarioDAO();
@@ -19,6 +31,9 @@ public class CadastroUsuarioControle
 		this.logado = logado;
 	}
 	
+	/**
+		Carrega a lista de usuários.
+	*/
 	public void carregarLista()
 	{
 		List<Usuario> usuarios = this.usuarioDAO.obterLista();
@@ -35,6 +50,10 @@ public class CadastroUsuarioControle
 		this.cadastroUsuarioVisao.definirUsuarios(usuarios);
 	}
 	
+	/**
+		Chama o cadastro de tópico interno, inclui o objeto no arquivo e atualiza a
+		lista em caso de sucesso.
+	*/
 	public void incluir()
 	{	
 		CadastroUsuarioInternoVisao cadastroUsuarioInterno = new CadastroUsuarioInternoVisao();
@@ -46,6 +65,9 @@ public class CadastroUsuarioControle
 		}
 	}
 	
+	/**
+		Chama o cadastro de usuário interno e inclui o objeto no arquivo.
+	*/
 	public void editar()
 	{
 		Usuario usuario = this.cadastroUsuarioVisao.obterSelecionado();
@@ -57,6 +79,9 @@ public class CadastroUsuarioControle
 		}
 	}
 	
+	/**
+		Exclui o usuário no arquivo e atualiza a lista em caso de sucesso.
+	*/
 	public void excluir()
 	{
 		Usuario usuario = this.cadastroUsuarioVisao.obterSelecionado();

@@ -5,6 +5,13 @@ import pt.up.fc.lc.postagempersistencia.dao.SubscricaoDAO;
 import pt.up.fc.lc.postagempersistencia.dao.UsuarioDAO;
 import pt.up.fc.lc.postagempersistencia.entidades.Usuario;
 
+/**
+	Classe da camada de controle do cadastro de usuário interno.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class CadastroUsuarioInternoControle extends CadastroInternoControle
 {
 	private UsuarioDAO usuarioDAO;
@@ -12,11 +19,23 @@ public class CadastroUsuarioInternoControle extends CadastroInternoControle
 	private CadastroUsuarioInternoVisao cadastroUsuarioInternoVisao;
 	private Usuario usuario;
 	
+	/**
+		Método getter para obtenção do usuário gerado pelo cadastro.
+		
+		@return O tópico gerado.
+	*/
 	public Usuario getUsuario()
 	{
 		return this.usuario;
 	}
 	
+	/**
+		Cria e inicializa o controle de cadastro de usuário interno, definindo o modo
+		como inserção, ou seja, os campos iniciarão vazios e todos estarão disponíveis
+		para preenchimento.
+		
+		@param A visão do cadastro de usuário interno.
+	*/
 	public CadastroUsuarioInternoControle(CadastroUsuarioInternoVisao cadastroUsuarioInternoVisao)
 	{
 		super(Modo.INCLUSAO);
@@ -26,6 +45,13 @@ public class CadastroUsuarioInternoControle extends CadastroInternoControle
 		this.usuario = new Usuario();
 	}
 	
+	/**
+		Cria e inicializa o controle de cadastro de usuário interno, definindo o modo
+		como edição, ou seja, os campos serão preenchidos com os dados do usuário do
+		parâmetro e o componente do nome de usuário ficará indisponível para edição.
+		
+		@param A visão do cadastro de usuário interno e o tópico a ser editado.
+	*/
 	public CadastroUsuarioInternoControle(CadastroUsuarioInternoVisao cadastroUsuarioInternoVisao, Usuario usuario)
 	{
 		super(Modo.EDICAO);
@@ -35,6 +61,9 @@ public class CadastroUsuarioInternoControle extends CadastroInternoControle
 		this.usuario = usuario;
 	}
 	
+	/**
+		Carrega os campos da visão com os dados do usuário logado.
+	*/
 	public void carregarCampos()
 	{
 		if (modo == Modo.INCLUSAO)
@@ -59,6 +88,12 @@ public class CadastroUsuarioInternoControle extends CadastroInternoControle
 		}
 	}
 	
+	/**
+		Verifica se todos os campos obrigatórios da visão foram
+		preenchidos.
+	
+		@return Se todos os campos foram preenchidos ou não.
+	*/
 	public boolean tudoPreenchido()
 	{
 		String nomeUsuario = this.cadastroUsuarioInternoVisao.obterNomeUsuario().trim();
@@ -72,18 +107,34 @@ public class CadastroUsuarioInternoControle extends CadastroInternoControle
 			   (!nomeCompleto.equals("")) && (!email.equals("")) && (!telefone.equals("")) && (dataNascimento != null));		
 	}
 	
+	/**
+		Verifica se, no modo de inclusão, o nome de usuário informado
+		já existe no sistema.
+		
+		@return Se o usuário já existe ou não.
+	*/
 	public boolean usuarioJaExiste()
 	{
 		return ((this.usuario.getNomeUsuario().equals("")) &&
 			   (this.usuarioDAO.obterRegistro(this.cadastroUsuarioInternoVisao.obterNomeUsuario().trim()) != null));
 	}
 	
+	/**
+		Verifica se, no modo de edição, o limite de subscrições definido
+		ao usuário não é menor do que a quantidade de subscrições já vinculada
+		a ele.
+		
+		@return Se o limite é válido ou não.
+	*/
 	public boolean limiteSubscricoesEValido()
 	{
 		return ((this.usuario.getNomeUsuario().equals("")) ||
 			   (this.subscricaoDAO.obterLista(this.usuario).size() <= this.cadastroUsuarioInternoVisao.obterLimiteSubscricoes()));
 	}
 	
+	/**
+		Cria usuário a partir dos dados nos componentes da visão.
+	*/
 	public void definirUsuario()
 	{		
 		this.usuario.setNomeUsuario(this.cadastroUsuarioInternoVisao.obterNomeUsuario().trim());

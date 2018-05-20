@@ -2,7 +2,6 @@ package pt.up.fc.lc.postagemservidor.movimentacao;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -12,6 +11,14 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import pt.up.fc.lc.postagempersistencia.entidades.PedidoUtilizador;
 
+/**
+	Classe da camada de visão do gerenciamento de pedidos de utilizador
+	do sistema.
+	
+	@version 1.0
+	@author  Ricardo Giovani Piantavinha Perandré,
+	         Pedro
+*/
 public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -29,6 +36,9 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 	private JButton buttonAceitar;
 	private JButton buttonRejeitar;
 	
+	/**
+		Cria e inicializa a visão de gerenciamento de pedidos de utilizador.
+	*/
 	public GerenciarPedidosUtilizadorVisao()
 	{
 		this.gerenciarPedidosUtilizadorControle = new GerenciarPedidosUtilizadorControle(this);
@@ -38,6 +48,10 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 		this.setVisible(true);
 	}
 	
+	/**
+		Cria os componentes da visão, define seus respectivos tamanhos e
+		posições e relaciona no padrão composite.
+	*/
 	private void construirTela()
 	{
 		this.setTitle("Gerenciamento de pedidos de utilizador");
@@ -71,6 +85,9 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 		this.add(this.buttonRejeitar);
 	}
 	
+	/**
+		Vincula eventos aos componentes da visão.
+	*/
 	private void vincularEventos()
 	{
 		this.buttonAtualizar.addActionListener(this.aoClicarButtonAtualizar());
@@ -78,14 +95,11 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 		this.buttonRejeitar.addActionListener(this.aoClicarButtonRejeitar());
 	}
 	
-	public List<PedidoUtilizador> obterPedidosUtilizador()
-	{
-		List<PedidoUtilizador> pedidosUtilizador = new ArrayList<>();
-		for (int i = 0; i < this.listModelPedidosUtilizador.size(); i++)
-			pedidosUtilizador.add(this.listModelPedidosUtilizador.get(i));
-		return pedidosUtilizador;
-	}
-	
+	/**
+		Define os pedidos de utilizador na lista da visão.
+		
+		@param Uma lista de pedidos de utilizador.
+	*/
 	public void definirPedidosUtilizador(List<PedidoUtilizador> pedidosUtilizador)
 	{
 		this.listModelPedidosUtilizador.clear();
@@ -93,21 +107,32 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 			this.listModelPedidosUtilizador.addElement(pedidoUtilizador);
 	}
 	
+	/**
+		Obtém o pedido de utilizador selecionado na lista da visão.
+		
+		@return O pedido de utilizador selecionado ou null se não houver seleção.
+	*/
 	public PedidoUtilizador obterSelecionado()
 	{
 		return this.listPedidosUtilizador.getSelectedValue();
 	}
 	
-	public void incluirNaLista(PedidoUtilizador pedidoUtilizador)
-	{
-		this.listModelPedidosUtilizador.addElement(pedidoUtilizador);
-	}
-	
+	/**
+		Exclui um pedido de utilizador da lista.
+		
+		@param Um pedido de utilizador.
+	*/
 	public void excluirDaLista(PedidoUtilizador pedidoUtilizador)
 	{
 		this.listModelPedidosUtilizador.removeElement(pedidoUtilizador);
 	}
 
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Atualizar".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonAtualizar()
 	{
 		return new ActionListener()
@@ -119,6 +144,12 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão 
+		"Aceitar".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonAceitar()
 	{
 		return new ActionListener()
@@ -130,6 +161,12 @@ public class GerenciarPedidosUtilizadorVisao extends JInternalFrame
 		};
 	}
 	
+	/**
+		Define e retorna a ação aplicada sobre o evento do clique no botão
+		"Rejeitar".
+		
+		@return Um handler ao evento.
+	*/
 	public ActionListener aoClicarButtonRejeitar()
 	{
 		return new ActionListener()

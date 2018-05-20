@@ -21,7 +21,7 @@ public class RelatorioTopicosAtivosControle extends RelatorioControle
 		
 		@param A visão do relatório de tópicos ativos.
 	*/
-	public RelatorioTopicosAtivosControle(RelatorioVisao relatorioVisao)
+	public RelatorioTopicosAtivosControle(RelatorioTopicosAtivosVisao relatorioVisao)
 	{
 		super(relatorioVisao);
 		this.topicoDAO = new TopicoDAO();
